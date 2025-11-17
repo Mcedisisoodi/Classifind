@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -596,6 +596,10 @@
       <div class="category-icon">💻</div>
       Electronics
     </div>
+    <div class="category-card" data-category="Fashion & Beauty">
+      <div class="category-icon">💄</div>
+      Fashion &amp; Beauty
+    </div>
     <div class="category-card" data-category="Jobs">
       <div class="category-icon">💼</div>
       Jobs
@@ -614,6 +618,7 @@
       <option value="Phones">Phones &amp; Tablets</option>
       <option value="Property">Property</option>
       <option value="Electronics">Electronics</option>
+      <option value="Fashion &amp; Beauty">Fashion &amp; Beauty</option>
       <option value="Jobs">Jobs</option>
       <option value="Other">Other</option>
     </select>
@@ -627,7 +632,39 @@
   <section class="ads-grid" id="adsGrid"></section>
 
   <footer>
-    &copy; <span id="year"></span> ClassiFind. Inspired by global classifieds, built for you.
+    <div style="max-width:1100px; margin:0 auto; text-align:left; display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:20px; padding:20px 10px;">
+
+      <div>
+        <h4 style="font-size:0.9rem; font-weight:700; margin-bottom:6px;">Account</h4>
+        <p>• My Account</p>
+        <p>• Track Order</p>
+        <p>• Returns</p>
+        <p>• Personal Details</p>
+        <p>• Invoices</p>
+      </div>
+
+      <div>
+        <h4 style="font-size:0.9rem; font-weight:700; margin-bottom:6px;">Help</h4>
+        <p>• Help Centre</p>
+        <p>• Contact Us</p>
+        <p>• Shipping & Delivery</p>
+        <p>• Returns</p>
+      </div>
+
+      <div>
+        <h4 style="font-size:0.9rem; font-weight:700; margin-bottom:6px;">Company</h4>
+        <p>• About Us</p>
+      </div>
+
+      <div>
+        <h4 style="font-size:0.9rem; font-weight:700; margin-bottom:6px;">Classifind Policy</h4>
+        <p>• Returns Policy</p>
+        <p>• Terms & Conditions</p>
+        <p>• Privacy Policy</p>
+      </div>
+
+    </div>
+    <div style="text-align:center; margin-top:20px; font-size:0.8rem; color:#666;">&copy; <span id="year"></span> ClassiFind. Inspired by global classifieds, built for you.</div>
   </footer>
 </main>
 
@@ -742,6 +779,7 @@
         <option value="Phones">Phones &amp; Tablets</option>
         <option value="Property">Property</option>
         <option value="Electronics">Electronics</option>
+        <option value="Fashion &amp; Beauty">Fashion &amp; Beauty</option>
         <option value="Jobs">Jobs</option>
         <option value="Other">Other</option>
       </select>
@@ -766,6 +804,10 @@
 
       <label for="postImageUrl">Image URL (optional)</label>
       <input id="postImageUrl" type="url" placeholder="Paste an image link (jpg, png...)" />
+
+      <label for="postImageFiles">Upload images</label>
+      <input id="postImageFiles" type="file" accept="image/*" multiple capture="environment" />
+      <p class="postad-note">You can upload photos from your device or take a picture if your phone supports it.</p>
 
       <button class="postad-submit" id="postAdSubmit">Post Ad</button>
       <p class="postad-note">
@@ -1255,7 +1297,14 @@
     const location = document.getElementById("postLocation").value.trim();
     const sellerName = document.getElementById("postSellerName").value.trim();
     const contact = document.getElementById("postContact").value.trim();
-    const imageUrl = document.getElementById("postImageUrl").value.trim();
+    const imageFilesInput = document.getElementById("postImageFiles");
+    let imageUrl = document.getElementById("postImageUrl").value.trim();
+    let mainImage = imageUrl;
+
+    // If no URL was provided, fall back to the first uploaded file (for preview only in this demo)
+    if (!mainImage && imageFilesInput && imageFilesInput.files && imageFilesInput.files.length > 0) {
+      mainImage = URL.createObjectURL(imageFilesInput.files[0]);
+    }
 
     if (!category || !title || !description || !location) {
       alert("Please fill in at least category, title, description, and location.");
@@ -1268,7 +1317,7 @@
       price: price ? Number(price) : 0,
       category,
       location,
-      img: imageUrl || "",
+      img: mainImage || "",
       description,
       seller: (sellerName || "Private seller") + (contact ? " • " + contact : ""),
       postedAt: new Date().toISOString().slice(0, 10)
@@ -1287,6 +1336,7 @@
     document.getElementById("postSellerName").value = "";
     document.getElementById("postContact").value = "";
     document.getElementById("postImageUrl").value = "";
+    if (imageFilesInput) imageFilesInput.value = "";
 
     postAdBackdrop.style.display = "none";
   });
