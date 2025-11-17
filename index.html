@@ -217,6 +217,7 @@
       color: #666;
     }
 
+    /* Ad details modal */
     .modal-backdrop {
       position: fixed;
       inset: 0;
@@ -293,7 +294,8 @@
         grid-template-columns: 1fr;
       }
     }
-      /* Auth modal styles */
+
+    /* Auth modal styles */
     .auth-backdrop {
       position: fixed;
       inset: 0;
@@ -363,6 +365,13 @@
       align-items: center;
       gap: 8px;
       font-size: 0.8rem;
+    }
+
+    .auth-link {
+      color: #007bff;
+      text-decoration: underline;
+      cursor: pointer;
+      font-weight: 600;
     }
 
     .auth-submit {
@@ -458,12 +467,9 @@
     .postad-modal {
       background: #fff;
       width: 95%;
-      max-width: 780px;
-      max-height: 90vh;
+      max-width: 600px;
       border-radius: 10px;
       box-shadow: 0 10px 25px rgba(0,0,0,0.25);
-      display: flex;
-      flex-direction: column;
       overflow: hidden;
     }
 
@@ -492,8 +498,6 @@
 
     .postad-body {
       padding: 16px;
-      overflow-y: auto;
-      font-size: 0.9rem;
     }
 
     .postad-body label {
@@ -504,21 +508,19 @@
     }
 
     .postad-body input,
-    .postad-body select,
-    .postad-body textarea {
+    .postad-body textarea,
+    .postad-body select {
       width: 100%;
       padding: 8px 10px;
       margin-bottom: 10px;
       border-radius: 6px;
       border: 1px solid #ccc;
       font-size: 0.9rem;
-      resize: vertical;
     }
 
-    .postad-grid {
-      display: grid;
-      grid-template-columns: 2fr 1.4fr;
-      gap: 16px;
+    .postad-body textarea {
+      resize: vertical;
+      min-height: 80px;
     }
 
     .postad-submit {
@@ -526,26 +528,19 @@
       padding: 10px;
       border-radius: 6px;
       border: none;
-      background: #002f34;
-      color: #fff;
-      font-weight: 600;
+      background: #ffce32;
+      color: #002f34;
+      font-weight: 700;
       cursor: pointer;
-      margin-top: 8px;
+      margin-top: 4px;
     }
 
     .postad-note {
       font-size: 0.75rem;
       color: #777;
-      margin-top: 8px;
+      margin-top: 4px;
     }
-
-    @media (max-width: 768px) {
-      .postad-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-
-</style>
+  </style>
 </head>
 <body>
 <header>
@@ -561,26 +556,24 @@
   <section class="search-section">
     <div class="search-row">
       <input id="searchText" type="text" placeholder="Find cars, phones, property..." />
-      
 
-<!-- Province selector -->
-<select id="provinceSelect">
-  <option value="ALL">All provinces</option>
-  <option value="Gauteng">Gauteng</option>
-  <option value="Western Cape">Western Cape</option>
-  <option value="KwaZulu-Natal">KwaZulu-Natal</option>
-  <option value="Eastern Cape">Eastern Cape</option>
-  <option value="Free State">Free State</option>
-  <option value="North West">North West</option>
-  <option value="Limpopo">Limpopo</option>
-  <option value="Mpumalanga">Mpumalanga</option>
-  <option value="Northern Cape">Northern Cape</option>
-</select>
+      <select id="provinceSelect">
+        <option value="All provinces">All provinces</option>
+        <option value="Gauteng">Gauteng</option>
+        <option value="Western Cape">Western Cape</option>
+        <option value="KwaZulu-Natal">KwaZulu-Natal</option>
+        <option value="Eastern Cape">Eastern Cape</option>
+        <option value="Free State">Free State</option>
+        <option value="North West">North West</option>
+        <option value="Limpopo">Limpopo</option>
+        <option value="Mpumalanga">Mpumalanga</option>
+        <option value="Northern Cape">Northern Cape</option>
+      </select>
 
-<!-- Town selector depends on province -->
-<select id="searchLocation">
-  <option value="">Select Town / City</option>
-</select>
+      <select id="searchLocation">
+        <option value="">Select Town / City</option>
+      </select>
+
       <button id="searchBtn">Search</button>
     </div>
   </section>
@@ -593,7 +586,7 @@
     </div>
     <div class="category-card" data-category="Phones">
       <div class="category-icon">📱</div>
-      Phones & Tablets
+      Phones &amp; Tablets
     </div>
     <div class="category-card" data-category="Property">
       <div class="category-icon">🏠</div>
@@ -618,7 +611,7 @@
     <select id="filterCategory">
       <option value="">Category: All</option>
       <option value="Cars">Cars</option>
-      <option value="Phones">Phones & Tablets</option>
+      <option value="Phones">Phones &amp; Tablets</option>
       <option value="Property">Property</option>
       <option value="Electronics">Electronics</option>
       <option value="Jobs">Jobs</option>
@@ -631,14 +624,14 @@
     </select>
   </div>
 
-  <section class="ads-grid" id="adsGrid">
-  </section>
+  <section class="ads-grid" id="adsGrid"></section>
 
   <footer>
     &copy; <span id="year"></span> ClassiFind. Inspired by global classifieds, built for you.
   </footer>
 </main>
 
+<!-- Ad details modal -->
 <div class="modal-backdrop" id="modalBackdrop">
   <div class="modal">
     <div class="modal-header">
@@ -682,7 +675,9 @@
 
       <button class="auth-submit" id="loginSubmit">Login</button>
       <div class="auth-actions">
-        <span id="goToSignup">New here? <strong style="color:#007bff; text-decoration:underline; cursor:pointer;">Create an account</strong></span>
+        <span>New here?
+          <span id="goToSignup" class="auth-link">Create an account</span>
+        </span>
       </div>
     </div>
   </div>
@@ -706,25 +701,27 @@
       <input id="signupPhone" type="tel" placeholder="e.g. 072 123 4567" />
 
       <div class="field-group">
-      <label for="signupPassword">Password</label>
-      <input id="signupPassword" type="password" placeholder="Create a password" />
-      <button type="button" class="toggle-password" data-target="signupPassword">👁</button>
-      <div id="passwordStrength" class="password-strength">
-        <div class="bar"></div>
-        <span class="label">Enter a password</span>
-      </div>
+        <label for="signupPassword">Password</label>
+        <input id="signupPassword" type="password" placeholder="Create a password" />
+        <button type="button" class="toggle-password" data-target="signupPassword">👁</button>
+        <div id="passwordStrength" class="password-strength">
+          <div class="bar"></div>
+          <span class="label">Enter a password</span>
+        </div>
       </div>
 
       <div class="field-group">
-      <label for="signupPasswordConfirm">Confirm Password</label>
-      <input id="signupPasswordConfirm" type="password" placeholder="Re-enter your password" />
-      <button type="button" class="toggle-password" data-target="signupPasswordConfirm">👁</button>
-      <div id="passwordMatchMsg" class="password-match-msg"></div>
+        <label for="signupPasswordConfirm">Confirm Password</label>
+        <input id="signupPasswordConfirm" type="password" placeholder="Re-enter your password" />
+        <button type="button" class="toggle-password" data-target="signupPasswordConfirm">👁</button>
+        <div id="passwordMatchMsg" class="password-match-msg"></div>
       </div>
 
       <button class="auth-submit" id="signupSubmit">Create account</button>
       <div class="auth-actions">
-        <span id="goToLogin">Already have an account? <strong style="color:#007bff; text-decoration:underline; cursor:pointer;">Login</strong></span>
+        <span>Already have an account?
+          <span id="goToLogin" class="auth-link">Login</span>
+        </span>
       </div>
     </div>
   </div>
@@ -738,49 +735,49 @@
       <button class="postad-close" id="postAdClose">&times;</button>
     </div>
     <div class="postad-body">
-      <div class="postad-grid">
-        <div>
-          <label for="postAdCategory">Category</label>
-          <select id="postAdCategory">
-            <option value="">Select category</option>
-            <option value="Cars">Cars</option>
-            <option value="Phones">Phones &amp; Tablets</option>
-            <option value="Property">Property</option>
-            <option value="Electronics">Electronics</option>
-            <option value="Jobs">Jobs</option>
-            <option value="Other">Other</option>
-          </select>
+      <label for="postCategory">Category</label>
+      <select id="postCategory">
+        <option value="">Select category</option>
+        <option value="Cars">Cars</option>
+        <option value="Phones">Phones &amp; Tablets</option>
+        <option value="Property">Property</option>
+        <option value="Electronics">Electronics</option>
+        <option value="Jobs">Jobs</option>
+        <option value="Other">Other</option>
+      </select>
 
-          <label for="postAdTitle">Ad title</label>
-          <input id="postAdTitle" type="text" placeholder="e.g. VW Polo 1.4 Trendline, excellent condition" />
+      <label for="postTitle">Ad title</label>
+      <input id="postTitle" type="text" placeholder="e.g. VW Polo 1.4 Trendline, excellent condition" />
 
-          <label for="postAdDescription">Description</label>
-          <textarea id="postAdDescription" rows="6" placeholder="Describe the item, condition, mileage, features, etc."></textarea>
-        </div>
-        <div>
-          <label for="postAdPrice">Price (R)</label>
-          <input id="postAdPrice" type="number" min="0" placeholder="e.g. 145000" />
+      <label for="postDescription">Description</label>
+      <textarea id="postDescription" placeholder="Describe the item, condition, mileage, features, etc."></textarea>
 
-          <label for="postAdLocation">Location (Town / City)</label>
-          <input id="postAdLocation" type="text" placeholder="e.g. Klerksdorp, Johannesburg, Cape Town" />
+      <label for="postPrice">Price (R)</label>
+      <input id="postPrice" type="number" min="0" placeholder="e.g. 145000" />
 
-          <label for="postAdSeller">Your name</label>
-          <input id="postAdSeller" type="text" placeholder="Your name or business" />
+      <label for="postLocation">Location (Town / City)</label>
+      <input id="postLocation" type="text" placeholder="e.g. Klerksdorp, Johannesburg, Cape Town" />
 
-          <label for="postAdContact">Contact (phone / email)</label>
-          <input id="postAdContact" type="text" placeholder="e.g. 072 123 4567 or you@example.com" />
+      <label for="postSellerName">Your name</label>
+      <input id="postSellerName" type="text" placeholder="Your name or business" />
 
-          <button class="postad-submit" id="postAdSubmit">Post Ad</button>
-          <p class="postad-note">* Demo only – your ad will appear in the list on this page but there is no real backend yet.</p>
-        </div>
-      </div>
+      <label for="postContact">Contact (phone / email)</label>
+      <input id="postContact" type="text" placeholder="e.g. 072 123 4567 or you@example.com" />
+
+      <label for="postImageUrl">Image URL (optional)</label>
+      <input id="postImageUrl" type="url" placeholder="Paste an image link (jpg, png...)" />
+
+      <button class="postad-submit" id="postAdSubmit">Post Ad</button>
+      <p class="postad-note">
+        * Demo only – ads are stored in the browser memory. Reloading the page will clear them.
+      </p>
     </div>
   </div>
 </div>
-</div>
 
 <script>
-  const ads = [
+  // --- Demo ads ---
+  let ads = [
     {
       id: 1,
       title: "VW Polo 1.4 Trendline 2016",
@@ -845,56 +842,87 @@
   const searchLocation = document.getElementById("searchLocation");
   const provinceSelect = document.getElementById("provinceSelect");
 
-  let provinceAreas = {
+  // --- Province → Towns map ---
+  const provinceAreas = {
     "Gauteng": [
-      "Johannesburg","Soweto","Pretoria","Centurion","Sandton","Midrand","Randburg","Roodepoort","Krugersdorp","Alberton","Benoni","Boksburg","Brakpan","Springs","Germiston","Kempton Park","Tembisa","Katlehong","Vosloorus","Mamelodi","Soshanguve","Ga-Rankuwa","Vanderbijlpark","Vereeniging","Heidelberg","Nigel","Cullinan","Bronkhorstspruit","Carletonville","Westonaria","Randfontein","Lenasia","Diepsloot","Tsakane","Daveyton","Edenvale","Bedfordview"
+      "Johannesburg","Soweto","Pretoria","Centurion","Sandton","Midrand","Randburg","Roodepoort",
+      "Krugersdorp","Alberton","Benoni","Boksburg","Brakpan","Springs","Germiston","Kempton Park",
+      "Tembisa","Katlehong","Vosloorus","Mamelodi","Soshanguve","Ga-Rankuwa","Vanderbijlpark",
+      "Vereeniging","Heidelberg","Nigel","Cullinan","Bronkhorstspruit","Carletonville",
+      "Westonaria","Randfontein","Lenasia","Diepsloot","Tsakane","Daveyton","Edenvale","Bedfordview"
     ],
     "Western Cape": [
-      "Cape Town","Bellville","Brackenfell","Durbanville","Goodwood","Parow","Kraaifontein","Kuils River","Mitchells Plain","Khayelitsha","Fish Hoek","Muizenberg","Somerset West","Strand","Gordons Bay","Stellenbosch","Paarl","Wellington","Franschhoek","Worcester","Ceres","Robertson","George","Mossel Bay","Oudtshoorn","Knysna","Plettenberg Bay","Beaufort West","Vredenburg","Saldanha","Malmesbury","Langebaan"
+      "Cape Town","Bellville","Brackenfell","Durbanville","Goodwood","Parow","Kraaifontein",
+      "Kuils River","Mitchells Plain","Khayelitsha","Fish Hoek","Muizenberg","Somerset West",
+      "Strand","Gordons Bay","Stellenbosch","Paarl","Wellington","Franschhoek","Worcester",
+      "Ceres","Robertson","George","Mossel Bay","Oudtshoorn","Knysna","Plettenberg Bay",
+      "Beaufort West","Vredenburg","Saldanha","Malmesbury","Langebaan"
     ],
     "KwaZulu-Natal": [
-      "Durban","Umlazi","Chatsworth","Phoenix","Pinetown","Westville","Hillcrest","Kloof","Queensburgh","Umbilo","Isipingo","Umkomaas","Amanzimtoti","Umhlanga","Ballito","Stanger","Richards Bay","Empangeni","Eshowe","Mtunzini","Port Shepstone","Margate","Ramsgate","Harding","Pietermaritzburg","Howick","Mooi River","Greytown","Newcastle","Ladysmith","Estcourt","Vryheid","Dundee","Bergville"
+      "Durban","Umlazi","Chatsworth","Phoenix","Pinetown","Westville","Hillcrest","Kloof",
+      "Queensburgh","Umbilo","Isipingo","Umkomaas","Amanzimtoti","Umhlanga","Ballito","Stanger",
+      "Richards Bay","Empangeni","Eshowe","Mtunzini","Port Shepstone","Margate","Ramsgate",
+      "Harding","Pietermaritzburg","Howick","Mooi River","Greytown","Newcastle","Ladysmith",
+      "Estcourt","Vryheid","Dundee","Bergville"
     ],
     "Eastern Cape": [
-      "Gqeberha","Uitenhage","Despatch","East London","Mdantsane","King William's Town","Qonce","Bhisho","Butterworth","Mthatha","Makwane/Mthatha CBD","Mthatha West","Queenstown/Komani","Aliwal North","Grahamstown/Makhanda","Graaff-Reinet","Cradock","Port Alfred","Jeffreys Bay","Humansdorp","Kirkwood","Fort Beaufort","Alice","Stutterheim","Mount Frere","Matatiele","Lusikisiki","Port St Johns"
+      "Gqeberha","Uitenhage","Despatch","East London","Mdantsane","King William's Town","Qonce",
+      "Bhisho","Butterworth","Mthatha","Queenstown","Aliwal North","Makhanda","Graaff-Reinet",
+      "Cradock","Port Alfred","Jeffreys Bay","Humansdorp","Kirkwood","Fort Beaufort","Alice",
+      "Stutterheim","Mount Frere","Matatiele","Lusikisiki","Port St Johns"
     ],
     "Free State": [
-      "Bloemfontein","Botshabelo","Thaba Nchu","Welkom","Virginia","Hennenman","Odendaalsrus","Kroonstad","Sasolburg","Parys","Vredefort","Phuthaditjhaba","Bethlehem","Reitz","Harrismith","Clocolan","Ladybrand","Ficksburg","Fouriesburg","Warden","Heilbron","Viljoenskroon","Frankfort","Deneysville"
+      "Bloemfontein","Botshabelo","Thaba Nchu","Welkom","Virginia","Hennenman","Odendaalsrus",
+      "Kroonstad","Sasolburg","Parys","Vredefort","Phuthaditjhaba","Bethlehem","Reitz",
+      "Harrismith","Clocolan","Ladybrand","Ficksburg","Fouriesburg","Warden","Heilbron",
+      "Viljoenskroon","Frankfort","Deneysville"
     ],
     "North West": [
-      "Mahikeng","Mmabatho","Rustenburg","Klerksdorp","Jouberton","Orkney","Stilfontein","Potchefstroom","Ikageng","Vryburg","Lichtenburg","Zeerust","Schweizer-Reneke","Bloemhof","Christiana","Brits","Hartebeespoort","Mogwase","Sun City","Ventersdorp","Coligny","Swartruggens"
+      "Mahikeng","Mmabatho","Rustenburg","Klerksdorp","Jouberton","Orkney","Stilfontein",
+      "Potchefstroom","Ikageng","Vryburg","Lichtenburg","Zeerust","Schweizer-Reneke","Bloemhof",
+      "Christiana","Brits","Hartebeespoort","Mogwase","Sun City","Ventersdorp","Coligny","Swartruggens"
     ],
     "Limpopo": [
-      "Polokwane","Seshego","Lebowakgomo","Mankweng","Thohoyandou","Sibasa","Louis Trichardt/Makhado","Musina","Tzaneen","Letsitele","Phalaborwa","Giyani","Malamulele","Burgersfort","Mokopane","Mahwelereng","Modimolle","Bela-Bela","Lephalale","Thabazimbi","Dendron","Botlokwa"
+      "Polokwane","Seshego","Lebowakgomo","Mankweng","Thohoyandou","Sibasa","Louis Trichardt",
+      "Makhado","Musina","Tzaneen","Letsitele","Phalaborwa","Giyani","Malamulele","Burgersfort",
+      "Mokopane","Mahwelereng","Modimolle","Bela-Bela","Lephalale","Thabazimbi","Dendron","Botlokwa"
     ],
     "Mpumalanga": [
-      "Mbombela/Nelspruit","White River","Hazyview","Sabie","Graskop","Lydenburg/Mashishing","Barberton","Malelane","Komatipoort","Ermelo","Secunda","Trichardt","Bethal","Standerton","Middelburg","eMalahleni/Witbank","Ogies","Delmas","Volksrust","Carolina","Piet Retief/Mkhondo","Ngodwana"
+      "Mbombela","Nelspruit","White River","Hazyview","Sabie","Graskop","Lydenburg","Mashishing",
+      "Barberton","Malelane","Komatipoort","Ermelo","Secunda","Trichardt","Bethal","Standerton",
+      "Middelburg","eMalahleni","Witbank","Ogies","Delmas","Volksrust","Carolina","Mkhondo","Piet Retief"
     ],
     "Northern Cape": [
-      "Kimberley","Barkly West","Warrenton","Jan Kempdorp","Hartswater","Upington","Keimoes","Kakamas","Groblershoop","Prieska","De Aar","Britstown","Victoria West","Strydenburg","Colesberg","Springbok","Okiep","Concordia","Pofadder","Port Nolloth","Alexander Bay","Kuruman","Kathu","Postmasburg","Danielskuil"
+      "Kimberley","Barkly West","Warrenton","Jan Kempdorp","Hartswater","Upington","Keimoes",
+      "Kakamas","Groblershoop","Prieska","De Aar","Britstown","Victoria West","Strydenburg",
+      "Colesberg","Springbok","Okiep","Concordia","Pofadder","Port Nolloth","Alexander Bay",
+      "Kuruman","Kathu","Postmasburg","Danielskuil"
     ]
   };
 
-  // OPTIONAL: if you want literally *all* 3000+ places, you can load from an external JSON file (za-towns.json)
-  // The file should look like: { "Gauteng": ["Johannesburg", "Soweto", ...], "Western Cape": ["Cape Town", ...], ... }
-  // Uncomment the fetch below and host za-towns.json next to this HTML file.
-  // fetch('za-towns.json')
-  //   .then(r => r.json())
-  //   .then(data => { provinceAreas = data; })
-  //   .catch(() => console.warn('Using built-in demo town list'));
+  function populateTownsForProvince(province) {
+    searchLocation.innerHTML = "";
+    const defaultOption = document.createElement("option");
+    defaultOption.value = "";
+    defaultOption.textContent = "Select Town / City";
+    searchLocation.appendChild(defaultOption);
+
+    if (province === "All provinces") {
+      return; // leave only default
+    }
+
+    const towns = provinceAreas[province] || [];
+    towns.forEach(town => {
+      const option = document.createElement("option");
+      option.value = town;
+      option.textContent = town;
+      searchLocation.appendChild(option);
+    });
+  }
 
   provinceSelect.addEventListener("change", () => {
-    const selected = provinceSelect.value;
-    searchLocation.innerHTML = '<option value="">Select Town / City</option>';
-
-    if (provinceAreas[selected]) {
-      provinceAreas[selected].forEach(town => {
-        const option = document.createElement("option");
-        option.value = town;
-        option.textContent = town;
-        searchLocation.appendChild(option);
-      });
-    }
+    populateTownsForProvince(provinceSelect.value);
+    applyFilters();
   });
 
   function renderAds(list) {
@@ -911,14 +939,14 @@
 
       const imgDiv = document.createElement("div");
       imgDiv.className = "ad-image";
-      imgDiv.style.backgroundImage = `url('${ad.img}')`;
+      imgDiv.style.backgroundImage = `url('${ad.img || "https://via.placeholder.com/400x300?text=No+Image"}')`;
 
       const body = document.createElement("div");
       body.className = "ad-body";
 
       const price = document.createElement("div");
       price.className = "ad-price";
-      price.textContent = ad.price > 0 ? "R " + ad.price.toLocaleString() : "Price on request";
+      price.textContent = ad.price > 0 ? "R " + Number(ad.price).toLocaleString() : "Price on request";
 
       const title = document.createElement("div");
       title.className = "ad-title";
@@ -957,7 +985,17 @@
       );
     }
 
+    const province = provinceSelect.value;
     const loc = searchLocation.value;
+
+    if (province && province !== "All provinces") {
+      list = list.filter(ad => {
+        // simple match: check if ad.location is in province towns
+        const towns = provinceAreas[province] || [];
+        return towns.includes(ad.location) || ad.location.toLowerCase().includes(province.toLowerCase());
+      });
+    }
+
     if (loc) {
       list = list.filter(ad => ad.location === loc);
     }
@@ -969,9 +1007,9 @@
 
     const sort = filterSort.value;
     if (sort === "priceLow") {
-      list.sort((a, b) => a.price - b.price);
+      list.sort((a, b) => (a.price || 0) - (b.price || 0));
     } else if (sort === "priceHigh") {
-      list.sort((a, b) => b.price - a.price);
+      list.sort((a, b) => (b.price || 0) - (a.price || 0));
     } else if (sort === "newest") {
       list.sort((a, b) => new Date(b.postedAt) - new Date(a.postedAt));
     }
@@ -983,6 +1021,9 @@
   filterCategory.addEventListener("change", applyFilters);
   filterSort.addEventListener("change", applyFilters);
   searchLocation.addEventListener("change", applyFilters);
+  searchText.addEventListener("keyup", (e) => {
+    if (e.key === "Enter") applyFilters();
+  });
 
   document.getElementById("categoryList").addEventListener("click", (e) => {
     const card = e.target.closest(".category-card");
@@ -996,6 +1037,7 @@
     }
   });
 
+  // --- Ad modal ---
   const modalBackdrop = document.getElementById("modalBackdrop");
   const modalClose = document.getElementById("modalClose");
   const modalTitle = document.getElementById("modalTitle");
@@ -1011,11 +1053,11 @@
     if (!ad) return;
 
     modalTitle.textContent = ad.title;
-    modalImg.style.backgroundImage = `url('${ad.img}')`;
-    modalPrice.textContent = ad.price > 0 ? "Price: R " + ad.price.toLocaleString() : "Price on request";
+    modalImg.style.backgroundImage = `url('${ad.img || "https://via.placeholder.com/400x300?text=No+Image"}')`;
+    modalPrice.textContent = ad.price > 0 ? "Price: R " + Number(ad.price).toLocaleString() : "Price on request";
     modalLocation.textContent = ad.location + " • " + ad.category;
     modalDescription.textContent = ad.description;
-    modalSeller.textContent = ad.seller;
+    modalSeller.textContent = ad.seller || (ad.seller_name || "Private seller");
     contactBtn.onclick = () => {
       alert("In a real app this would open chat / WhatsApp / email to contact the seller.");
     };
@@ -1033,39 +1075,24 @@
     }
   });
 
+  // --- Auth modals ---
   const loginBtn = document.getElementById("loginBtn");
   const signupBtn = document.getElementById("signupBtn");
-  const postAdBtn = document.getElementById("postAdBtn");
   const loginBackdrop = document.getElementById("loginBackdrop");
   const signupBackdrop = document.getElementById("signupBackdrop");
-  const postAdBackdrop = document.getElementById("postAdBackdrop");
   const loginClose = document.getElementById("loginClose");
   const signupClose = document.getElementById("signupClose");
-  const postAdClose = document.getElementById("postAdClose");
   const loginSubmit = document.getElementById("loginSubmit");
   const signupSubmit = document.getElementById("signupSubmit");
-  const postAdSubmit = document.getElementById("postAdSubmit");
   const signupPassword = document.getElementById("signupPassword");
   const signupPasswordConfirm = document.getElementById("signupPasswordConfirm");
   const passwordStrengthEl = document.getElementById("passwordStrength");
-  const passwordStrengthBar = passwordStrengthEl ? passwordStrengthEl.querySelector(".bar") : null;
-  const passwordStrengthLabel = passwordStrengthEl ? passwordStrengthEl.querySelector(".label") : null;
+  const passwordStrengthBar = passwordStrengthEl.querySelector(".bar");
+  const passwordStrengthLabel = passwordStrengthEl.querySelector(".label");
   const passwordMatchMsg = document.getElementById("passwordMatchMsg");
   const togglePasswordButtons = document.querySelectorAll(".toggle-password");
-  const postAdTitle = document.getElementById("postAdTitle");
-  const postAdDescription = document.getElementById("postAdDescription");
-  const postAdPrice = document.getElementById("postAdPrice");
-  const postAdCategory = document.getElementById("postAdCategory");
-  const postAdLocation = document.getElementById("postAdLocation");
-  const postAdSeller = document.getElementById("postAdSeller");
-  const postAdContact = document.getElementById("postAdContact");
-  const signupPassword = document.getElementById("signupPassword");
-  const signupPasswordConfirm = document.getElementById("signupPasswordConfirm");
-  const passwordStrengthEl = document.getElementById("passwordStrength");
-  const passwordStrengthBar = passwordStrengthEl ? passwordStrengthEl.querySelector(".bar") : null;
-  const passwordStrengthLabel = passwordStrengthEl ? passwordStrengthEl.querySelector(".label") : null;
-  const passwordMatchMsg = document.getElementById("passwordMatchMsg");
-  const togglePasswordButtons = document.querySelectorAll(".toggle-password");
+  const goToSignup = document.getElementById("goToSignup");
+  const goToLogin = document.getElementById("goToLogin");
 
   function openLogin() {
     loginBackdrop.style.display = "flex";
@@ -1075,22 +1102,8 @@
     signupBackdrop.style.display = "flex";
   }
 
-  function openPostAd() {
-    postAdBackdrop.style.display = "flex";
-  }
-
-  function closeAuth() {
-    loginBackdrop.style.display = "none";
-    signupBackdrop.style.display = "none";
-  }
-
   loginBtn.addEventListener("click", openLogin);
   signupBtn.addEventListener("click", openSignup);
-  postAdBtn.addEventListener("click", () => {
-    // In a real app, you would check if the user is logged in first.
-    // For this demo, we go straight to the Post Ad form.
-    openPostAd();
-  });
 
   loginClose.addEventListener("click", () => { loginBackdrop.style.display = "none"; });
   signupClose.addEventListener("click", () => { signupBackdrop.style.display = "none"; });
@@ -1103,11 +1116,19 @@
     if (e.target === signupBackdrop) signupBackdrop.style.display = "none";
   });
 
-  postAdClose.addEventListener("click", () => { postAdBackdrop.style.display = "none"; });
+  if (goToSignup) {
+    goToSignup.addEventListener("click", () => {
+      loginBackdrop.style.display = "none";
+      signupBackdrop.style.display = "flex";
+    });
+  }
 
-  postAdBackdrop.addEventListener("click", (e) => {
-    if (e.target === postAdBackdrop) postAdBackdrop.style.display = "none";
-  });
+  if (goToLogin) {
+    goToLogin.addEventListener("click", () => {
+      signupBackdrop.style.display = "none";
+      loginBackdrop.style.display = "flex";
+    });
+  }
 
   function evaluatePasswordStrength(pw) {
     let score = 0;
@@ -1119,7 +1140,6 @@
   }
 
   function updatePasswordStrength() {
-    if (!passwordStrengthEl || !passwordStrengthBar || !passwordStrengthLabel) return;
     const pw = signupPassword.value || "";
     passwordStrengthEl.classList.remove("weak", "medium", "strong");
 
@@ -1143,7 +1163,6 @@
   }
 
   function updatePasswordMatch() {
-    if (!passwordMatchMsg) return;
     const pw = signupPassword.value || "";
     const confirm = signupPasswordConfirm.value || "";
 
@@ -1167,42 +1186,26 @@
     }
   }
 
-  if (signupPassword) {
-    signupPassword.addEventListener("input", () => {
-      updatePasswordStrength();
-      updatePasswordMatch();
-    });
-  }
+  signupPassword.addEventListener("input", () => {
+    updatePasswordStrength();
+    updatePasswordMatch();
+  });
 
-  if (signupPasswordConfirm) {
-    signupPasswordConfirm.addEventListener("input", updatePasswordMatch);
-  }
+  signupPasswordConfirm.addEventListener("input", updatePasswordMatch);
 
-  if (togglePasswordButtons && togglePasswordButtons.length) {
-    togglePasswordButtons.forEach(btn => {
-      btn.addEventListener("click", () => {
-        const targetId = btn.getAttribute("data-target");
-        const input = document.getElementById(targetId);
-        if (!input) return;
-        const isPassword = input.type === "password";
-        input.type = isPassword ? "text" : "password";
-        btn.textContent = isPassword ? "🙈" : "👁";
-      });
+  togglePasswordButtons.forEach(btn => {
+    btn.addEventListener("click", () => {
+      const targetId = btn.getAttribute("data-target");
+      const input = document.getElementById(targetId);
+      if (!input) return;
+      const isPassword = input.type === "password";
+      input.type = isPassword ? "text" : "password";
+      btn.textContent = isPassword ? "🙈" : "👁";
     });
-  }
+  });
 
   loginSubmit.addEventListener("click", () => {
     alert("Login submitted (demo only, no backend yet).");
-  });
-
-  document.getElementById("goToSignup").addEventListener("click", () => {
-    loginBackdrop.style.display = "none";
-    signupBackdrop.style.display = "flex";
-  });
-
-  document.getElementById("goToLogin").addEventListener("click", () => {
-    signupBackdrop.style.display = "none";
-    loginBackdrop.style.display = "flex";
   });
 
   signupSubmit.addEventListener("click", () => {
@@ -1224,48 +1227,74 @@
     alert("Sign-up submitted (demo only, no backend yet).");
   });
 
-  postAdSubmit.addEventListener("click", () => {
-    const title = (postAdTitle.value || "").trim();
-    const description = (postAdDescription.value || "").trim();
-    const category = postAdCategory.value || "";
-    const locationVal = (postAdLocation.value || "").trim();
-    const priceVal = parseFloat(postAdPrice.value || "0");
-    const sellerName = (postAdSeller.value || "").trim();
-    const contact = (postAdContact.value || "").trim();
+  // --- Post Ad modal logic ---
+  const postAdBtn = document.getElementById("postAdBtn");
+  const postAdBackdrop = document.getElementById("postAdBackdrop");
+  const postAdClose = document.getElementById("postAdClose");
+  const postAdSubmit = document.getElementById("postAdSubmit");
 
-    if (!category || !title || !description || !locationVal) {
-      alert("Please fill in category, title, description and location.");
+  postAdBtn.addEventListener("click", () => {
+    postAdBackdrop.style.display = "flex";
+  });
+
+  postAdClose.addEventListener("click", () => {
+    postAdBackdrop.style.display = "none";
+  });
+
+  postAdBackdrop.addEventListener("click", (e) => {
+    if (e.target === postAdBackdrop) {
+      postAdBackdrop.style.display = "none";
+    }
+  });
+
+  postAdSubmit.addEventListener("click", () => {
+    const category = document.getElementById("postCategory").value.trim();
+    const title = document.getElementById("postTitle").value.trim();
+    const description = document.getElementById("postDescription").value.trim();
+    const price = document.getElementById("postPrice").value.trim();
+    const location = document.getElementById("postLocation").value.trim();
+    const sellerName = document.getElementById("postSellerName").value.trim();
+    const contact = document.getElementById("postContact").value.trim();
+    const imageUrl = document.getElementById("postImageUrl").value.trim();
+
+    if (!category || !title || !description || !location) {
+      alert("Please fill in at least category, title, description, and location.");
       return;
     }
 
     const newAd = {
       id: Date.now(),
-      title: title,
-      price: isNaN(priceVal) ? 0 : priceVal,
-      category: category,
-      location: locationVal,
-      img: "https://via.placeholder.com/800x600?text=New+Ad",
-      description: description,
-      seller: sellerName ? sellerName + (contact ? " • " + contact : "") : (contact || "Private seller"),
+      title,
+      price: price ? Number(price) : 0,
+      category,
+      location,
+      img: imageUrl || "",
+      description,
+      seller: (sellerName || "Private seller") + (contact ? " • " + contact : ""),
       postedAt: new Date().toISOString().slice(0, 10)
     };
 
     ads.unshift(newAd);
     applyFilters();
+    alert("Your ad has been added (demo only, not saved permanently).");
 
-    postAdTitle.value = "";
-    postAdDescription.value = "";
-    postAdPrice.value = "";
-    postAdCategory.value = "";
-    postAdLocation.value = "";
-    postAdSeller.value = "";
-    postAdContact.value = "";
+    // Clear fields
+    document.getElementById("postCategory").value = "";
+    document.getElementById("postTitle").value = "";
+    document.getElementById("postDescription").value = "";
+    document.getElementById("postPrice").value = "";
+    document.getElementById("postLocation").value = "";
+    document.getElementById("postSellerName").value = "";
+    document.getElementById("postContact").value = "";
+    document.getElementById("postImageUrl").value = "";
 
     postAdBackdrop.style.display = "none";
-    alert("Your ad has been posted (demo only, stored in this page's memory).");
   });
 
   document.getElementById("year").textContent = new Date().getFullYear();
+
+  // Initial setup
+  populateTownsForProvince("All provinces");
   applyFilters();
 </script>
 </body>
