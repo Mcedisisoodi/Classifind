@@ -971,7 +971,31 @@ let ads = [];
       adsGrid.appendChild(card);
     });
   }
+async function fetchAdsFromSupabase() {
+  const { data, error } = await supabaseClient
+    .from("ads")
+    .select("*")
+    .order("created_at", { ascending: false });
 
+  if (error) {
+    console.error("Error fetching ads from Supabase:", error);
+    return;
+  }
+
+  ads = (data || []).map(row => ({
+    id: row.id,
+    title: row.title,
+    price: row.price || 0,
+    category: row.category,
+    location: row.location,
+    img: row.image_url || "",
+    description: row.description,
+    seller: row.seller_name || (row.contact ? row.contact : "Private seller"),
+    postedAt: row.created_at ? row.created_at.slice(0, 10) : ""
+  }));
+
+  applyFilters();
+}
   function applyFilters() {
     let list = [...ads];
 
@@ -1301,7 +1325,7 @@ let ads = [];
 
   // Initial setup
   populateTownsForProvince("All provinces");
-  applyFilters();
+  fetchAdsFromSupabase ();
 </script>
 </body>
 </html>
