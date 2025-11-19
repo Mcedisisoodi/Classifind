@@ -1,6 +1,7 @@
 <!DOCTYPE html> 
 <html lang="en">
 <head>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <meta charset="UTF-8" />
   <title>ClassiFind – Local Classifieds</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -819,10 +820,6 @@
 
 <script>
   // --- Demo ads ---
-const SUPABASE_URL = "https://YOUR-PROJECT-ID.supabase.co";
-const SUPABASE_ANON_KEY = "YOUR_ANON_PUBLIC_KEY";
-const { createClient } = supabase;
-const supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
   let ads = [
     {
       id: 1,
@@ -1200,7 +1197,7 @@ const supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
       passwordStrengthEl.classList.add("weak");
       passwordStrengthLabel.textContent = "Weak";
     } else if (score === 2 || score === 3) {
-       passwordStrengthEl.classList.add("medium");
+      passwordStrengthEl.classList.add("medium");
       passwordStrengthLabel.textContent = "Medium";
     } else {
       passwordStrengthEl.classList.add("strong");
@@ -1350,7 +1347,6 @@ const supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
   // Initial setup
   populateTownsForProvince("All provinces");
   applyFilters();
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </script>
 </body>
 </html>
