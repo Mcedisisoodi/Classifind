@@ -1269,58 +1269,104 @@ async function fetchAdsFromSupabase() {
     }
   });
 
-  postAdSubmit.addEventListener("click", () => {
-    const category = document.getElementById("postCategory").value.trim();
-    const title = document.getElementById("postTitle").value.trim();
-    const description = document.getElementById("postDescription").value.trim();
-    const price = document.getElementById("postPrice").value.trim();
-    const location = document.getElementById("postLocation").value.trim();
-    const sellerName = document.getElementById("postSellerName").value.trim();
-    const contact = document.getElementById("postContact").value.trim();
-    const imageFilesInput = document.getElementById("postImageFiles");
-    let imageUrl = document.getElementById("postImageUrl").value.trim();
-    let mainImage = imageUrl;
+postAdSubmit.addEventListener("click", async () => {
+  const category = document.getElementById("postCategory").value.trim();
+  const title = document.getElementById("postTitle").value.trim();
+  const description = document.getElementById("postDescription").value.trim();
+  const price = document.getElementById("postPrice").value.trim();
+  const location = document.getElementById("postLocation").value.trim();
+  const sellerName = document.getElementById("postSellerName").value.trim();
+  const contact = document.getElementById("postContact").value.trim();
+  const imageUrlInput = document.getElementById("postImageUrl").value.trim();
+  const imageFileInput = document.getElementById("postImageFile");
+  const imageFile = imageFileInput ? imageFileInput.files[0] : null;
 
-    // If no URL was provided, fall back to the first uploaded file (for preview only in this demo)
-    if (!mainImage && imageFilesInput && imageFilesInput.files && imageFilesInput.files.length > 0) {
-      mainImage = URL.createObjectURL(imageFilesInput.files[0]);
-    }
+  if (!category || !title || !description || !location) {
+    alert("Please fill in at least category, title, description, and location.");
+    return;
+  }
 
-    if (!category || !title || !description || !location) {
-      alert("Please fill in at least category, title, description, and location.");
+  let finalImageUrl = imageUrlInput || "";
+
+  // 1) If user selected an image file, upload it to Supabase Storage
+  if (imageFile) {
+    const fileExt = imageFile.name.split(".").pop();
+    const fileName = `${Date.now()}-${Math.random().toString(36).slice(2)}.${fileExt}`;
+    const filePath = `ads/${fileName}`;
+
+    const { data: storageData, error: storageError } = await supabaseClient
+      .storage
+      .from("ad-images") // bucket name
+      .upload(filePath, imageFile);
+
+    if (storageError) {
+      console.error("Error uploading image:", storageError);
+      alert("Failed to upload image. You can try again or use an image URL instead.");
       return;
     }
 
-    const newAd = {
-      id: Date.now(),
+    const { data: publicUrlData } = supabaseClient
+      .storage
+      .from("ad-images")
+      .getPublicUrl(filePath);
+
+    finalImageUrl = publicUrlData.publicUrl;
+  }
+
+  // 2) Insert ad into Supabase table
+  const { data, error } = await supabaseClient
+    .from("ads")
+    .insert({
       title,
-      price: price ? Number(price) : 0,
-      category,
-      location,
-      img: mainImage || "",
       description,
-      seller: (sellerName || "Private seller") + (contact ? " • " + contact : ""),
-      postedAt: new Date().toISOString().slice(0, 10)
-    };
+      category,
+      price: price ? Number(price) : null,
+      location,
+      province: provinceSelect.value === "All provinces" ? null : provinceSelect.value,
+      seller_name: sellerName || null,
+      contact: contact || null,
+      image_url: finalImageUrl || null
+    })
+    .select()
+    .single();
 
-    ads.unshift(newAd);
-    applyFilters();
-    alert("Your ad has been added (demo only, not saved permanently).");
+  if (error) {
+    console.error("Error inserting ad:", error);
+    alert("Could not save your ad. Please try again.");
+    return;
+  }
 
-    // Clear fields
-    document.getElementById("postCategory").value = "";
-    document.getElementById("postTitle").value = "";
-    document.getElementById("postDescription").value = "";
-    document.getElementById("postPrice").value = "";
-    document.getElementById("postLocation").value = "";
-    document.getElementById("postSellerName").value = "";
-    document.getElementById("postContact").value = "";
-    document.getElementById("postImageUrl").value = "";
-    if (imageFilesInput) imageFilesInput.value = "";
+  // 3) Add new ad to local list & refresh UI
+  const newAd = {
+    id: data.id,
+    title: data.title,
+    price: data.price || 0,
+    category: data.category,
+    location: data.location,
+    img: data.image_url || "",
+    description: data.description,
+    seller: data.seller_name || (data.contact ? data.contact : "Private seller"),
+    postedAt: data.created_at ? data.created_at.slice(0, 10) : ""
+  };
 
-    postAdBackdrop.style.display = "none";
-  });
+  ads.unshift(newAd);
+  applyFilters();
 
+  alert("Your ad has been posted! 🎉");
+
+  // Clear fields
+  document.getElementById("postCategory").value = "";
+  document.getElementById("postTitle").value = "";
+  document.getElementById("postDescription").value = "";
+  document.getElementById("postPrice").value = "";
+  document.getElementById("postLocation").value = "";
+  document.getElementById("postSellerName").value = "";
+  document.getElementById("postContact").value = "";
+  document.getElementById("postImageUrl").value = "";
+  if (imageFileInput) imageFileInput.value = "";
+
+  postAdBackdrop.style.display = "none";
+});
   document.getElementById("year").textContent = new Date().getFullYear();
 
   // Initial setup
