@@ -816,67 +816,19 @@
     </div>
   </div>
 </div>
+<script type="module">
+  import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
+  const SUPABASE_URL = "https://vmggypjybpxfvnttnjbpsa.supabase.co";
+  const SUPABASE_KEY = "sb_publishable_eFTbKKLL1mileWkBduPXDQ_zZDUAt0W";
+
+  const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+
+  window.supabase = supabase; // make it available everywhere
+</script>
 <script>
-  // --- Demo ads ---
-  let ads = [
-    {
-      id: 1,
-      title: "VW Polo 1.4 Trendline 2016",
-      price: 145000,
-      category: "Cars",
-      location: "Johannesburg",
-      img: "https://images.pexels.com/photos/170811/pexels-photo-170811.jpeg?auto=compress&cs=tinysrgb&w=800",
-      description: "Very clean VW Polo, full service history, one owner, new tyres, spare key.",
-      seller: "Thabo • 072 123 4567",
-      postedAt: "2025-11-10"
-    },
-    {
-      id: 2,
-      title: "iPhone 13 Pro 128GB",
-      price: 13500,
-      category: "Phones",
-      location: "Cape Town",
-      img: "https://images.pexels.com/photos/788946/pexels-photo-788946.jpeg?auto=compress&cs=tinysrgb&w=800",
-      description: "Excellent condition, battery health 92%, includes box and charger.",
-      seller: "Lerato • 061 555 8899",
-      postedAt: "2025-11-14"
-    },
-    {
-      id: 3,
-      title: "2 Bedroom Apartment to Rent – CBD",
-      price: 8500,
-      category: "Property",
-      location: "Durban",
-      img: "https://images.pexels.com/photos/439391/pexels-photo-439391.jpeg?auto=compress&cs=tinysrgb&w=800",
-      description: "Modern apartment, secure complex, parking included, close to all amenities.",
-      seller: "Agent: Mzi Properties",
-      postedAt: "2025-11-12"
-    },
-    {
-      id: 4,
-      title: "Gaming Laptop i7 / 16GB RAM / RTX",
-      price: 18500,
-      category: "Electronics",
-      location: "Pretoria",
-      img: "https://images.pexels.com/photos/2148217/pexels-photo-2148217.jpeg?auto=compress&cs=tinysrgb&w=800",
-      description: "High performance gaming laptop, runs all modern titles smoothly.",
-      seller: "Sipho • 083 555 4411",
-      postedAt: "2025-11-08"
-    },
-    {
-      id: 5,
-      title: "Retail Assistant – Part Time",
-      price: 0,
-      category: "Jobs",
-      location: "Johannesburg",
-      img: "https://images.pexels.com/photos/5632371/pexels-photo-5632371.jpeg?auto=compress&cs=tinysrgb&w=800",
-      description: "Weekend position at clothing store, students welcome. Basic salary + commission.",
-      seller: "HR • apply@store.co.za",
-      postedAt: "2025-11-15"
-    }
-  ];
-
+  // --- Ads from Supabase will be loaded here ---
+let ads = [];
   const adsGrid = document.getElementById("adsGrid");
   const filterCategory = document.getElementById("filterCategory");
   const filterSort = document.getElementById("filterSort");
@@ -1196,7 +1148,7 @@
       passwordStrengthEl.classList.add("weak");
       passwordStrengthLabel.textContent = "Weak";
     } else if (score === 2 || score === 3) {
-      passwordStrengthEl.classList.add("medium");
+       passwordStrengthEl.classList.add("medium");
       passwordStrengthLabel.textContent = "Medium";
     } else {
       passwordStrengthEl.classList.add("strong");
@@ -1346,6 +1298,7 @@
   // Initial setup
   populateTownsForProvince("All provinces");
   applyFilters();
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </script>
 </body>
 </html>
