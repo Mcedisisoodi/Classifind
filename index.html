@@ -1,11 +1,22 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <!-- SUPABASE INITIALIZATION -->
+  <script type="module">
+    import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+
+    const SUPABASE_URL = "https://vmggypjybpxfvnttnjbpsa.supabase.co";
+    const SUPABASE_KEY = "sb_publishable_eFTbKKLL1mileWkBduPXDQ_zZDUAt0W";
+
+    const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    window.supabase = supabase;
+  </script>
+
   <meta charset="UTF-8" />
   <title>ClassiFind – Local Classifieds</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <style>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />  <style>
     * {
       box-sizing: border-box;
       margin: 0;
