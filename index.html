@@ -11,7 +11,8 @@
 
     const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
-    window.supabase = supabase;
+// Make it available to other scripts
+window.supabaseClient = client;
   </script>
 
   <meta charset="UTF-8" />
