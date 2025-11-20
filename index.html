@@ -805,20 +805,22 @@ provinceSelect.addEventListener("change", () => {
 populateTownsForProvince(provinceSelect.value);
 applyFilters();
 });
-function renderAds(list) {
-adsGrid.innerHTML = "";
-if (!list.length) {
-adsGrid.innerHTML = "<p>No ads found. Try changing your filters.</p>";
-return;
-}
-list.forEach(ad => {
-const card = document.createElement("article");
-card.className = "ad-card";
-card.dataset.id = ad.id;
-const imgDiv = document.createElement("div");
-imgDiv.className = "ad-image";
-imgDiv.style.backgroundImage = `url('${ad.img || "https://via.placeholder.com/400x300?text=No+Image"}')`;
-const body = document.createElement("div");
+const PLACEHOLDER_IMG = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23cccccc'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-size='24' fill='%23666666'%3ENo Image%3C/text%3E%3C/svg%3E";
+
+    function renderAds(list) {
+        adsGrid.innerHTML = "";
+        if (!list.length) {
+            adsGrid.innerHTML = "<p>No ads found. Try changing your filters.</p>";
+            return;
+        }
+        list.forEach(ad => {
+            const card = document.createElement("article");
+            card.className = "ad-card";
+            card.dataset.id = ad.id;
+            const imgDiv = document.createElement("div");
+            imgDiv.className = "ad-image";
+            imgDiv.style.backgroundImage = `url('${ad.img || PLACEHOLDER_IMG}')`;
+            const body = document.createElement("div");
 body.className = "ad-body";
 const price = document.createElement("div");
 price.className = "ad-price";
@@ -927,12 +929,12 @@ const modalLocation = document.getElementById("modalLocation");
 const modalDescription = document.getElementById("modalDescription");
 const modalSeller = document.getElementById("modalSeller");
 const contactBtn = document.getElementById("contactBtn");
-function openModal(id) {
-const ad = ads.find(a => a.id === id);
-if (!ad) return;
-modalTitle.textContent = ad.title;
-modalImg.style.backgroundImage = `url('${ad.img || "https://via.placeholder.com/400x300?text=No+Image"}')`;
-modalPrice.textContent = ad.price > 0 ? "Price: R " + Number(ad.price).toLocaleString() : "Price on request";
+    function openModal(id) {
+        const ad = ads.find(a => a.id === id);
+        if (!ad) return;
+        modalTitle.textContent = ad.title;
+        modalImg.style.backgroundImage = `url('${ad.img || PLACEHOLDER_IMG}')`;
+        modalPrice.textContent = ad.price > 0 ? "Price: R " + Number(ad.price).toLocaleString() : "Price on request";
 modalLocation.textContent = ad.location + " • " + ad.category;
 modalDescription.textContent = ad.description;
 modalSeller.textContent = ad.seller || (ad.seller_name || "Private seller");
