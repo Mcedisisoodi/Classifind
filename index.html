@@ -4,12 +4,12 @@
 
   <!-- SUPABASE INITIALIZATION -->
 <script type="module">
-  import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+  import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2";
 
   const SUPABASE_URL = "https://vmgpyjpbxfvnttnjbpsa.supabase.co";
   const SUPABASE_KEY = "sb_publishable_eFTbKKlL1mileWxBduPXDQ_zZDUAtOW";
 
-  const client = createClient('https://vmgpyjpbxfvnttnjbpsa.supabase.co', 'sb_publishable_eFTbKKlL1mileWxBduPXDQ_zZDUAtOW');
+  const client = createClient(SUPABASE_URL, SUPABASE_KEY);
 
   window.supabaseClient = client;
 </script>
@@ -971,10 +971,10 @@ let ads = [];
       adsGrid.appendChild(card);
     });
   }
-async function fetchadsFromSupabase() {
+async function fetchAdsFromSupabase() {
   const { data, error } = await supabaseClient
-    .fetch ('ads')
-    .select('*')
+    .from("ads")
+    .select("*")
     .order("created_at", { ascending: false });
 
   if (error) {
