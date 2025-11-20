@@ -971,9 +971,9 @@ let ads = [];
       adsGrid.appendChild(card);
     });
   }
-{
+async function fetchadsFromSupabase() {
   const { data, error } = await supabaseClient
-    .from('ads')
+    .fetch ('ads')
     .select('*')
     .order("created_at", { ascending: false });
 
