@@ -1,19 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
-  <!-- SUPABASE INITIALIZATION -->
-<script type="module">
-  import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
-
-  const SUPABASE_URL = "https://vmgpyjpbxfvnttnjbpsa.supabase.co";
-  const SUPABASE_KEY = "sb_publishable_eFTbKKlL1mileWxBduPXDQ_zZDUAtOW";
-
-  const client = createClient(SUPABASE_URL, SUPABASE_KEY);
-
-  window.supabaseClient = client;
-</script>
-
   <meta charset="UTF-8" />
   <title>ClassiFind – Local Classifieds</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />  <style>
@@ -829,8 +816,13 @@
   </div>
 </div>
 
-<script>
-const supabaseClient = window.supabaseClient;
+<script type="module">
+  import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+
+  const SUPABASE_URL = "https://vmgpyjpbxfvnttnjbpsa.supabase.co";
+  const SUPABASE_KEY = "sb_publishable_eFTbKKlL1mileWxBduPXDQ_zZDUAtOW";
+
+const supabaseClient = createClient(SUPABASE_URL, SUPABASE_KEY);
 // --- Ads will be loaded from Supabase ---
 let ads = [];
   const adsGrid = document.getElementById("adsGrid");
