@@ -971,7 +971,7 @@ let ads = [];
       adsGrid.appendChild(card);
     });
   }
-async function fetchAdsFromSupabase() {
+{
   const { data, error } = await supabaseClient
     .from('ads')
     .select('*')
