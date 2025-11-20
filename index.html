@@ -3,17 +3,16 @@
 <head>
 
   <!-- SUPABASE INITIALIZATION -->
-  <script type="module">
-    import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+<script type="module">
+  import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
-    const SUPABASE_URL = "https://vmgpyjpbxfvnttnjbpsa.supabase.co";
-    const SUPABASE_KEY = "sb_publishable_eFTbKKlL1mileWxBduPXDQ_zZDUAtOW";
+  const SUPABASE_URL = "https://vmgpyjpbxfvnttnjbpsa.supabase.co";
+  const SUPABASE_KEY = "sb_publishable_eFTbKKlL1mileWxBduPXDQ_zZDUAtOW";
 
-    const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+  const client = createClient(SUPABASE_URL, SUPABASE_KEY);
 
-// Make it available to other scripts
-const supabase = window.supabase;
-  </script>
+  window.supabaseClient = client;
+</script>
 
   <meta charset="UTF-8" />
   <title>ClassiFind – Local Classifieds</title>
@@ -831,7 +830,7 @@ const supabase = window.supabase;
 </div>
 
 <script>
-const supabaseClient = window.supabase;
+const supabaseClient = window.supabaseClient;
 // --- Ads will be loaded from Supabase ---
 let ads = [];
   const adsGrid = document.getElementById("adsGrid");
@@ -1279,9 +1278,8 @@ postAdSubmit.addEventListener("click", async () => {
   const sellerName = document.getElementById("postSellerName").value.trim();
   const contact = document.getElementById("postContact").value.trim();
   const imageUrlInput = document.getElementById("postImageUrl").value.trim();
-  const imageFileInput = document.getElementById("postImageFile");
+  const imageFileInput = document.getElementById("postImageFiles");
   const imageFile = imageFileInput ? imageFileInput.files[0] : null;
-
   if (!category || !title || !description || !location) {
     alert("Please fill in at least category, title, description, and location.");
     return;
