@@ -99,34 +99,6 @@
         </footer>
     </main>
 
-    <!-- Ad details modal -->
-    <div class="modal-backdrop" id="modalBackdrop">
-        <div class="modal">
-            <div class="modal-header">
-                <h2 id="modalTitle">Ad title</h2>
-                <button class="close-btn" id="modalClose">&times;</button>
-            </div>
-            <div class="modal-body">
-                <div>
-                    <div id="modalImg" class="modal-img"></div>
-                    <p style="font-size:0.85rem; margin-top:6px;" id="modalPrice"></p>
-                    <p style="font-size:0.8rem; color:#555;" id="modalLocation"></p>
-                </div>
-                <div>
-                    <div>
-                        <div class="modal-section-title">Description</div>
-                        <p id="modalDescription" style="font-size:0.9rem; line-height:1.4;"></p>
-                    </div>
-                    <div style="margin-top:10px;">
-                        <div class="modal-section-title">Seller</div>
-                        <p id="modalSeller" style="font-size:0.9rem;"></p>
-                        <button class="contact-btn" id="contactBtn">Contact seller</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <!-- Login modal -->
     <div class="auth-backdrop" id="loginBackdrop">
         <div class="auth-modal">
@@ -141,6 +113,7 @@
                 <input id="loginPassword" type="password" placeholder="Enter your password" />
                 <button class="auth-submit" id="loginSubmit">Login</button>
                 <div class="auth-actions">
+                    <span id="forgotPassword" class="auth-link" style="font-size:0.8rem;">Forgot Password?</span>
                     <span>New here? <span id="goToSignup" class="auth-link">Create an account</span></span>
                 </div>
             </div>
@@ -155,14 +128,37 @@
                 <button class="auth-close" id="signupClose">&times;</button>
             </div>
             <div class="auth-body">
-                <label for="signupName">Full name</label>
-                <input id="signupName" type="text" placeholder="Your name" />
+                <label for="signupName">Name</label>
+                <input id="signupName" type="text" placeholder="First Name" />
+                <label for="signupSurname">Surname</label>
+                <input id="signupSurname" type="text" placeholder="Last Name" />
+                <label for="signupAddress">Address</label>
+                <input id="signupAddress" type="text" placeholder="Your Address" />
+                <label for="signupPhone">Phone Number</label>
+                <input id="signupPhone" type="tel" placeholder="072 123 4567" />
                 <label for="signupEmail">Email</label>
                 <input id="signupEmail" type="email" placeholder="you@example.com" />
+                
+                <label>I am a:</label>
+                <select id="signupRole">
+                    <option value="buyer">Buyer</option>
+                    <option value="seller">Seller</option>
+                </select>
+
+                <div id="bankDetailsSection" class="hidden">
+                    <label for="signupBank">Bank Account Details</label>
+                    <textarea id="signupBank" placeholder="Bank Name, Account Number, Branch Code" style="width:100%; padding:8px; border-radius:6px; border:1px solid #ccc; margin-bottom:10px;"></textarea>
+                </div>
+
                 <div class="field-group">
                     <label for="signupPassword">Password</label>
                     <input id="signupPassword" type="password" placeholder="Create a password" />
                 </div>
+                <div class="field-group">
+                    <label for="signupPasswordConfirm">Confirm Password</label>
+                    <input id="signupPasswordConfirm" type="password" placeholder="Re-enter password" />
+                </div>
+
                 <button class="auth-submit" id="signupSubmit">Create account</button>
                 <div class="auth-actions">
                     <span>Already have an account? <span id="goToLogin" class="auth-link">Login</span></span>
@@ -172,7 +168,7 @@
     </div>
 
     <script type="module">
-        import { supabaseClient, signIn, signUp } from './app.js';
+        import { supabaseClient, signIn, signUp, resetPassword } from './app.js';
 
         // --- Ads Logic ---
         let ads = [];
@@ -252,7 +248,12 @@
                 body.appendChild(meta);
                 card.appendChild(imgDiv);
                 card.appendChild(body);
-                card.addEventListener("click", () => openModal(ad.id));
+                
+                // Link to Ad Details Page
+                card.addEventListener("click", () => {
+                    window.location.href = `ad-details.html?id=${ad.id}`;
+                });
+                
                 adsGrid.appendChild(card);
             });
         }
@@ -334,40 +335,6 @@
             }
         });
 
-        // --- Ad modal ---
-        const modalBackdrop = document.getElementById("modalBackdrop");
-        const modalClose = document.getElementById("modalClose");
-        const modalTitle = document.getElementById("modalTitle");
-        const modalImg = document.getElementById("modalImg");
-        const modalPrice = document.getElementById("modalPrice");
-        const modalLocation = document.getElementById("modalLocation");
-        const modalDescription = document.getElementById("modalDescription");
-        const modalSeller = document.getElementById("modalSeller");
-        const contactBtn = document.getElementById("contactBtn");
-
-        function openModal(id) {
-            const ad = ads.find(a => a.id === id);
-            if (!ad) return;
-            modalTitle.textContent = ad.title;
-            modalImg.style.backgroundImage = `url('${ad.img || PLACEHOLDER_IMG}')`;
-            modalPrice.textContent = ad.price > 0 ? "Price: R " + Number(ad.price).toLocaleString() : "Price on request";
-            modalLocation.textContent = ad.location + " • " + ad.category;
-            modalDescription.textContent = ad.description;
-            modalSeller.textContent = ad.seller || (ad.seller_name || "Private seller");
-            contactBtn.onclick = () => {
-                alert("In a real app this would open chat / WhatsApp / email to contact the seller.");
-            };
-            modalBackdrop.style.display = "flex";
-        }
-        modalClose.addEventListener("click", () => {
-            modalBackdrop.style.display = "none";
-        });
-        modalBackdrop.addEventListener("click", (e) => {
-            if (e.target === modalBackdrop) {
-                modalBackdrop.style.display = "none";
-            }
-        });
-
         // --- Auth Modals Logic ---
         const loginBtn = document.getElementById("loginBtn");
         const signupBtn = document.getElementById("signupBtn");
@@ -377,6 +344,9 @@
         const signupClose = document.getElementById("signupClose");
         const goToSignup = document.getElementById("goToSignup");
         const goToLogin = document.getElementById("goToLogin");
+        const forgotPassword = document.getElementById("forgotPassword");
+        const signupRole = document.getElementById("signupRole");
+        const bankDetailsSection = document.getElementById("bankDetailsSection");
 
         if(loginBtn) loginBtn.addEventListener("click", () => loginBackdrop.style.display = "flex");
         if(signupBtn) signupBtn.addEventListener("click", () => signupBackdrop.style.display = "flex");
@@ -392,6 +362,27 @@
             loginBackdrop.style.display = "flex";
         });
 
+        if(signupRole) {
+            signupRole.addEventListener("change", () => {
+                if(signupRole.value === "seller") {
+                    bankDetailsSection.classList.remove("hidden");
+                } else {
+                    bankDetailsSection.classList.add("hidden");
+                }
+            });
+        }
+
+        if(forgotPassword) {
+            forgotPassword.addEventListener("click", async () => {
+                const email = prompt("Please enter your email address to reset your password:");
+                if(email) {
+                    const { error } = await resetPassword(email);
+                    if(error) alert("Error: " + error.message);
+                    else alert("Password reset link sent to " + email);
+                }
+            });
+        }
+
         // Auth Submit
         document.getElementById("loginSubmit").addEventListener("click", async () => {
             const email = document.getElementById("loginEmail").value;
@@ -406,8 +397,23 @@
         document.getElementById("signupSubmit").addEventListener("click", async () => {
             const email = document.getElementById("signupEmail").value;
             const password = document.getElementById("signupPassword").value;
-            const name = document.getElementById("signupName").value;
-            const { error } = await signUp(email, password, name);
+            const confirm = document.getElementById("signupPasswordConfirm").value;
+            
+            if(password !== confirm) {
+                alert("Passwords do not match!");
+                return;
+            }
+
+            const metadata = {
+                first_name: document.getElementById("signupName").value,
+                last_name: document.getElementById("signupSurname").value,
+                address: document.getElementById("signupAddress").value,
+                phone: document.getElementById("signupPhone").value,
+                role: document.getElementById("signupRole").value,
+                bank_details: document.getElementById("signupBank").value
+            };
+
+            const { error } = await signUp(email, password, metadata);
             if (error) alert("Signup failed: " + error.message);
             else {
                 alert("Account created! Please check your email to verify.");
