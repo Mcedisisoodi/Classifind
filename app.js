@@ -8,14 +8,12 @@ window.supabaseClient = supabaseClient;
 
 // --- Auth Functions ---
 
-export async function signUp(email, password, fullName) {
+export async function signUp(email, password, metadata) {
     const { data, error } = await supabaseClient.auth.signUp({
         email,
         password,
         options: {
-            data: {
-                full_name: fullName,
-            },
+            data: metadata,
         },
     });
     return { data, error };
@@ -25,6 +23,16 @@ export async function signIn(email, password) {
     const { data, error } = await supabaseClient.auth.signInWithPassword({
         email,
         password,
+    });
+    return { data, error };
+}
+
+export async function resetPassword(email) {
+    // Note: This sends a password reset link to the email.
+    // The user must click the link to be redirected back to the site to set a new password.
+    // Ensure 'https://classifind.netlify.app' is in your Supabase Redirect URLs.
+    const { data, error } = await supabaseClient.auth.resetPasswordForEmail(email, {
+        redirectTo: 'https://classifind.netlify.app',
     });
     return { data, error };
 }
