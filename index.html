@@ -349,13 +349,21 @@
         const bankDetailsSection = document.getElementById("bankDetailsSection");
 
         if(loginBtn) loginBtn.addEventListener("click", () => loginBackdrop.style.display = "flex");
-        if(signupBtn) signupBtn.addEventListener("click", () => signupBackdrop.style.display = "flex");
+                if(signupBtn) signupBtn.addEventListener("click", () => {
+            signupBackdrop.style.display = "flex";
+            // Reset form state
+            if(signupRole) signupRole.value = "buyer";
+            if(bankDetailsSection) bankDetailsSection.classList.add("hidden");
+        });
         if(loginClose) loginClose.addEventListener("click", () => loginBackdrop.style.display = "none");
         if(signupClose) signupClose.addEventListener("click", () => signupBackdrop.style.display = "none");
         
         if(goToSignup) goToSignup.addEventListener("click", () => {
             loginBackdrop.style.display = "none";
             signupBackdrop.style.display = "flex";
+            // Reset form state
+            if(signupRole) signupRole.value = "buyer";
+            if(bankDetailsSection) bankDetailsSection.classList.add("hidden");
         });
         if(goToLogin) goToLogin.addEventListener("click", () => {
             signupBackdrop.style.display = "none";
