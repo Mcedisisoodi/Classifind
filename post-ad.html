@@ -64,8 +64,7 @@
         </div>
     </main>
 
-    <!-- Auth Modals (Copied structure for consistency, logic handled by app.js/index.html shared code? No, need to duplicate modal HTML or inject it) -->
-    <!-- For simplicity, I will include the auth modals here too so login works on this page -->
+    <!-- Auth Modals -->
     <div class="auth-backdrop" id="loginBackdrop">
         <div class="auth-modal">
             <div class="auth-header">
@@ -79,6 +78,7 @@
                 <input id="loginPassword" type="password" placeholder="Enter your password" />
                 <button class="auth-submit" id="loginSubmit">Login</button>
                 <div class="auth-actions">
+                    <span id="forgotPassword" class="auth-link" style="font-size:0.8rem;">Forgot Password?</span>
                     <span>New here? <span id="goToSignup" class="auth-link">Create an account</span></span>
                 </div>
             </div>
@@ -92,14 +92,37 @@
                 <button class="auth-close" id="signupClose">&times;</button>
             </div>
             <div class="auth-body">
-                <label for="signupName">Full name</label>
-                <input id="signupName" type="text" placeholder="Your name" />
+                <label for="signupName">Name</label>
+                <input id="signupName" type="text" placeholder="First Name" />
+                <label for="signupSurname">Surname</label>
+                <input id="signupSurname" type="text" placeholder="Last Name" />
+                <label for="signupAddress">Address</label>
+                <input id="signupAddress" type="text" placeholder="Your Address" />
+                <label for="signupPhone">Phone Number</label>
+                <input id="signupPhone" type="tel" placeholder="072 123 4567" />
                 <label for="signupEmail">Email</label>
                 <input id="signupEmail" type="email" placeholder="you@example.com" />
+                
+                <label>I am a:</label>
+                <select id="signupRole">
+                    <option value="buyer">Buyer</option>
+                    <option value="seller">Seller</option>
+                </select>
+
+                <div id="bankDetailsSection" class="hidden">
+                    <label for="signupBank">Bank Account Details</label>
+                    <textarea id="signupBank" placeholder="Bank Name, Account Number, Branch Code" style="width:100%; padding:8px; border-radius:6px; border:1px solid #ccc; margin-bottom:10px;"></textarea>
+                </div>
+
                 <div class="field-group">
                     <label for="signupPassword">Password</label>
                     <input id="signupPassword" type="password" placeholder="Create a password" />
                 </div>
+                <div class="field-group">
+                    <label for="signupPasswordConfirm">Confirm Password</label>
+                    <input id="signupPasswordConfirm" type="password" placeholder="Re-enter password" />
+                </div>
+
                 <button class="auth-submit" id="signupSubmit">Create account</button>
                 <div class="auth-actions">
                     <span>Already have an account? <span id="goToLogin" class="auth-link">Login</span></span>
@@ -109,10 +132,9 @@
     </div>
 
     <script type="module">
-        import { supabaseClient, getSession } from './app.js';
+        import { supabaseClient, getSession, signIn, signUp, resetPassword } from './app.js';
 
-        // Auth Modal Logic (Duplicated from index.html for now, ideally should be in app.js but DOM elements differ)
-        // I'll add a simple script here to handle modals
+        // Auth Modal Logic
         const loginBtn = document.getElementById("loginBtn");
         const signupBtn = document.getElementById("signupBtn");
         const loginBackdrop = document.getElementById("loginBackdrop");
@@ -121,6 +143,9 @@
         const signupClose = document.getElementById("signupClose");
         const goToSignup = document.getElementById("goToSignup");
         const goToLogin = document.getElementById("goToLogin");
+        const forgotPassword = document.getElementById("forgotPassword");
+        const signupRole = document.getElementById("signupRole");
+        const bankDetailsSection = document.getElementById("bankDetailsSection");
 
         if(loginBtn) loginBtn.addEventListener("click", () => loginBackdrop.style.display = "flex");
         if(signupBtn) signupBtn.addEventListener("click", () => signupBackdrop.style.display = "flex");
@@ -136,9 +161,28 @@
             loginBackdrop.style.display = "flex";
         });
 
-        // Auth Submit Logic
-        import { signIn, signUp } from './app.js';
+        if(signupRole) {
+            signupRole.addEventListener("change", () => {
+                if(signupRole.value === "seller") {
+                    bankDetailsSection.classList.remove("hidden");
+                } else {
+                    bankDetailsSection.classList.add("hidden");
+                }
+            });
+        }
 
+        if(forgotPassword) {
+            forgotPassword.addEventListener("click", async () => {
+                const email = prompt("Please enter your email address to reset your password:");
+                if(email) {
+                    const { error } = await resetPassword(email);
+                    if(error) alert("Error: " + error.message);
+                    else alert("Password reset link sent to " + email);
+                }
+            });
+        }
+
+        // Auth Submit Logic
         document.getElementById("loginSubmit").addEventListener("click", async () => {
             const email = document.getElementById("loginEmail").value;
             const password = document.getElementById("loginPassword").value;
@@ -146,15 +190,29 @@
             if (error) alert("Login failed: " + error.message);
             else {
                 loginBackdrop.style.display = "none";
-                // UI updates automatically via onAuthStateChange in app.js
             }
         });
 
         document.getElementById("signupSubmit").addEventListener("click", async () => {
             const email = document.getElementById("signupEmail").value;
             const password = document.getElementById("signupPassword").value;
-            const name = document.getElementById("signupName").value;
-            const { error } = await signUp(email, password, name);
+            const confirm = document.getElementById("signupPasswordConfirm").value;
+            
+            if(password !== confirm) {
+                alert("Passwords do not match!");
+                return;
+            }
+
+            const metadata = {
+                first_name: document.getElementById("signupName").value,
+                last_name: document.getElementById("signupSurname").value,
+                address: document.getElementById("signupAddress").value,
+                phone: document.getElementById("signupPhone").value,
+                role: document.getElementById("signupRole").value,
+                bank_details: document.getElementById("signupBank").value
+            };
+
+            const { error } = await signUp(email, password, metadata);
             if (error) alert("Signup failed: " + error.message);
             else {
                 alert("Account created! Please check your email to verify.");
@@ -170,7 +228,10 @@
             if (session && session.user) {
                 const email = session.user.email;
                 const meta = session.user.user_metadata;
-                if (meta && meta.full_name) document.getElementById("postSellerName").value = meta.full_name;
+                if (meta) {
+                    const fullName = [meta.first_name, meta.last_name].filter(Boolean).join(" ");
+                    if (fullName) document.getElementById("postSellerName").value = fullName;
+                }
                 document.getElementById("postContact").value = email;
             }
         });
@@ -227,7 +288,6 @@
                     category,
                     price: price ? Number(price) : null,
                     location,
-                    // province: ... (simplified for this page, or add province select)
                     seller_name: sellerName || null,
                     contact: contact || null,
                     image_url: finalImageUrl || null
