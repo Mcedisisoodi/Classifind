@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Post Ad – ClassiFind</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="styles.css" />
+    <script type="module" src="app.js"></script>
+</head>
+<body>
+    <header>
+        <div class="logo"><a href="index.html" style="text-decoration:none; color:inherit;">Classi<span>Find</span></a></div>
+        <div class="header-actions">
+            <button class="btn" id="loginBtn">Login</button>
+            <button class="btn" id="signupBtn">Sign up</button>
+            <!-- Post Ad button hidden on this page or disabled -->
+        </div>
+    </header>
+    <main>
+        <div class="post-ad-container">
+            <div class="postad-header">
+                <h2>Post an Ad</h2>
+            </div>
+            <div class="postad-body">
+                <label for="postCategory">Category</label>
+                <select id="postCategory">
+                    <option value="">Select category</option>
+                    <option value="Cars">Cars</option>
+                    <option value="Phones">Phones & Tablets</option>
+                    <option value="Property">Property</option>
+                    <option value="Electronics">Electronics</option>
+                    <option value="Fashion & Beauty">Fashion & Beauty</option>
+                    <option value="Jobs">Jobs</option>
+                    <option value="Other">Other</option>
+                </select>
+
+                <label for="postTitle">Ad title</label>
+                <input id="postTitle" type="text" placeholder="e.g. VW Polo 1.4 Trendline, excellent condition" />
+
+                <label for="postDescription">Description</label>
+                <textarea id="postDescription" placeholder="Describe the item, condition, mileage, features, etc."></textarea>
+
+                <label for="postPrice">Price (R)</label>
+                <input id="postPrice" type="number" min="0" placeholder="e.g. 145000" />
+
+                <label for="postLocation">Location (Town / City)</label>
+                <input id="postLocation" type="text" placeholder="e.g. Klerksdorp, Johannesburg, Cape Town" />
+
+                <label for="postSellerName">Your name</label>
+                <input id="postSellerName" type="text" placeholder="Your name or business" />
+
+                <label for="postContact">Contact (phone / email)</label>
+                <input id="postContact" type="text" placeholder="e.g. 072 123 4567 or you@example.com" />
+
+                <label for="postImageUrl">Image URL (optional)</label>
+                <input id="postImageUrl" type="url" placeholder="Paste an image link (jpg, png...)" />
+
+                <label for="postImageFiles">Upload images</label>
+                <input id="postImageFiles" type="file" accept="image/*" multiple capture="environment" />
+                <p class="postad-note">You can upload photos from your device or take a picture if your phone supports it.</p>
+
+                <button class="postad-submit" id="postAdSubmit">Post Ad</button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Auth Modals (Copied structure for consistency, logic handled by app.js/index.html shared code? No, need to duplicate modal HTML or inject it) -->
+    <!-- For simplicity, I will include the auth modals here too so login works on this page -->
+    <div class="auth-backdrop" id="loginBackdrop">
+        <div class="auth-modal">
+            <div class="auth-header">
+                <h2>Login</h2>
+                <button class="auth-close" id="loginClose">&times;</button>
+            </div>
+            <div class="auth-body">
+                <label for="loginEmail">Email or Phone</label>
+                <input id="loginEmail" type="text" placeholder="you@example.com" />
+                <label for="loginPassword">Password</label>
+                <input id="loginPassword" type="password" placeholder="Enter your password" />
+                <button class="auth-submit" id="loginSubmit">Login</button>
+                <div class="auth-actions">
+                    <span>New here? <span id="goToSignup" class="auth-link">Create an account</span></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="auth-backdrop" id="signupBackdrop">
+        <div class="auth-modal">
+            <div class="auth-header">
+                <h2>Sign up</h2>
+                <button class="auth-close" id="signupClose">&times;</button>
+            </div>
+            <div class="auth-body">
+                <label for="signupName">Full name</label>
+                <input id="signupName" type="text" placeholder="Your name" />
+                <label for="signupEmail">Email</label>
+                <input id="signupEmail" type="email" placeholder="you@example.com" />
+                <div class="field-group">
+                    <label for="signupPassword">Password</label>
+                    <input id="signupPassword" type="password" placeholder="Create a password" />
+                </div>
+                <button class="auth-submit" id="signupSubmit">Create account</button>
+                <div class="auth-actions">
+                    <span>Already have an account? <span id="goToLogin" class="auth-link">Login</span></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { supabaseClient, getSession } from './app.js';
+
+        // Auth Modal Logic (Duplicated from index.html for now, ideally should be in app.js but DOM elements differ)
+        // I'll add a simple script here to handle modals
+        const loginBtn = document.getElementById("loginBtn");
+        const signupBtn = document.getElementById("signupBtn");
+        const loginBackdrop = document.getElementById("loginBackdrop");
+        const signupBackdrop = document.getElementById("signupBackdrop");
+        const loginClose = document.getElementById("loginClose");
+        const signupClose = document.getElementById("signupClose");
+        const goToSignup = document.getElementById("goToSignup");
+        const goToLogin = document.getElementById("goToLogin");
+
+        if(loginBtn) loginBtn.addEventListener("click", () => loginBackdrop.style.display = "flex");
+        if(signupBtn) signupBtn.addEventListener("click", () => signupBackdrop.style.display = "flex");
+        if(loginClose) loginClose.addEventListener("click", () => loginBackdrop.style.display = "none");
+        if(signupClose) signupClose.addEventListener("click", () => signupBackdrop.style.display = "none");
+        
+        if(goToSignup) goToSignup.addEventListener("click", () => {
+            loginBackdrop.style.display = "none";
+            signupBackdrop.style.display = "flex";
+        });
+        if(goToLogin) goToLogin.addEventListener("click", () => {
+            signupBackdrop.style.display = "none";
+            loginBackdrop.style.display = "flex";
+        });
+
+        // Auth Submit Logic
+        import { signIn, signUp } from './app.js';
+
+        document.getElementById("loginSubmit").addEventListener("click", async () => {
+            const email = document.getElementById("loginEmail").value;
+            const password = document.getElementById("loginPassword").value;
+            const { error } = await signIn(email, password);
+            if (error) alert("Login failed: " + error.message);
+            else {
+                loginBackdrop.style.display = "none";
+                // UI updates automatically via onAuthStateChange in app.js
+            }
+        });
+
+        document.getElementById("signupSubmit").addEventListener("click", async () => {
+            const email = document.getElementById("signupEmail").value;
+            const password = document.getElementById("signupPassword").value;
+            const name = document.getElementById("signupName").value;
+            const { error } = await signUp(email, password, name);
+            if (error) alert("Signup failed: " + error.message);
+            else {
+                alert("Account created! Please check your email to verify.");
+                signupBackdrop.style.display = "none";
+            }
+        });
+
+        // Post Ad Logic
+        const postAdSubmit = document.getElementById("postAdSubmit");
+        
+        // Auto-fill seller info if logged in
+        getSession().then(session => {
+            if (session && session.user) {
+                const email = session.user.email;
+                const meta = session.user.user_metadata;
+                if (meta && meta.full_name) document.getElementById("postSellerName").value = meta.full_name;
+                document.getElementById("postContact").value = email;
+            }
+        });
+
+        postAdSubmit.addEventListener("click", async () => {
+            const category = document.getElementById("postCategory").value.trim();
+            const title = document.getElementById("postTitle").value.trim();
+            const description = document.getElementById("postDescription").value.trim();
+            const price = document.getElementById("postPrice").value.trim();
+            const location = document.getElementById("postLocation").value.trim();
+            const sellerName = document.getElementById("postSellerName").value.trim();
+            const contact = document.getElementById("postContact").value.trim();
+            const imageUrlInput = document.getElementById("postImageUrl").value.trim();
+            const imageFileInput = document.getElementById("postImageFiles");
+            const imageFile = imageFileInput ? imageFileInput.files[0] : null;
+
+            if (!category || !title || !description || !location) {
+                alert("Please fill in at least category, title, description, and location.");
+                return;
+            }
+
+            let finalImageUrl = imageUrlInput || "";
+
+            if (imageFile) {
+                const fileExt = imageFile.name.split(".").pop();
+                const fileName = `${Date.now()}-${Math.random().toString(36).slice(2)}.${fileExt}`;
+                const filePath = `ads/${fileName}`;
+                const { data: storageData, error: storageError } = await supabaseClient
+                    .storage
+                    .from("ad-images")
+                    .upload(filePath, imageFile);
+
+                if (storageError) {
+                    console.error("Error uploading image:", storageError);
+                    if (storageError.message.includes("row-level security")) {
+                        alert("Upload failed: Database permissions missing.\n\nPlease run the 'supabase_setup.sql' script in your Supabase Dashboard.");
+                    } else {
+                        alert("Failed to upload image: " + storageError.message);
+                    }
+                    return;
+                }
+                const { data: publicUrlData } = supabaseClient
+                    .storage
+                    .from("ad-images")
+                    .getPublicUrl(filePath);
+                finalImageUrl = publicUrlData.publicUrl;
+            }
+
+            const { data, error } = await supabaseClient
+                .from("ads")
+                .insert({
+                    title,
+                    description,
+                    category,
+                    price: price ? Number(price) : null,
+                    location,
+                    // province: ... (simplified for this page, or add province select)
+                    seller_name: sellerName || null,
+                    contact: contact || null,
+                    image_url: finalImageUrl || null
+                })
+                .select()
+                .single();
+
+            if (error) {
+                console.error("Error inserting ad:", error);
+                if (error.message.includes("row-level security")) {
+                    alert("Post failed: Database permissions missing.\n\nPlease run the 'supabase_setup.sql' script in your Supabase Dashboard.");
+                } else {
+                    alert("Could not save your ad: " + error.message);
+                }
+                return;
+            }
+
+            alert("Your ad has been posted! Redirecting to home...");
+            window.location.href = "index.html";
+        });
+    </script>
+</body>
+</html>
