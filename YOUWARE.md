@@ -12,6 +12,7 @@ The application is split into pages sharing common logic and styles:
 - **Pages**:
   - `index.html`: Home page for browsing, searching, and viewing ads.
   - `post-ad.html`: Dedicated page for creating new ads.
+  - `ad-details.html`: Detailed view of a specific ad with buying options.
 - **Shared Resources**:
   - `styles.css`: Global styles and responsive layout.
   - `app.js`: Supabase client initialization, Authentication logic, and shared UI helpers.
@@ -27,7 +28,8 @@ The application is split into pages sharing common logic and styles:
   - Usage: Stores user-uploaded ad images.
 - **Authentication**:
   - Provider: Email/Password.
-  - Logic: Handled in `app.js` (signUp, signIn, signOut).
+  - Logic: Handled in `app.js` (signUp, signIn, signOut, resetPassword).
+  - User Metadata: Stores Name, Surname, Address, Phone, Role (Buyer/Seller), Bank Details.
 
 ## Development
 - **Running**: Serve the root directory using a local server (e.g., `vite` or `python -m http.server`).
