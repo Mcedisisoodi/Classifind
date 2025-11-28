@@ -267,17 +267,27 @@
                 console.error("Error fetching ads from Supabase:", error);
                 return;
             }
-            ads = (data || []).map(row => ({
-                id: row.id,
-                title: row.title,
-                price: row.price || 0,
-                category: row.category,
-                location: row.location,
-                img: row.image_url || "",
-                description: row.description,
-                seller: row.seller_name || (row.contact ? row.contact : "Private seller"),
-                postedAt: row.created_at ? row.created_at.slice(0, 10) : ""
-            }));
+            ads = (data || []).map(row => {
+                // Determine primary image: use first from 'images' array if available, else fallback to 'image_url'
+                let primaryImg = "";
+                if (row.images && Array.isArray(row.images) && row.images.length > 0) {
+                    primaryImg = row.images[0];
+                } else {
+                    primaryImg = row.image_url || "";
+                }
+
+                return {
+                    id: row.id,
+                    title: row.title,
+                    price: row.price || 0,
+                    category: row.category,
+                    location: row.location,
+                    img: primaryImg,
+                    description: row.description,
+                    seller: row.seller_name || (row.contact ? row.contact : "Private seller"),
+                    postedAt: row.created_at ? row.created_at.slice(0, 10) : ""
+                };
+            });
             applyFilters();
         }
 
