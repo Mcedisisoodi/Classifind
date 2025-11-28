@@ -133,7 +133,7 @@
             container.innerHTML = `
                 <div class="ad-slideshow-container">
                     <div class="ad-slideshow-viewport" id="mainSlideWrapper">
-                        <div class="ad-slideshow-image" id="mainSlide" style="background-image: url('${images[0]}')"></div>
+                        <img class="ad-slideshow-image" id="mainSlide" src="${images[0]}" alt="Ad Image" draggable="false" />
                         
                         <!-- Controls Overlay -->
                         <div class="slideshow-controls">
@@ -215,7 +215,7 @@
                 translateY = 0;
                 updateTransform();
 
-                mainSlide.style.backgroundImage = `url('${images[currentIndex]}')`;
+                mainSlide.src = images[currentIndex];
                 
                 // Update thumbs
                 if (thumbs.length > 0) {
