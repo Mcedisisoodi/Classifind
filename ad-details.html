@@ -133,7 +133,11 @@
             container.innerHTML = `
                 <div class="ad-slideshow-container">
                     <div class="ad-slideshow-main" id="mainSlide" style="background-image: url('${images[0]}')">
-                        ${images.length > 1 ? '<div class="slide-hint">Click to see next photo</div>' : ''}
+                        ${images.length > 1 ? `
+                            <button class="slideshow-arrow prev" id="prevSlide">&#10094;</button>
+                            <button class="slideshow-arrow next" id="nextSlide">&#10095;</button>
+                            <div class="slide-hint">Click image or arrows to view</div>
+                        ` : ''}
                     </div>
                     ${images.length > 1 ? `
                     <div class="ad-thumbnails" id="thumbnailContainer">
@@ -168,6 +172,8 @@
                 let currentIndex = 0;
                 const mainSlide = document.getElementById("mainSlide");
                 const thumbs = document.querySelectorAll(".ad-thumb");
+                const prevBtn = document.getElementById("prevSlide");
+                const nextBtn = document.getElementById("nextSlide");
 
                 function showSlide(index) {
                     currentIndex = index;
@@ -181,9 +187,27 @@
                     if (thumbs[currentIndex]) thumbs[currentIndex].classList.add("active");
                 }
 
-                mainSlide.addEventListener("click", () => {
-                    showSlide(currentIndex + 1);
+                // Click on main slide advances (optional, kept for convenience)
+                mainSlide.addEventListener("click", (e) => {
+                    // Only advance if not clicking arrows
+                    if (!e.target.classList.contains('slideshow-arrow')) {
+                        showSlide(currentIndex + 1);
+                    }
                 });
+
+                if (prevBtn) {
+                    prevBtn.addEventListener("click", (e) => {
+                        e.stopPropagation();
+                        showSlide(currentIndex - 1);
+                    });
+                }
+
+                if (nextBtn) {
+                    nextBtn.addEventListener("click", (e) => {
+                        e.stopPropagation();
+                        showSlide(currentIndex + 1);
+                    });
+                }
 
                 thumbs.forEach(thumb => {
                     thumb.addEventListener("click", (e) => {
