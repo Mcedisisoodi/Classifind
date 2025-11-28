@@ -116,11 +116,34 @@
             }
 
             const imgUrl = ad.image_url || PLACEHOLDER_IMG;
+            
+            // Prepare images array
+            let images = [];
+            if (ad.images && Array.isArray(ad.images) && ad.images.length > 0) {
+                images = ad.images;
+            } else if (ad.image_url) {
+                images = [ad.image_url];
+            } else {
+                images = [PLACEHOLDER_IMG];
+            }
+
             const price = ad.price > 0 ? "R " + Number(ad.price).toLocaleString() : "Price on request";
             const postedDate = ad.created_at ? new Date(ad.created_at).toLocaleDateString() : "Unknown date";
 
             container.innerHTML = `
-                <div class="ad-details-img" style="background-image: url('${imgUrl}')"></div>
+                <div class="ad-slideshow-container">
+                    <div class="ad-slideshow-main" id="mainSlide" style="background-image: url('${images[0]}')">
+                        ${images.length > 1 ? '<div class="slide-hint">Click to see next photo</div>' : ''}
+                    </div>
+                    ${images.length > 1 ? `
+                    <div class="ad-thumbnails" id="thumbnailContainer">
+                        ${images.map((img, idx) => `
+                            <div class="ad-thumb ${idx === 0 ? 'active' : ''}" data-index="${idx}" style="background-image: url('${img}')"></div>
+                        `).join('')}
+                    </div>
+                    ` : ''}
+                </div>
+
                 <div class="ad-details-info">
                     <h1>${ad.title}</h1>
                     <div class="ad-details-price">${price}</div>
@@ -139,6 +162,37 @@
                     </div>
                 </div>
             `;
+
+            // Slideshow Logic
+            if (images.length > 1) {
+                let currentIndex = 0;
+                const mainSlide = document.getElementById("mainSlide");
+                const thumbs = document.querySelectorAll(".ad-thumb");
+
+                function showSlide(index) {
+                    currentIndex = index;
+                    if (currentIndex >= images.length) currentIndex = 0;
+                    if (currentIndex < 0) currentIndex = images.length - 1;
+
+                    mainSlide.style.backgroundImage = `url('${images[currentIndex]}')`;
+                    
+                    // Update thumbs
+                    thumbs.forEach(t => t.classList.remove("active"));
+                    if (thumbs[currentIndex]) thumbs[currentIndex].classList.add("active");
+                }
+
+                mainSlide.addEventListener("click", () => {
+                    showSlide(currentIndex + 1);
+                });
+
+                thumbs.forEach(thumb => {
+                    thumb.addEventListener("click", (e) => {
+                        e.stopPropagation(); // Prevent bubbling if nested
+                        const idx = parseInt(thumb.dataset.index);
+                        showSlide(idx);
+                    });
+                });
+            }
         }
 
         loadAd();
@@ -158,13 +212,21 @@
         const bankDetailsSection = document.getElementById("bankDetailsSection");
 
         if(loginBtn) loginBtn.addEventListener("click", () => loginBackdrop.style.display = "flex");
-        if(signupBtn) signupBtn.addEventListener("click", () => signupBackdrop.style.display = "flex");
+                if(signupBtn) signupBtn.addEventListener("click", () => {
+            signupBackdrop.style.display = "flex";
+            // Reset form state
+            if(signupRole) signupRole.value = "buyer";
+            if(bankDetailsSection) bankDetailsSection.classList.add("hidden");
+        });
         if(loginClose) loginClose.addEventListener("click", () => loginBackdrop.style.display = "none");
         if(signupClose) signupClose.addEventListener("click", () => signupBackdrop.style.display = "none");
         
         if(goToSignup) goToSignup.addEventListener("click", () => {
             loginBackdrop.style.display = "none";
             signupBackdrop.style.display = "flex";
+            // Reset form state
+            if(signupRole) signupRole.value = "buyer";
+            if(bankDetailsSection) bankDetailsSection.classList.add("hidden");
         });
         if(goToLogin) goToLogin.addEventListener("click", () => {
             signupBackdrop.style.display = "none";
