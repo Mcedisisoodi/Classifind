@@ -132,13 +132,25 @@
 
             container.innerHTML = `
                 <div class="ad-slideshow-container">
-                    <div class="ad-slideshow-main" id="mainSlide" style="background-image: url('${images[0]}')">
-                        ${images.length > 1 ? `
-                            <button class="slideshow-arrow prev" id="prevSlide">&#10094;</button>
-                            <button class="slideshow-arrow next" id="nextSlide">&#10095;</button>
-                            <div class="slide-hint">Click image or arrows to view</div>
-                        ` : ''}
+                    <div class="ad-slideshow-viewport" id="mainSlideWrapper">
+                        <div class="ad-slideshow-image" id="mainSlide" style="background-image: url('${images[0]}')"></div>
+                        
+                        <!-- Controls Overlay -->
+                        <div class="slideshow-controls">
+                            ${images.length > 1 ? `
+                                <button class="slideshow-arrow prev" id="prevSlide">&#10094;</button>
+                                <button class="slideshow-arrow next" id="nextSlide">&#10095;</button>
+                            ` : ''}
+                            
+                            <div class="zoom-controls">
+                                <button class="zoom-btn" id="zoomIn" title="Zoom In">+</button>
+                                <button class="zoom-btn" id="zoomOut" title="Zoom Out">-</button>
+                            </div>
+                        </div>
+                        
+                        <div class="slide-hint">Click arrows to navigate • Use +/- to zoom</div>
                     </div>
+
                     ${images.length > 1 ? `
                     <div class="ad-thumbnails" id="thumbnailContainer">
                         ${images.map((img, idx) => `
@@ -168,55 +180,93 @@
             `;
 
             // Slideshow Logic
-            if (images.length > 1) {
-                let currentIndex = 0;
-                const mainSlide = document.getElementById("mainSlide");
-                const thumbs = document.querySelectorAll(".ad-thumb");
-                const prevBtn = document.getElementById("prevSlide");
-                const nextBtn = document.getElementById("nextSlide");
+            let currentIndex = 0;
+            let currentZoom = 1;
+            const mainSlide = document.getElementById("mainSlide");
+            const thumbs = document.querySelectorAll(".ad-thumb");
+            const prevBtn = document.getElementById("prevSlide");
+            const nextBtn = document.getElementById("nextSlide");
+            const zoomInBtn = document.getElementById("zoomIn");
+            const zoomOutBtn = document.getElementById("zoomOut");
 
-                function showSlide(index) {
-                    currentIndex = index;
-                    if (currentIndex >= images.length) currentIndex = 0;
-                    if (currentIndex < 0) currentIndex = images.length - 1;
+            function updateZoom() {
+                mainSlide.style.transform = `scale(${currentZoom})`;
+                // Reset cursor if zoomed out, set to grab if zoomed in (optional, for future drag support)
+                mainSlide.style.cursor = currentZoom > 1 ? "grab" : "default";
+            }
 
-                    mainSlide.style.backgroundImage = `url('${images[currentIndex]}')`;
-                    
-                    // Update thumbs
+            function showSlide(index) {
+                currentIndex = index;
+                if (currentIndex >= images.length) currentIndex = 0;
+                if (currentIndex < 0) currentIndex = images.length - 1;
+
+                // Reset zoom when changing slide
+                currentZoom = 1;
+                updateZoom();
+
+                mainSlide.style.backgroundImage = `url('${images[currentIndex]}')`;
+                
+                // Update thumbs
+                if (thumbs.length > 0) {
                     thumbs.forEach(t => t.classList.remove("active"));
                     if (thumbs[currentIndex]) thumbs[currentIndex].classList.add("active");
                 }
+            }
 
-                // Click on main slide advances (optional, kept for convenience)
-                mainSlide.addEventListener("click", (e) => {
-                    // Only advance if not clicking arrows
-                    if (!e.target.classList.contains('slideshow-arrow')) {
-                        showSlide(currentIndex + 1);
+            if (zoomInBtn) {
+                zoomInBtn.addEventListener("click", (e) => {
+                    e.stopPropagation();
+                    if (currentZoom < 3) {
+                        currentZoom += 0.5;
+                        updateZoom();
                     }
                 });
+            }
 
-                if (prevBtn) {
-                    prevBtn.addEventListener("click", (e) => {
-                        e.stopPropagation();
-                        showSlide(currentIndex - 1);
-                    });
-                }
+            if (zoomOutBtn) {
+                zoomOutBtn.addEventListener("click", (e) => {
+                    e.stopPropagation();
+                    if (currentZoom > 1) {
+                        currentZoom -= 0.5;
+                        updateZoom();
+                    }
+                });
+            }
 
-                if (nextBtn) {
-                    nextBtn.addEventListener("click", (e) => {
-                        e.stopPropagation();
-                        showSlide(currentIndex + 1);
-                    });
-                }
+            if (prevBtn) {
+                prevBtn.addEventListener("click", (e) => {
+                    e.stopPropagation();
+                    showSlide(currentIndex - 1);
+                });
+            }
 
+            if (nextBtn) {
+                nextBtn.addEventListener("click", (e) => {
+                    e.stopPropagation();
+                    showSlide(currentIndex + 1);
+                });
+            }
+
+            if (thumbs.length > 0) {
                 thumbs.forEach(thumb => {
                     thumb.addEventListener("click", (e) => {
-                        e.stopPropagation(); // Prevent bubbling if nested
+                        e.stopPropagation();
                         const idx = parseInt(thumb.dataset.index);
                         showSlide(idx);
                     });
                 });
             }
+            
+            // Optional: Simple Pan Logic for Zoomed Image
+            let isDragging = false;
+            let startX, startY, initialLeft, initialTop;
+            
+            // We need to set position relative/absolute for top/left to work if we want to move it
+            // But transform translate is better. Let's stick to simple center zoom for now as requested.
+            // Adding full pan support requires tracking translate X/Y state alongside scale.
+            
+            // Let's add basic mouse move pan support if requested later, 
+            // for now "zoom in and out" is the requirement.
         }
 
         loadAd();
