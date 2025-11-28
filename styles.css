@@ -162,17 +162,50 @@ font-size: 0.75rem;
 color: #888;
 margin-top: 4px;
 }
-.filters {
-display: flex;
-flex-wrap: wrap;
-gap: 8px;
-margin: 8px 0 16px;
+.filters-container {
+    background: #fff;
+    padding: 12px;
+    border-radius: 8px;
+    margin: 8px 0 16px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08);
 }
-.filters select {
-padding: 6px 10px;
-border-radius: 6px;
-border: 1px solid #ccc;
-font-size: 0.85rem;
+.filters-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 10px;
+    align-items: center;
+}
+.filters-row:last-child {
+    margin-bottom: 0;
+}
+.filters-row select, .filters-row input {
+    padding: 8px 10px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 0.85rem;
+}
+.price-range {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.85rem;
+    color: #555;
+}
+.price-range input {
+    width: 80px;
+}
+.verified-toggle {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    user-select: none;
+}
+.verified-toggle input {
+    width: auto;
+    cursor: pointer;
 }
 footer {
 margin-top: 32px;
