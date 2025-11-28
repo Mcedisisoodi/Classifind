@@ -546,6 +546,32 @@ margin-top: 4px;
     cursor: pointer;
     position: relative;
     transition: background-image 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.slideshow-arrow {
+    background: rgba(0,0,0,0.4);
+    color: #fff;
+    border: none;
+    font-size: 2rem;
+    padding: 10px 15px;
+    cursor: pointer;
+    user-select: none;
+    transition: background 0.2s;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.slideshow-arrow:hover {
+    background: rgba(0,0,0,0.7);
+}
+.slideshow-arrow.prev {
+    border-radius: 8px 0 0 8px;
+}
+.slideshow-arrow.next {
+    border-radius: 0 8px 8px 0;
 }
 .slide-hint {
     position: absolute;
