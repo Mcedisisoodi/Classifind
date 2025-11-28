@@ -43,6 +43,13 @@
                 <label for="postPrice">Price (R)</label>
                 <input id="postPrice" type="number" min="0" placeholder="e.g. 145000" />
 
+                <label for="postCondition">Condition</label>
+                <select id="postCondition">
+                    <option value="New">New</option>
+                    <option value="Used" selected>Used</option>
+                    <option value="Needs Repair">Needs Repair</option>
+                </select>
+
                 <label for="postLocation">Location (Town / City)</label>
                 <input id="postLocation" type="text" placeholder="e.g. Klerksdorp, Johannesburg, Cape Town" />
 
@@ -294,6 +301,7 @@
             const title = document.getElementById("postTitle").value.trim();
             const description = document.getElementById("postDescription").value.trim();
             const price = document.getElementById("postPrice").value.trim();
+            const condition = document.getElementById("postCondition").value;
             const location = document.getElementById("postLocation").value.trim();
             const sellerName = document.getElementById("postSellerName").value.trim();
             const contact = document.getElementById("postContact").value.trim();
@@ -363,6 +371,7 @@
                     description,
                     category,
                     price: price ? Number(price) : null,
+                    condition,
                     location,
                     seller_name: sellerName || null,
                     contact: contact || null,
