@@ -476,6 +476,52 @@ margin-top: 4px;
     border-radius: 10px 10px 0 0;
 }
 
+/* Image Preview Grid */
+.image-preview-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+    gap: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+.preview-card {
+    position: relative;
+    width: 100%;
+    padding-top: 100%; /* 1:1 Aspect Ratio */
+    border-radius: 6px;
+    overflow: hidden;
+    border: 1px solid #ddd;
+    background: #f9f9f9;
+}
+.preview-card img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.preview-remove {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    background: rgba(0,0,0,0.6);
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    font-size: 14px;
+    line-height: 1;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.preview-remove:hover {
+    background: rgba(200,0,0,0.8);
+}
+
 /* Ad Details Page */
 .ad-details-container {
     max-width: 800px;
@@ -486,15 +532,59 @@ margin-top: 4px;
     overflow: hidden;
     padding: 20px;
 }
-.ad-details-img {
-    width: 100%;
-    height: 400px;
-    background-size: cover;
-    background-position: center;
-    border-radius: 8px;
-    background-color: #eee;
+.ad-slideshow-container {
     margin-bottom: 20px;
 }
+.ad-slideshow-main {
+    width: 100%;
+    height: 400px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    border-radius: 8px;
+    background-color: #000;
+    cursor: pointer;
+    position: relative;
+    transition: background-image 0.3s ease;
+}
+.slide-hint {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    background: rgba(0,0,0,0.5);
+    color: #fff;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    pointer-events: none;
+}
+.ad-thumbnails {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+    overflow-x: auto;
+    padding-bottom: 5px;
+}
+.ad-thumb {
+    width: 60px;
+    height: 60px;
+    flex-shrink: 0;
+    background-size: cover;
+    background-position: center;
+    border-radius: 4px;
+    cursor: pointer;
+    opacity: 0.6;
+    border: 2px solid transparent;
+    transition: all 0.2s;
+}
+.ad-thumb:hover {
+    opacity: 1;
+}
+.ad-thumb.active {
+    opacity: 1;
+    border-color: #002f34;
+}
+
 .ad-details-info h1 {
     font-size: 1.8rem;
     margin-bottom: 10px;
