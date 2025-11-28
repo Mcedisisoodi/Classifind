@@ -249,9 +249,15 @@
                 const card = document.createElement("article");
                 card.className = "ad-card";
                 card.dataset.id = ad.id;
+                
                 const imgDiv = document.createElement("div");
                 imgDiv.className = "ad-image";
-                imgDiv.style.backgroundImage = `url('${ad.img || PLACEHOLDER_IMG}')`;
+                // Use img tag for better object-fit control
+                const img = document.createElement("img");
+                img.src = ad.img || PLACEHOLDER_IMG;
+                img.loading = "lazy";
+                imgDiv.appendChild(img);
+
                 const body = document.createElement("div");
                 body.className = "ad-body";
                 const price = document.createElement("div");
