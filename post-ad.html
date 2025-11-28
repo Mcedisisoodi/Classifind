@@ -62,8 +62,17 @@
                 <label for="postImageUrl">Image URL (optional)</label>
                 <input id="postImageUrl" type="url" placeholder="Paste an image link (jpg, png...)" />
 
-                <label for="postImageFiles">Upload images</label>
-                <input id="postImageFiles" type="file" accept="image/*" multiple />
+                <label>Upload images</label>
+                <div class="upload-buttons-row">
+                    <label class="btn-upload-custom">
+                        <span>🖼️ Gallery</span>
+                        <input id="postImageFiles" type="file" accept="image/*" multiple hidden />
+                    </label>
+                    <label class="btn-upload-custom">
+                        <span>📷 Camera</span>
+                        <input id="postCameraInput" type="file" accept="image/*" capture="environment" hidden />
+                    </label>
+                </div>
                 <div id="imagePreviewContainer" class="image-preview-grid"></div>
                 <p class="postad-note">You can upload multiple photos. The first one will be the main cover image.</p>
 
@@ -239,20 +248,28 @@
         // Post Ad Logic
         const postAdSubmit = document.getElementById("postAdSubmit");
         const imageFileInput = document.getElementById("postImageFiles");
+        const cameraInput = document.getElementById("postCameraInput");
         const imagePreviewContainer = document.getElementById("imagePreviewContainer");
         let selectedFiles = [];
 
-        // Handle file selection and preview
+        function handleFiles(files) {
+            if (files.length > 0) {
+                selectedFiles = [...selectedFiles, ...files];
+                updateImagePreviews();
+            }
+        }
+
         if (imageFileInput) {
             imageFileInput.addEventListener("change", (e) => {
-                const files = Array.from(e.target.files);
-                if (files.length > 0) {
-                    // Append new files to our selection
-                    selectedFiles = [...selectedFiles, ...files];
-                    updateImagePreviews();
-                }
-                // Reset input so same files can be selected again if needed (though we handle dupes via array usually, but simple is fine)
+                handleFiles(Array.from(e.target.files));
                 imageFileInput.value = ""; 
+            });
+        }
+
+        if (cameraInput) {
+            cameraInput.addEventListener("change", (e) => {
+                handleFiles(Array.from(e.target.files));
+                cameraInput.value = ""; 
             });
         }
 
