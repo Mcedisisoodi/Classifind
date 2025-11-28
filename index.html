@@ -49,22 +49,42 @@
             <div class="category-card" data-category="Other"><div class="category-icon">📦</div>Other</div>
         </section>
         <h2 class="section-title">All ads</h2>
-        <div class="filters">
-            <select id="filterCategory">
-                <option value="">Category: All</option>
-                <option value="Cars">Cars</option>
-                <option value="Phones">Phones & Tablets</option>
-                <option value="Property">Property</option>
-                <option value="Electronics">Electronics</option>
-                <option value="Fashion & Beauty">Fashion & Beauty</option>
-                <option value="Jobs">Jobs</option>
-                <option value="Other">Other</option>
-            </select>
-            <select id="filterSort">
-                <option value="newest">Sort: Newest</option>
-                <option value="priceLow">Price: Low to High</option>
-                <option value="priceHigh">Price: High to Low</option>
-            </select>
+        <div class="filters-container">
+            <div class="filters-row">
+                <select id="filterCategory">
+                    <option value="">Category: All</option>
+                    <option value="Cars">Cars</option>
+                    <option value="Phones">Phones & Tablets</option>
+                    <option value="Property">Property</option>
+                    <option value="Electronics">Electronics</option>
+                    <option value="Fashion & Beauty">Fashion & Beauty</option>
+                    <option value="Jobs">Jobs</option>
+                    <option value="Other">Other</option>
+                </select>
+                <select id="filterSort">
+                    <option value="newest">Sort: Newest</option>
+                    <option value="priceLow">Price: Low to High</option>
+                    <option value="priceHigh">Price: High to Low</option>
+                </select>
+                <select id="filterCondition">
+                    <option value="">Condition: All</option>
+                    <option value="New">New</option>
+                    <option value="Used">Used</option>
+                    <option value="Needs Repair">Needs Repair</option>
+                </select>
+            </div>
+            <div class="filters-row">
+                <div class="price-range">
+                    <span>Price:</span>
+                    <input type="number" id="priceMin" placeholder="Min" min="0">
+                    <span>-</span>
+                    <input type="number" id="priceMax" placeholder="Max" min="0">
+                </div>
+                <label class="verified-toggle">
+                    <input type="checkbox" id="filterVerified">
+                    <span>Verified Only</span>
+                </label>
+            </div>
         </div>
         <section class="ads-grid" id="adsGrid"></section>
         <footer>
@@ -175,6 +195,10 @@
         const adsGrid = document.getElementById("adsGrid");
         const filterCategory = document.getElementById("filterCategory");
         const filterSort = document.getElementById("filterSort");
+        const filterCondition = document.getElementById("filterCondition");
+        const filterVerified = document.getElementById("filterVerified");
+        const priceMin = document.getElementById("priceMin");
+        const priceMax = document.getElementById("priceMax");
         const searchText = document.getElementById("searchText");
         const searchLocation = document.getElementById("searchLocation");
         const provinceSelect = document.getElementById("provinceSelect");
@@ -281,6 +305,8 @@
                     title: row.title,
                     price: row.price || 0,
                     category: row.category,
+                    condition: row.condition || "Used",
+                    verified: row.verified || false,
                     location: row.location,
                     img: primaryImg,
                     description: row.description,
@@ -293,6 +319,8 @@
 
         function applyFilters() {
             let list = [...ads];
+            
+            // Text Search
             const text = searchText.value.trim().toLowerCase();
             if (text) {
                 list = list.filter(ad =>
@@ -300,21 +328,50 @@
                     ad.description.toLowerCase().includes(text)
                 );
             }
+
+            // Location Filter (Case Insensitive Fix)
             const province = provinceSelect.value;
-            const loc = searchLocation.value;
+            const loc = searchLocation.value.toLowerCase();
+            
             if (province && province !== "All provinces") {
                 list = list.filter(ad => {
-                    const towns = provinceAreas[province] || [];
-                    return towns.includes(ad.location) || ad.location.toLowerCase().includes(province.toLowerCase());
+                    const adLoc = ad.location.toLowerCase();
+                    const towns = (provinceAreas[province] || []).map(t => t.toLowerCase());
+                    return towns.includes(adLoc) || adLoc.includes(province.toLowerCase());
                 });
             }
+            
             if (loc) {
-                list = list.filter(ad => ad.location === loc);
+                list = list.filter(ad => ad.location.toLowerCase() === loc);
             }
+
+            // Category Filter
             const cat = filterCategory.value;
             if (cat) {
                 list = list.filter(ad => ad.category === cat);
             }
+
+            // Condition Filter
+            const cond = filterCondition.value;
+            if (cond) {
+                list = list.filter(ad => ad.condition === cond);
+            }
+
+            // Verified Filter
+            if (filterVerified.checked) {
+                list = list.filter(ad => ad.verified === true);
+            }
+
+            // Price Range Filter
+            const min = priceMin.value ? Number(priceMin.value) : 0;
+            const max = priceMax.value ? Number(priceMax.value) : Infinity;
+            
+            list = list.filter(ad => {
+                const p = ad.price || 0;
+                return p >= min && p <= max;
+            });
+
+            // Sorting
             const sort = filterSort.value;
             if (sort === "priceLow") {
                 list.sort((a, b) => (a.price || 0) - (b.price || 0));
@@ -329,6 +386,10 @@
         document.getElementById("searchBtn").addEventListener("click", applyFilters);
         filterCategory.addEventListener("change", applyFilters);
         filterSort.addEventListener("change", applyFilters);
+        filterCondition.addEventListener("change", applyFilters);
+        filterVerified.addEventListener("change", applyFilters);
+        priceMin.addEventListener("input", applyFilters);
+        priceMax.addEventListener("input", applyFilters);
         searchLocation.addEventListener("change", applyFilters);
         searchText.addEventListener("keyup", (e) => {
             if (e.key === "Enter") applyFilters();
