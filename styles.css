@@ -551,8 +551,10 @@ margin-top: 4px;
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
-    transition: transform 0.3s ease; /* Smooth zoom */
+    transition: transform 0.1s ease-out; /* Faster for dragging */
     transform-origin: center center;
+    touch-action: none; /* Prevent scrolling on mobile when dragging */
+    user-select: none;
 }
 
 .slideshow-controls {
