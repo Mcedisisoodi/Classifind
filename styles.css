@@ -209,8 +209,8 @@ main {
 }
 
 .category-icon-img {
-    width: 130px;
-    height: 130px;
+    width: 125px;
+    height: 125px;
     object-fit: contain;
     margin-bottom: 8px;
     display: block;
