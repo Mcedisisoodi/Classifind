@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>ClassiFind – Local Classifieds</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script type="module" crossorigin src="/assets/index-ClP95LN7.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/index-CjtHtwbf.css">
+</head>
+<body>
+    <header>
+        <div class="logo">Classi<span>Find</span></div>
+        <div class="header-actions">
+            <button class="btn" id="loginBtn">Login</button>
+            <button class="btn" id="signupBtn">Sign up</button>
+            <a href="post-ad.html" class="btn primary" id="postAdBtn" style="text-decoration:none;">+ Post Ad</a>
+        </div>
+    </header>
+    <main>
+        <section class="search-section">
+            <div class="search-row">
+                <input id="searchText" type="text" placeholder="Find cars, phones, property..." />
+                <select id="provinceSelect">
+                    <option value="All provinces">All provinces</option>
+                    <option value="Gauteng">Gauteng</option>
+                    <option value="Western Cape">Western Cape</option>
+                    <option value="KwaZulu-Natal">KwaZulu-Natal</option>
+                    <option value="Eastern Cape">Eastern Cape</option>
+                    <option value="Free State">Free State</option>
+                    <option value="North West">North West</option>
+                    <option value="Limpopo">Limpopo</option>
+                    <option value="Mpumalanga">Mpumalanga</option>
+                    <option value="Northern Cape">Northern Cape</option>
+                </select>
+                <select id="searchLocation">
+                    <option value="">Select Town / City</option>
+                </select>
+                <button id="searchBtn">Search</button>
+            </div>
+        </section>
+        <h2 class="section-title">Browse by category</h2>
+        <section class="categories" id="categoryList">
+            <div class="category-card" data-category="Cars"><img src="/categories/cars.png" alt="Cars" class="category-icon-img">Cars</div>
+            <div class="category-card" data-category="Phones"><img src="/categories/phones.png" alt="Phones" class="category-icon-img">Phones & Tablets</div>
+            <div class="category-card" data-category="Property"><img src="/categories/property.png" alt="Property" class="category-icon-img">Property</div>
+            <div class="category-card" data-category="Electronics"><img src="/categories/electronics.png" alt="Electronics" class="category-icon-img">Electronics</div>
+            <div class="category-card" data-category="Fashion & Beauty"><img src="/categories/fashion.png" alt="Fashion" class="category-icon-img">Fashion & Beauty</div>
+            <div class="category-card" data-category="Jobs"><img src="/categories/jobs.png" alt="Jobs" class="category-icon-img">Jobs</div>
+            <div class="category-card" data-category="Other"><img src="/categories/other.png" alt="Other" class="category-icon-img">Other</div>
+        </section>
+        <h2 class="section-title">All ads</h2>
+        <div class="filters-container">
+            <div class="filters-row">
+                <select id="filterCategory">
+                    <option value="">Category: All</option>
+                    <option value="Cars">Cars</option>
+                    <option value="Phones">Phones & Tablets</option>
+                    <option value="Property">Property</option>
+                    <option value="Electronics">Electronics</option>
+                    <option value="Fashion & Beauty">Fashion & Beauty</option>
+                    <option value="Jobs">Jobs</option>
+                    <option value="Other">Other</option>
+                </select>
+                <select id="filterSort">
+                    <option value="newest">Sort: Newest</option>
+                    <option value="priceLow">Price: Low to High</option>
+                    <option value="priceHigh">Price: High to Low</option>
+                </select>
+                <select id="filterCondition">
+                    <option value="">Condition: All</option>
+                    <option value="New">New</option>
+                    <option value="Used">Used</option>
+                    <option value="Needs Repair">Needs Repair</option>
+                </select>
+            </div>
+            <div class="filters-row">
+                <div class="price-range">
+                    <span>Price:</span>
+                    <input type="number" id="priceMin" placeholder="Min" min="0">
+                    <span>-</span>
+                    <input type="number" id="priceMax" placeholder="Max" min="0">
+                </div>
+                <label class="verified-toggle">
+                    <input type="checkbox" id="filterVerified">
+                    <span>Verified Only</span>
+                </label>
+            </div>
+        </div>
+        <section class="ads-grid" id="adsGrid"></section>
+        <footer>
+            <div style="max-width:1100px; margin:0 auto; text-align:left; display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:20px; padding:20px 10px;">
+                <div>
+                    <h4 style="font-size:0.9rem; font-weight:700; margin-bottom:6px;">Account</h4>
+                    <p><a href="my-account.html">My Account</a></p>
+                    <p><a href="track-order.html">Track Order</a></p>
+                    <p><a href="returns.html">Returns</a></p>
+                    <p><a href="personal-details.html">Personal Details</a></p>
+                    <p><a href="invoices.html">Invoices</a></p>
+                </div>
+                <div>
+                    <h4 style="font-size:0.9rem; font-weight:700; margin-bottom:6px;">Help</h4>
+                    <p><a href="help-centre.html">Help Centre</a></p>
+                    <p><a href="contact-us.html">Contact Us</a></p>
+                    <p><a href="shipping-delivery.html">Shipping & Delivery</a></p>
+                    <p><a href="returns.html">Returns</a></p>
+                </div>
+                <div>
+                    <h4 style="font-size:0.9rem; font-weight:700; margin-bottom:6px;">Company</h4>
+                    <p><a href="about-us.html">About Us</a></p>
+                </div>
+                <div>
+                    <h4 style="font-size:0.9rem; font-weight:700; margin-bottom:6px;">Classifind Policy</h4>
+                    <p><a href="returns-policy.html">Returns Policy</a></p>
+                    <p><a href="terms-conditions.html">Terms & Conditions</a></p>
+                    <p><a href="privacy-policy.html">Privacy Policy</a></p>
+                </div>
+            </div>
+            <div style="text-align:center; margin-top:20px; font-size:0.8rem; color:#666;">&copy; <span id="year"></span> ClassiFind. Inspired by global classifieds, built for you.</div>
+        </footer>
+    </main>
+
+    <!-- Login modal -->
+    <div class="auth-backdrop" id="loginBackdrop">
+        <div class="auth-modal">
+            <div class="auth-header">
+                <h2>Login</h2>
+                <button class="auth-close" id="loginClose">&times;</button>
+            </div>
+            <div class="auth-body">
+                <label for="loginEmail">Email or Phone</label>
+                <input id="loginEmail" type="text" placeholder="you@example.com" />
+                <label for="loginPassword">Password</label>
+                <input id="loginPassword" type="password" placeholder="Enter your password" />
+                <button class="auth-submit" id="loginSubmit">Login</button>
+                <div class="auth-actions">
+                    <span id="forgotPassword" class="auth-link" style="font-size:0.8rem;">Forgot Password?</span>
+                    <span>New here? <span id="goToSignup" class="auth-link">Create an account</span></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sign up modal -->
+    <div class="auth-backdrop" id="signupBackdrop">
+        <div class="auth-modal">
+            <div class="auth-header">
+                <h2>Sign up</h2>
+                <button class="auth-close" id="signupClose">&times;</button>
+            </div>
+            <div class="auth-body">
+                <label for="signupName">Name</label>
+                <input id="signupName" type="text" placeholder="First Name" />
+                <label for="signupSurname">Surname</label>
+                <input id="signupSurname" type="text" placeholder="Last Name" />
+                <label for="signupAddress">Address</label>
+                <input id="signupAddress" type="text" placeholder="Your Address" />
+                <label for="signupPhone">Phone Number</label>
+                <input id="signupPhone" type="tel" placeholder="072 123 4567" />
+                <label for="signupEmail">Email</label>
+                <input id="signupEmail" type="email" placeholder="you@example.com" />
+                
+                <label>I am a:</label>
+                <select id="signupRole">
+                    <option value="buyer">Buyer</option>
+                    <option value="seller">Seller</option>
+                </select>
+
+                <div id="bankDetailsSection" class="hidden">
+                    <label for="signupBank">Bank Account Details</label>
+                    <textarea id="signupBank" placeholder="Bank Name, Account Number, Branch Code" style="width:100%; padding:8px; border-radius:6px; border:1px solid #ccc; margin-bottom:10px;"></textarea>
+                </div>
+
+                <div class="field-group">
+                    <label for="signupPassword">Password</label>
+                    <input id="signupPassword" type="password" placeholder="Create a password" />
+                </div>
+                <div class="field-group">
+                    <label for="signupPasswordConfirm">Confirm Password</label>
+                    <input id="signupPasswordConfirm" type="password" placeholder="Re-enter password" />
+                </div>
+
+                <button class="auth-submit" id="signupSubmit">Create account</button>
+                <div class="auth-actions">
+                    <span>Already have an account? <span id="goToLogin" class="auth-link">Login</span></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
