@@ -213,8 +213,8 @@ main {
 }
 
 .category-icon-img {
-    width: 110px;
-    height: 110px;
+    width: 120px;
+    height: 120px;
     object-fit: contain;
     margin-bottom: 8px;
     display: block;
@@ -367,10 +367,10 @@ main {
 /* Footer */
 footer {
     margin-top: 32px;
-    background: #fff; /* Reverted to white background if that was original, or keep transparent */
+    background: #39ff14; /* Neon Green */
     border-top: none;
     padding: 16px;
-    color: #666;
+    color: #000; /* Changed text color to black for better contrast */
     text-align: center;
 }
 
