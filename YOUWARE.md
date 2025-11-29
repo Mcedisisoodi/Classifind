@@ -9,6 +9,7 @@ ClassiFind is a local classifieds web application allowing users to browse, sear
 
 - **Stack**: HTML5, CSS3, Vanilla JavaScript (ES Modules), Supabase (via CDN).
 - **Entry Point**: `index.html`
+- **Build Tool**: Vite (used for bundling and serving).
 
 ## Architecture
 The application is split into pages sharing common logic and styles:
@@ -20,6 +21,8 @@ The application is split into pages sharing common logic and styles:
 - **Shared Resources**:
   - `styles.css`: Global styles and responsive layout.
   - `app.js`: Supabase client initialization, Authentication logic, and shared UI helpers.
+- **Assets**:
+  - `public/categories/`: Stores category icon images.
 
 ## Backend (Supabase)
 - **Project URL**: `https://vmgpyjpbxfvnttnjbpsa.supabase.co`
@@ -35,8 +38,10 @@ The application is split into pages sharing common logic and styles:
   - Logic: Handled in `app.js` (signUp, signIn, signOut, resetPassword).
 
 ## Development
-- **Running**: Serve the root directory using a local server (e.g., `python3 -m http.server`).
-- **Deployment**: Deploy the static files (`*.html`, `*.js`, `*.css`) to any static host.
+- **Install Dependencies**: `npm install`
+- **Build**: `npm run build` (Outputs to `dist/`)
+- **Dev Server**: `npm run dev`
+- **Deployment**: Deploy the `dist/` directory to any static host.
 
 ## Key Features
 - **Image Slideshow**: `ad-details.html` features a custom touch-friendly slideshow with zoom and pan capabilities.
