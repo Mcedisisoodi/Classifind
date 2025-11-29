@@ -127,6 +127,16 @@
                 images = [PLACEHOLDER_IMG];
             }
 
+            // Filter out invalid images (e.g. email addresses or non-URLs)
+            images = images.filter(url => {
+                if (!url) return false;
+                return url.match(/^https?:\/\//i) || url.match(/^data:image\//i) || url.startsWith('/');
+            });
+
+            if (images.length === 0) {
+                images = [PLACEHOLDER_IMG];
+            }
+
             const price = ad.price > 0 ? "R " + Number(ad.price).toLocaleString() : "Price on request";
             const postedDate = ad.created_at ? new Date(ad.created_at).toLocaleDateString() : "Unknown date";
 
