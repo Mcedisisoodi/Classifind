@@ -273,30 +273,38 @@
             });
         }
 
-        function updateImagePreviews() {
+        async function updateImagePreviews() {
             imagePreviewContainer.innerHTML = "";
-            selectedFiles.forEach((file, index) => {
-                const reader = new FileReader();
-                reader.onload = (e) => {
-                    const div = document.createElement("div");
-                    div.className = "preview-card";
-                    
-                    const img = document.createElement("img");
-                    img.src = e.target.result;
-                    
-                    const removeBtn = document.createElement("button");
-                    removeBtn.innerHTML = "&times;";
-                    removeBtn.className = "preview-remove";
-                    removeBtn.onclick = () => {
-                        selectedFiles.splice(index, 1);
-                        updateImagePreviews();
-                    };
+            
+            // Use Promise.all to ensure images are read and displayed in the correct order
+            const readPromises = selectedFiles.map(file => {
+                return new Promise((resolve) => {
+                    const reader = new FileReader();
+                    reader.onload = (e) => resolve(e.target.result);
+                    reader.readAsDataURL(file);
+                });
+            });
 
-                    div.appendChild(img);
-                    div.appendChild(removeBtn);
-                    imagePreviewContainer.appendChild(div);
+            const results = await Promise.all(readPromises);
+
+            results.forEach((src, index) => {
+                const div = document.createElement("div");
+                div.className = "preview-card";
+                
+                const img = document.createElement("img");
+                img.src = src;
+                
+                const removeBtn = document.createElement("button");
+                removeBtn.innerHTML = "&times;";
+                removeBtn.className = "preview-remove";
+                removeBtn.onclick = () => {
+                    selectedFiles.splice(index, 1);
+                    updateImagePreviews();
                 };
-                reader.readAsDataURL(file);
+
+                div.appendChild(img);
+                div.appendChild(removeBtn);
+                imagePreviewContainer.appendChild(div);
             });
         }
         
@@ -376,6 +384,9 @@
             if (imageUrlInput) {
                 uploadedImageUrls.unshift(imageUrlInput);
             }
+
+            // Filter out any empty or null URLs to prevent "empty" images
+            uploadedImageUrls = uploadedImageUrls.filter(url => url && url.trim() !== "");
 
             // 3. Prepare data
             // Primary image is the first one
