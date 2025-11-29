@@ -382,7 +382,13 @@
 
             // 2. Handle manual URL input (add to front if present)
             if (imageUrlInput) {
-                uploadedImageUrls.unshift(imageUrlInput);
+                // Validate URL format (basic check)
+                if (imageUrlInput.match(/^https?:\/\//i) || imageUrlInput.match(/^data:image\//i)) {
+                    uploadedImageUrls.unshift(imageUrlInput);
+                } else {
+                    console.warn("Skipping invalid image URL:", imageUrlInput);
+                    // Optional: Alert user? Maybe not to block flow, but good to know.
+                }
             }
 
             // Filter out any empty or null URLs to prevent "empty" images
