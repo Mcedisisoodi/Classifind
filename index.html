@@ -9,7 +9,7 @@
 </head>
 <body>
     <header>
-        <div class="logo"><a href="index.html" style="text-decoration:none; color:inherit;">Classi<span>Find</span></a></div>
+        <div class="logo">Classi<span>Find</span></div>
         <div class="header-actions">
             <button class="btn" id="loginBtn">Login</button>
             <button class="btn" id="signupBtn">Sign up</button>
@@ -44,7 +44,7 @@
             <div class="category-card" data-category="Phones"><div class="category-icon">📱</div>Phones & Tablets</div>
             <div class="category-card" data-category="Property"><div class="category-icon">🏠</div>Property</div>
             <div class="category-card" data-category="Electronics"><div class="category-icon">💻</div>Electronics</div>
-            <div class="category-card" data-category="Fashion & Beauty"><div class="category-icon">👗</div>Fashion & Beauty</div>
+            <div class="category-card" data-category="Fashion & Beauty"><div class="category-icon">💄</div>Fashion & Beauty</div>
             <div class="category-card" data-category="Jobs"><div class="category-icon">💼</div>Jobs</div>
             <div class="category-card" data-category="Other"><div class="category-icon">📦</div>Other</div>
         </section>
@@ -406,7 +406,7 @@
             const cat = card.dataset.category;
             filterCategory.value = cat;
             applyFilters();
-            const filtersEl = document.querySelector(".filters-container");
+            const filtersEl = document.querySelector(".filters");
             if (filtersEl) {
                 window.scrollTo({ top: filtersEl.offsetTop - 60, behavior: "smooth" });
             }
