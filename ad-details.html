@@ -173,11 +173,19 @@
                     <p>${ad.contact || "No contact info"}</p>
 
                     <div class="buy-buttons">
-                        <button class="btn secured" onclick="alert('Secured Buy initiated!')">Secured buy</button>
+                        <button class="btn secured" id="securedBuyBtn">Secured buy</button>
                         <button class="btn unsecured" onclick="alert('Unsecured Buy initiated!')">Unsecured buy</button>
                     </div>
                 </div>
             `;
+
+            // Add event listener for Secured Buy button
+            const securedBuyBtn = document.getElementById('securedBuyBtn');
+            if (securedBuyBtn) {
+                securedBuyBtn.addEventListener('click', () => {
+                    window.location.href = `checkout.html?id=${ad.id}`;
+                });
+            }
 
             // Slideshow Logic
             let currentIndex = 0;
