@@ -367,10 +367,10 @@ main {
 /* Footer */
 footer {
     margin-top: 32px;
-    background: #39ff14; /* Neon Green */
+    background: #006400; /* Dark Green */
     border-top: none;
     padding: 16px;
-    color: #000; /* Changed text color to black for better contrast */
+    color: #fff; /* Changed text color to white for better contrast */
     text-align: center;
 }
 
