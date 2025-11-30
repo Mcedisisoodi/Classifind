@@ -55,7 +55,7 @@ header {
 
 .logo {
     font-weight: 800;
-    font-size: 1.44rem;
+    font-size: 1.2rem;
     letter-spacing: 1px;
     color: #ADD8E6; /* Light Blue for 'Honey' */
     text-decoration: none;
@@ -173,7 +173,6 @@ main {
     color: var(--text-main);
     position: static;
     padding-left: 0;
-    text-decoration: underline;
 }
 
 .section-title::before {
@@ -368,7 +367,7 @@ main {
 /* Footer */
 footer {
     margin-top: 32px;
-    background: var(--primary-color); /* Matches header color */
+    background: #006400; /* Dark Green */
     border-top: none;
     padding: 16px;
     color: #fff; /* Changed text color to white for better contrast */
