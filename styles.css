@@ -173,6 +173,7 @@ main {
     color: var(--text-main);
     position: static;
     padding-left: 0;
+    text-decoration: underline;
 }
 
 .section-title::before {
