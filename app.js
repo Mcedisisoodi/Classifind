@@ -97,6 +97,19 @@ export function updateAuthUI(session) {
     }
 }
 
+// Password Toggle Logic
+document.addEventListener('click', (e) => {
+    const btn = e.target.closest('.toggle-password');
+    if (btn) {
+        const input = btn.previousElementSibling;
+        if (input && input.tagName === 'INPUT') {
+            const type = input.getAttribute('type') === 'password' ? 'text' : 'password';
+            input.setAttribute('type', type);
+            btn.textContent = type === 'password' ? '👁️' : '🙈';
+        }
+    }
+});
+
 // Initialize Auth State Listener
 supabaseClient.auth.onAuthStateChange((event, session) => {
     updateAuthUI(session);
