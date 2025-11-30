@@ -1,16 +1,15 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
-    <title>HoneyPot – Local Classifieds</title>
+    <title>HoneySweetpot – Local Classifieds</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="styles.css" />
     <script type="module" src="app.js"></script>
 </head>
 <body>
     <header>
-        <div class="logo">Honey<span>Pot</span> <img src="public/categories/HoneyPot.png" alt="HoneyPot Logo" style="height: 60px; vertical-align: bottom; margin-left: 5px;"></div>
+        <div class="logo">Honey<span>Sweetpot</span> <img src="/categories/HoneyPot.png" alt="HoneySweetpot Logo" style="height: 60px; vertical-align: bottom; margin-left: 5px;"></div>
         <div class="header-actions">
             <button class="btn" id="loginBtn">Login</button>
             <button class="btn" id="signupBtn">Sign up</button>
@@ -41,13 +40,14 @@
         </section>
         <h2 class="section-title">Browse by category</h2>
         <section class="categories" id="categoryList">
-            <div class="category-card" data-category="Cars"><img src="public/categories/cars.png" alt="Cars" class="category-icon-img"><span><b>Cars</b></span></div>
-            <div class="category-card" data-category="Phones"><img src="public/categories/phones.png" alt="Phones" class="category-icon-img"><span><b>Phones & Tablets</b></span></div>
-            <div class="category-card" data-category="Property"><img src="public/categories/property.png" alt="Property" class="category-icon-img"><span><b>Property</b></span></div>
-            <div class="category-card" data-category="Electronics"><img src="public/categories/electronics.png" alt="Electronics" class="category-icon-img"><span><b>Electronics</b></span></div>
-            <div class="category-card" data-category="Fashion & Beauty"><img src="public/categories/fashion.png" alt="Fashion" class="category-icon-img"><span><b>Fashion & Beauty</b></span></div>
-            <div class="category-card" data-category="Jobs"><img src="public/categories/jobs.png" alt="Jobs" class="category-icon-img"><span><b>Jobs</b></span></div>
-            <div class="category-card" data-category="Other"><img src="public/categories/other.png" alt="Other" class="category-icon-img"><span><b>Other</b></span></div>
+            <div class="category-card" data-category="Cars"><img src="/categories/cars.png" alt="Cars" class="category-icon-img"><span><b>Cars</b></span></div>
+            <div class="category-card" data-category="Phones"><img src="/categories/phones.png" alt="Phones" class="category-icon-img"><span><b>Phones & Tablets</b></span></div>
+            <div class="category-card" data-category="Property"><img src="/categories/property.png" alt="Property" class="category-icon-img"><span><b>Property</b></span></div>
+            <div class="category-card" data-category="Electronics"><img src="/categories/electronics.png" alt="Electronics" class="category-icon-img"><span><b>Electronics</b></span></div>
+            <div class="category-card" data-category="Fashion & Beauty"><img src="/categories/fashion.png" alt="Fashion" class="category-icon-img"><span><b>Fashion & Beauty</b></span></div>
+            <div class="category-card" data-category="Clothing"><img src="/categories/clothing.png" alt="Clothing" class="category-icon-img"><span><b>Clothing</b></span></div>
+            <div class="category-card" data-category="Jobs"><img src="/categories/jobs.png" alt="Jobs" class="category-icon-img"><span><b>Jobs</b></span></div>
+            <div class="category-card" data-category="Other"><img src="/categories/other.png" alt="Other" class="category-icon-img"><span><b>Other</b></span></div>
         </section>
         <h2 class="section-title">All ads</h2>
         <div class="filters-container">
@@ -59,6 +59,7 @@
                     <option value="Property">Property</option>
                     <option value="Electronics">Electronics</option>
                     <option value="Fashion & Beauty">Fashion & Beauty</option>
+                    <option value="Clothing">Clothing</option>
                     <option value="Jobs">Jobs</option>
                     <option value="Other">Other</option>
                 </select>
@@ -110,13 +111,13 @@
                     <p><a href="about-us.html">About Us</a></p>
                 </div>
                 <div>
-                    <h4 style="font-size:0.9rem; font-weight:700; margin-bottom:6px;">HoneyPot Policy</h4>
+                    <h4 style="font-size:0.9rem; font-weight:700; margin-bottom:6px;">HoneySweetpot Policy</h4>
                     <p><a href="returns-policy.html">Returns Policy</a></p>
                     <p><a href="terms-conditions.html">Terms & Conditions</a></p>
                     <p><a href="privacy-policy.html">Privacy Policy</a></p>
                 </div>
             </div>
-            <div style="text-align:center; margin-top:20px; font-size:0.8rem; color:#666;">&copy; <span id="year"></span> HoneyPot. Inspired by global classifieds, built for you.</div>
+            <div style="text-align:center; margin-top:20px; font-size:0.8rem; color:#fff;">&copy; HoneySweetpot South Africa (Pty) Ltd.</div>
         </footer>
     </main>
 
@@ -131,7 +132,7 @@
                 <label for="loginEmail">Email or Phone</label>
                 <input id="loginEmail" type="text" placeholder="you@example.com" />
                 <label for="loginPassword">Password</label>
-                <input id="loginPassword" type="password" placeholder="Enter your password" />
+                <div class="password-wrapper"><input id="loginPassword" type="password" placeholder="Enter your password" /><button type="button" class="toggle-password" aria-label="Toggle password visibility">👁️</button></div>
                 <button class="auth-submit" id="loginSubmit">Login</button>
                 <div class="auth-actions">
                     <span id="forgotPassword" class="auth-link" style="font-size:0.8rem;">Forgot Password?</span>
@@ -145,7 +146,7 @@
     <div class="auth-backdrop" id="signupBackdrop">
         <div class="auth-modal">
             <div class="auth-header">
-                <h2>Sign up</h2>
+                <h2>Create Free Account</h2>
                 <button class="auth-close" id="signupClose">&times;</button>
             </div>
             <div class="auth-body">
@@ -173,11 +174,11 @@
 
                 <div class="field-group">
                     <label for="signupPassword">Password</label>
-                    <input id="signupPassword" type="password" placeholder="Create a password" />
+                    <div class="password-wrapper"><input id="signupPassword" type="password" placeholder="Create a password" /><button type="button" class="toggle-password" aria-label="Toggle password visibility">👁️</button></div>
                 </div>
                 <div class="field-group">
                     <label for="signupPasswordConfirm">Confirm Password</label>
-                    <input id="signupPasswordConfirm" type="password" placeholder="Re-enter password" />
+                    <div class="password-wrapper"><input id="signupPasswordConfirm" type="password" placeholder="Re-enter password" /><button type="button" class="toggle-password" aria-label="Toggle password visibility">👁️</button></div>
                 </div>
 
                 <button class="auth-submit" id="signupSubmit">Create account</button>
@@ -435,23 +436,23 @@
 
         if(loginBtn) loginBtn.addEventListener("click", () => loginBackdrop.style.display = "flex");
                 if(signupBtn) signupBtn.addEventListener("click", () => {
-            signupBackdrop.style.display = "flex";
+            signupBackdrop.classList.add("active");
             // Reset form state
             if(signupRole) signupRole.value = "buyer";
             if(bankDetailsSection) bankDetailsSection.classList.add("hidden");
         });
         if(loginClose) loginClose.addEventListener("click", () => loginBackdrop.style.display = "none");
-        if(signupClose) signupClose.addEventListener("click", () => signupBackdrop.style.display = "none");
+        if(signupClose) signupClose.addEventListener("click", () => signupBackdrop.classList.remove("active"));
         
         if(goToSignup) goToSignup.addEventListener("click", () => {
             loginBackdrop.style.display = "none";
-            signupBackdrop.style.display = "flex";
+            signupBackdrop.classList.add("active");
             // Reset form state
             if(signupRole) signupRole.value = "buyer";
             if(bankDetailsSection) bankDetailsSection.classList.add("hidden");
         });
         if(goToLogin) goToLogin.addEventListener("click", () => {
-            signupBackdrop.style.display = "none";
+            signupBackdrop.classList.remove("active");
             loginBackdrop.style.display = "flex";
         });
 
@@ -510,11 +511,10 @@
             if (error) alert("Signup failed: " + error.message);
             else {
                 alert("Account created! Please check your email to verify.");
-                signupBackdrop.style.display = "none";
+                signupBackdrop.classList.remove("active");
             }
         });
 
-        document.getElementById("year").textContent = new Date().getFullYear();
         populateTownsForProvince("All provinces");
         fetchAdsFromSupabase();
     </script>
