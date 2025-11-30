@@ -55,7 +55,7 @@ header {
 
 .logo {
     font-weight: 800;
-    font-size: 1.2rem;
+    font-size: 1.44rem;
     letter-spacing: 1px;
     color: #ADD8E6; /* Light Blue for 'Honey' */
     text-decoration: none;
@@ -173,6 +173,7 @@ main {
     color: var(--text-main);
     position: static;
     padding-left: 0;
+    text-decoration: underline;
 }
 
 .section-title::before {
@@ -278,7 +279,7 @@ main {
 .ad-price {
     font-weight: 700;
     font-size: 1rem;
-    color: var(--text-main); /* Reverted to standard text color */
+    color: #A88905; /* Dark Mustard */
 }
 
 .ad-title {
@@ -367,7 +368,7 @@ main {
 /* Footer */
 footer {
     margin-top: 32px;
-    background: #006400; /* Dark Green */
+    background: var(--primary-color); /* Matches header color */
     border-top: none;
     padding: 16px;
     color: #fff; /* Changed text color to white for better contrast */
@@ -382,6 +383,7 @@ footer a {
 
 footer a:hover {
     color: inherit;
+    text-decoration: underline;
 }
 
 footer h4 {
@@ -398,7 +400,7 @@ footer h4 {
     display: none;
     align-items: center;
     justify-content: center;
-    z-index: 20;
+    z-index: 1001; /* Increased to be above header (z-index: 100) */
 }
 
 .modal, .auth-modal, .postad-modal {
@@ -562,7 +564,7 @@ footer h4 {
 }
 
 .ad-details-price {
-    color: var(--primary-color);
+    color: #A88905; /* Dark Mustard */
     font-size: 1.5rem;
 }
 
@@ -760,4 +762,108 @@ footer h4 {
 .ad-thumb.active {
     opacity: 1;
     border-color: var(--primary-color);
+}
+
+/* Password Toggle Styles */
+.password-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.password-wrapper input {
+    width: 100%;
+    padding-right: 40px; /* Make room for the button */
+}
+
+.toggle-password {
+    position: absolute;
+    right: 10px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.2rem;
+    color: #666;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+
+.toggle-password:hover {
+    color: var(--primary-color);
+}
+
+/* Signup Modal Styles (Centered) */
+#signupBackdrop {
+    display: flex !important; /* Use flex for centering */
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0,0,0,0.5);
+}
+
+#signupBackdrop.active {
+    visibility: visible;
+    opacity: 1;
+}
+
+#signupBackdrop .auth-modal {
+    position: relative;
+    width: 100%;
+    max-width: 500px; /* Standard modal width */
+    height: auto;
+    max-height: 90vh;
+    border-radius: 10px;
+    transform: scale(0.95);
+    transition: transform 0.3s ease-out;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+}
+
+#signupBackdrop .auth-header {
+    flex: 0 0 auto;
+    background: var(--primary-color);
+    color: #fff;
+    z-index: 10;
+    border-bottom: none;
+}
+
+#signupBackdrop .auth-body {
+    flex: 1;
+    overflow-y: scroll; /* Force scrollbar visibility */
+    padding-bottom: 16px;
+    scrollbar-width: thin;
+}
+
+#signupBackdrop .auth-body::-webkit-scrollbar {
+    display: block;
+    width: 8px;
+}
+
+#signupBackdrop .auth-body::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+#signupBackdrop .auth-body::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+}
+
+#signupBackdrop.active .auth-modal {
+    transform: scale(1);
+}
+
+/* Ensure login modal stays centered */
+#loginBackdrop {
+    display: none;
+}
+#loginBackdrop[style*="display: flex"] {
+    display: flex !important;
 }
