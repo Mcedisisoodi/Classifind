@@ -2,10 +2,10 @@
 
 This file provides guidance to YOUWARE Agent (youware.com) when working with code in this repository.
 
-# ClassiFind Project Guide
+# HoneyPot Project Guide
 
 ## Overview
-ClassiFind is a local classifieds web application allowing users to browse, search, and post ads for various categories.
+HoneyPot is a local classifieds web application allowing users to browse, search, and post ads for various categories.
 
 - **Stack**: HTML5, CSS3, Vanilla JavaScript (ES Modules), Supabase (via CDN).
 - **Entry Point**: `index.html`
