@@ -779,6 +779,8 @@ footer h4 {
 .toggle-password {
     position: absolute;
     right: 10px;
+    top: 0;
+    height: 100%;
     background: none;
     border: none;
     cursor: pointer;
@@ -788,7 +790,7 @@ footer h4 {
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 100%;
+    z-index: 10;
 }
 
 .toggle-password:hover {
