@@ -368,7 +368,7 @@ main {
 /* Footer */
 footer {
     margin-top: 32px;
-    background: #006400; /* Dark Green */
+    background: var(--primary-color); /* Matches header color */
     border-top: none;
     padding: 16px;
     color: #fff; /* Changed text color to white for better contrast */
