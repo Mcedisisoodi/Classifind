@@ -383,6 +383,7 @@ footer a {
 
 footer a:hover {
     color: inherit;
+    text-decoration: underline;
 }
 
 footer h4 {
