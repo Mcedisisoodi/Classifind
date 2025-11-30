@@ -57,7 +57,7 @@ header {
     font-weight: 800;
     font-size: 1.2rem;
     letter-spacing: 1px;
-    color: #fff;
+    color: #ADD8E6; /* Light Blue for 'Honey' */
     text-decoration: none;
 }
 
@@ -67,7 +67,7 @@ header {
 }
 
 .logo span {
-    color: var(--accent-color);
+    color: #FFDB58; /* Mustard for 'Pot' */
 }
 
 .header-actions {
