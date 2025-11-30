@@ -279,7 +279,7 @@ main {
 .ad-price {
     font-weight: 700;
     font-size: 1rem;
-    color: #A88905; /* Dark Mustard */
+    color: var(--text-main); /* Reverted to standard text color */
 }
 
 .ad-title {
@@ -564,7 +564,7 @@ footer h4 {
 }
 
 .ad-details-price {
-    color: #A88905; /* Dark Mustard */
+    color: var(--primary-color);
     font-size: 1.5rem;
 }
 
@@ -762,35 +762,4 @@ footer h4 {
 .ad-thumb.active {
     opacity: 1;
     border-color: var(--primary-color);
-}
-
-/* Password Toggle Styles */
-.password-wrapper {
-    position: relative;
-    display: flex;
-    align-items: center;
-}
-
-.password-wrapper input {
-    width: 100%;
-    padding-right: 40px; /* Make room for the button */
-}
-
-.toggle-password {
-    position: absolute;
-    right: 10px;
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-size: 1.2rem;
-    color: #666;
-    padding: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-}
-
-.toggle-password:hover {
-    color: var(--primary-color);
 }
