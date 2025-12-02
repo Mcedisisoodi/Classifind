@@ -353,6 +353,66 @@
                 </select>
               </div>
             </template>
+
+            <!-- Electronics -->
+            <template id="ElectronicsFilters">
+              <div class="filters-row Electronics-filters">
+
+    <label>Product Type:</label>
+    <select>
+      <option>All</option>
+      <option>TVs</option>
+      <option>Laptops</option>
+      <option>Desktops</option>
+      <option>Tablets</option>
+      <option>Cameras</option>
+      <option>Gaming Consoles</option>
+      <option>Audio Systems</option>
+      <option>Speakers</option>
+      <option>Headphones</option>
+      <option>Smartwatches</option>
+      <option>Smart Home Devices</option>
+      <option>Printers & Scanners</option>
+      <option>Routers / WiFi Equipment</option>
+      <option>Home Theatre Systems</option>
+      <option>Projectors</option>
+      <option>Monitors</option>
+      <option>Accessories</option>
+    </select>
+
+    <label>Brand:</label>
+    <select>
+      <option>All</option>
+      <option>Samsung</option>
+      <option>LG</option>
+      <option>Sony</option>
+      <option>Hisense</option>
+      <option>Toshiba</option>
+      <option>Apple</option>
+      <option>Huawei</option>
+      <option>Lenovo</option>
+      <option>HP</option>
+      <option>Dell</option>
+      <option>Acer</option>
+      <option>Canon</option>
+      <option>Nikon</option>
+      <option>JBL</option>
+      <option>Bose</option>
+      <option>PlayStation</option>
+      <option>Xbox</option>
+    </select>
+
+    <label>Condition:</label>
+    <select>
+      <option>All</option>
+      <option>New</option>
+      <option>Used</option>
+      <option>Refurbished</option>
+      <option>Open-box</option>
+    </select>
+
+  </div>
+</template>
             
             <!-- Fashion & Beauty -->
             <template id="Fashion & Beauty">
@@ -739,6 +799,8 @@
                 templateId = "phoneFilters";
             } else if (cat === "Property") {
                 templateId = "propertyFilters";
+            } else if (cat === "Electronics") {
+                templateId = "ElectronicsFilters";
             } else if (cat === "Fashion & Beauty") {
                 templateId = "Fashion & Beauty";
             } else if (cat === "Clothing") {
