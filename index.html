@@ -9,16 +9,13 @@
 </head>
 <body>
     <header>
-        <div class="logo">Honey<span>Sweetpot</span>
-            <img src="/categories/HoneyPot.webp" alt="HoneySweetpot Logo" style="height: 60px; vertical-align: bottom; margin-left: 5px;">
-        </div>
+        <div class="logo">Honey<span>Sweetpot</span> <img src="/categories/HoneyPot.png" alt="HoneySweetpot Logo" style="height: 60px; vertical-align: bottom; margin-left: 5px;"></div>
         <div class="header-actions">
             <button class="btn" id="loginBtn">Login</button>
             <button class="btn" id="signupBtn">Sign up</button>
             <a href="post-ad.html" class="btn primary" id="postAdBtn" style="text-decoration:none;">+ Post Ad</a>
         </div>
     </header>
-
     <main>
         <section class="search-section">
             <div class="search-row">
@@ -41,60 +38,29 @@
                 <button id="searchBtn">Search</button>
             </div>
         </section>
-
         <h2 class="section-title">Browse by category</h2>
         <section class="categories" id="categoryList">
-            <div class="category-card" data-category="Cars">
-                <img src="/categories/cars.webp" alt="Cars" class="category-icon-img">
-                <span><b>Cars</b></span>
-            </div>
-            <div class="category-card" data-category="Phones">
-                <img src="/categories/phones.webp" alt="Phones" class="category-icon-img">
-                <span><b>Phones & Tablets</b></span>
-            </div>
-            <div class="category-card" data-category="Property">
-                <img src="/categories/property.webp" alt="Property" class="category-icon-img">
-                <span><b>Property</b></span>
-            </div>
-            <div class="category-card" data-category="Electronics">
-                <img src="/categories/electronics.webp" alt="Electronics" class="category-icon-img">
-                <span><b>Electronics</b></span>
-            </div>
-            <div class="category-card" data-category="Fashion & Beauty">
-                <img src="/categories/fashion.webp" alt="Fashion" class="category-icon-img">
-                <span><b>Fashion & Beauty</b></span>
-            </div>
-            <div class="category-card" data-category="Clothing">
-                <img src="/categories/clothing.webp" alt="Clothing" class="category-icon-img">
-                <span><b>Clothing</b></span>
-            </div>
-            <div class="category-card" data-category="Jobs">
-                <img src="/categories/jobs.webp" alt="Jobs" class="category-icon-img">
-                <span><b>Jobs</b></span>
-            </div>
-            <div class="category-card" data-category="Green Energy">
-                <img src="/categories/Green energy.webp" alt="Green energy" class="category-icon-img">
-                <span><b>Green Energy</b></span>
-            </div>
-            <div class="category-card" data-category="Other">
-                <img src="/categories/other.webp" alt="Other" class="category-icon-img">
-                <span><b>Other</b></span>
-            </div>
+            <div class="category-card" data-category="Cars"><img src="/categories/cars.png" alt="Cars" class="category-icon-img"><span><b>Cars</b></span></div>
+            <div class="category-card" data-category="Phones"><img src="/categories/phones.png" alt="Phones" class="category-icon-img"><span><b>Phones & Tablets</b></span></div>
+            <div class="category-card" data-category="Property"><img src="/categories/property.png" alt="Property" class="category-icon-img"><span><b>Property</b></span></div>
+            <div class="category-card" data-category="Electronics"><img src="/categories/electronics.png" alt="Electronics" class="category-icon-img"><span><b>Electronics</b></span></div>
+            <div class="category-card" data-category="Fashion & Beauty"><img src="/categories/fashion.png" alt="Fashion" class="category-icon-img"><span><b>Fashion & Beauty</b></span></div>
+            <div class="category-card" data-category="Clothing"><img src="/categories/clothing.png" alt="Clothing" class="category-icon-img"><span><b>Clothing</b></span></div>
+            <div class="category-card" data-category="Jobs"><img src="/categories/jobs.png" alt="Jobs" class="category-icon-img"><span><b>Jobs</b></span></div>
+            <div class="category-card" data-category="Other"><img src="/categories/other.png" alt="Other" class="category-icon-img"><span><b>Other</b></span></div>
         </section>
-
-        <h2 class="section-title">All ads</h2>
+        <h2 class="section-title">Filter</h2>
         <div class="filters-container">
             <div class="filters-row">
                 <select id="filterCategory">
                     <option value="">Category: All</option>
                     <option value="Cars">Cars</option>
-                    <option value="Phones">Phones</option>
+                    <option value="Phones">Phones & Tablets</option>
                     <option value="Property">Property</option>
                     <option value="Electronics">Electronics</option>
                     <option value="Fashion & Beauty">Fashion & Beauty</option>
                     <option value="Clothing">Clothing</option>
                     <option value="Jobs">Jobs</option>
-                    <option value="Green Energy">Green Energy</option>
                     <option value="Other">Other</option>
                 </select>
                 <select id="filterSort">
@@ -121,13 +87,337 @@
                     <span>Verified Only</span>
                 </label>
             </div>
+        </div>
+        <div style="text-align: left; margin-bottom: 16px;">
+            <a href="#" id="moreFiltersBtn" style="color: #00008B; text-decoration: underline; font-weight: 600; font-size: 0.9rem;">More Filters</a>
+        </div>
 
-            <!-- Category-specific filters will be rendered here -->
-            <div id="dynamicCategoryFilters"></div>
+        <!-- ADDITIONAL FILTERS SECTION (dynamic by category) -->
+        <div id="dynamicFiltersContainer" style="display: none; background: #f9f9f9; padding: 15px; border: 1px solid #ddd; border-radius: 8px; margin-bottom: 20px;">
+            <h4 style="margin-top: 0; margin-bottom: 10px; font-size: 1rem;">Additional Filters</h4>
+
+            <!-- This is where the correct category filters will appear -->
+            <div id="dynamicCategoryFilters" style="display:flex; flex-direction:column; gap:10px;"></div>
+
+            <!-- ===== CATEGORY FILTER TEMPLATES ===== -->
+
+            <!-- CARS -->
+            <template id="carFilters">
+              <div class="filters-row car-filters">
+                <label>Make:</label>
+                <select>
+                  <option>All</option>
+                  <option>Toyota</option>
+                  <option>VW</option>
+                  <option>BMW</option>
+                  <!-- add more makes -->
+                </select>
+
+                <label>Model:</label>
+                <select>
+                  <option>All</option>
+                  <option>Golf 6</option>
+                  <option>Corolla Quest</option>
+                  <!-- add more models -->
+                </select>
+
+                <label>Year:</label>
+                <select>
+                  <option>All</option>
+                  <!-- you can generate 1990–2025 with JS later -->
+                  <option>2025</option>
+                  <option>2024</option>
+                  <option>2023</option>
+                </select>
+
+                <label>Mileage:</label>
+                <select>
+                  <option>All</option>
+                  <option>0–50 000 km</option>
+                  <option>50 000–100 000 km</option>
+                  <option>100 000–150 000 km</option>
+                  <option>150 000–200 000 km</option>
+                  <option>200 000–300 000 km</option>
+                  <option>300 000–500 000 km</option>
+                </select>
+              </div>
+
+              <div class="filters-row car-filters">
+                <label>Body Type:</label>
+                <select>
+                  <option>All</option>
+                  <option>Hatchback</option>
+                  <option>Sedan</option>
+                  <option>SUV</option>
+                  <option>Bakkie</option>
+                  <option>Coupe</option>
+                  <option>Van</option>
+                </select>
+
+                <label>Transmission:</label>
+                <select>
+                  <option>All</option>
+                  <option>Manual</option>
+                  <option>Automatic</option>
+                </select>
+
+                <label>Fuel Type:</label>
+                <select>
+                  <option>All</option>
+                  <option>Petrol</option>
+                  <option>Diesel</option>
+                  <option>Hybrid</option>
+                  <option>Electric</option>
+                </select>
+
+                <label>Condition:</label>
+                <select>
+                  <option>All</option>
+                  <option>Brand New</option>
+                  <option>Used – Good</option>
+                  <option>Used – Fair</option>
+                  <option>Salvage / Needs Work</option>
+                </select>
+              </div>
+
+              <div class="filters-row car-filters">
+                <label>Vehicle History:</label>
+                <select>
+                  <option>All</option>
+                  <option>Full Service History (FSH)</option>
+                  <option>Partial Service History</option>
+                  <option>No Service History</option>
+                  <option>Accident-Free</option>
+                  <option>Rebuilt / Code 2</option>
+                  <option>Code 3</option>
+                  <option>One Owner</option>
+                </select>
+
+                <label>Seller Type:</label>
+                <select>
+                  <option>All</option>
+                  <option>Private Seller</option>
+                  <option>Dealer</option>
+                  <option>Certified Dealer</option>
+                </select>
+              </div>
+            </template>
+
+            <!-- PHONES -->
+            <template id="phoneFilters">
+              <div class="filters-row phone-filters">
+                <label>Brand:</label>
+                <select>
+                  <option>All</option>
+                  <option>Samsung</option>
+                  <option>Apple</option>
+                  <option>Huawei</option>
+                  <option>Xiaomi</option>
+                  <option>Oppo</option>
+                  <option>Vivo</option>
+                  <!-- add more brands -->
+                </select>
+
+                <label>Model:</label>
+                <select>
+                  <option>All</option>
+                  <option>iPhone 13</option>
+                  <option>Samsung A54</option>
+                  <!-- add more models -->
+                </select>
+
+                <label>Condition:</label>
+                <select>
+                  <option>All</option>
+                  <option>New</option>
+                  <option>Excellent</option>
+                  <option>Good</option>
+                  <option>Fair</option>
+                  <option>Used</option>
+                </select>
+              </div>
+
+              <div class="filters-row phone-filters">
+                <label>Storage:</label>
+                <select>
+                  <option>All</option>
+                  <option>16GB</option>
+                  <option>32GB</option>
+                  <option>64GB</option>
+                  <option>128GB</option>
+                  <option>256GB</option>
+                  <option>512GB</option>
+                  <option>1TB</option>
+                </select>
+
+                <label>RAM:</label>
+                <select>
+                  <option>All</option>
+                  <option>2GB</option>
+                  <option>3GB</option>
+                  <option>4GB</option>
+                  <option>6GB</option>
+                  <option>8GB</option>
+                  <option>12GB</option>
+                  <option>16GB</option>
+                </select>
+
+                <label>Trade Options:</label>
+                <select>
+                  <option>All</option>
+                  <option>Swap / Trade Accepted</option>
+                  <option>Cash Only</option>
+                  <option>Delivery Available</option>
+                </select>
+              </div>
+
+              <div class="filters-row phone-filters">
+                <label>Seller Type:</label>
+                <select>
+                  <option>All</option>
+                  <option>Private Seller</option>
+                  <option>Shop / Dealer</option>
+                </select>
+              </div>
+            </template>
+
+            <!-- PROPERTY -->
+            <template id="propertyFilters">
+              <div class="filters-row property-filters">
+                <label>Property Type:</label>
+                <select>
+                  <option>All</option>
+                  <option>House</option>
+                  <option>Apartment / Flat</option>
+                  <option>Townhouse</option>
+                  <option>Duplex</option>
+                  <option>Vacant Land</option>
+                  <option>Farm</option>
+                  <option>Commercial Property</option>
+                  <option>Industrial Property</option>
+                  <option>Office Space</option>
+                  <option>Student Accommodation</option>
+                </select>
+
+                <label>Purpose:</label>
+                <select>
+                  <option>All</option>
+                  <option>For Sale</option>
+                  <option>Auction</option>
+                  <option>To Rent</option>
+                  <option>Rent-to-Own</option>
+                </select>
+              </div>
+
+              <div class="filters-row property-filters">
+                <label>Bedrooms:</label>
+                <select>
+                  <option>All</option>
+                  <option>1+</option>
+                  <option>2+</option>
+                  <option>3+</option>
+                  <option>4+</option>
+                  <option>5+</option>
+                </select>
+
+                <label>Bathrooms:</label>
+                <select>
+                  <option>All</option>
+                  <option>1+</option>
+                  <option>2+</option>
+                  <option>3+</option>
+                  <option>4+</option>
+                </select>
+              </div>
+
+              <div class="filters-row property-filters">
+                <label>House Size (m²):</label>
+                <input type="number" placeholder="Min m²">
+                <input type="number" placeholder="Max m²">
+
+                <label>Land Size (m²):</label>
+                <input type="number" placeholder="Min m²">
+                <input type="number" placeholder="Max m²">
+              </div>
+
+              <div class="filters-row property-filters">
+                <label>Seller Type:</label>
+                <select>
+                  <option>All</option>
+                  <option>Private Seller</option>
+                  <option>Agent</option>
+                  <option>Bank Sale</option>
+                  <option>Auctioneer</option>
+                </select>
+              </div>
+            </template>
+
+            <!-- CLOTHING -->
+            <template id="clothingFilters">
+              <div class="filters-row clothing-filters">
+                <label>Brand:</label>
+                <select>
+                  <option>All</option>
+                  <option>Nike</option>
+                  <option>Adidas</option>
+                  <option>Puma</option>
+                  <!-- add more brands -->
+                </select>
+
+                <label>Category:</label>
+                <select>
+                  <option>All</option>
+                  <option>Men</option>
+                  <option>Women</option>
+                  <option>Kids</option>
+                  <option>Unisex</option>
+                </select>
+              </div>
+
+              <div class="filters-row clothing-filters">
+                <label>Clothing Type:</label>
+                <select>
+                  <option>All</option>
+                  <option>T-Shirts</option>
+                  <option>Shirts</option>
+                  <option>Jeans</option>
+                  <option>Trousers</option>
+                  <option>Dresses</option>
+                  <option>Hoodies</option>
+                  <option>Jackets</option>
+                  <option>Shorts</option>
+                  <option>Activewear</option>
+                  <option>Underwear</option>
+                  <option>Sleepwear</option>
+                  <option>Swimwear</option>
+                  <option>School Uniforms</option>
+                </select>
+
+                <label>Condition:</label>
+                <select>
+                  <option>All</option>
+                  <option>New</option>
+                  <option>Like New</option>
+                  <option>Good</option>
+                  <option>Fair</option>
+                  <option>Vintage</option>
+                  <option>Damaged / For Upcycling</option>
+                </select>
+              </div>
+
+              <div class="filters-row clothing-filters">
+                <label>Seller Type:</label>
+                <select>
+                  <option>All</option>
+                  <option>Private Seller</option>
+                  <option>Boutique Store</option>
+                  <option>Thrift Seller</option>
+                </select>
+              </div>
+            </template>
         </div>
 
         <section class="ads-grid" id="adsGrid"></section>
-
         <footer>
             <div style="max-width:1100px; margin:0 auto; text-align:left; display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:20px; padding:20px 10px;">
                 <div>
@@ -171,10 +461,7 @@
                 <label for="loginEmail">Email or Phone</label>
                 <input id="loginEmail" type="text" placeholder="you@example.com" />
                 <label for="loginPassword">Password</label>
-                <div class="password-wrapper">
-                    <input id="loginPassword" type="password" placeholder="Enter your password" />
-                    <button type="button" class="toggle-password" aria-label="Toggle password visibility">👁️</button>
-                </div>
+                <div class="password-wrapper"><input id="loginPassword" type="password" placeholder="Enter your password" /><button type="button" class="toggle-password" aria-label="Toggle password visibility">👁️</button></div>
                 <button class="auth-submit" id="loginSubmit">Login</button>
                 <div class="auth-actions">
                     <span id="forgotPassword" class="auth-link" style="font-size:0.8rem;">Forgot Password?</span>
@@ -216,17 +503,11 @@
 
                 <div class="field-group">
                     <label for="signupPassword">Password</label>
-                    <div class="password-wrapper">
-                        <input id="signupPassword" type="password" placeholder="Create a password" />
-                        <button type="button" class="toggle-password" aria-label="Toggle password visibility">👁️</button>
-                    </div>
+                    <div class="password-wrapper"><input id="signupPassword" type="password" placeholder="Create a password" /><button type="button" class="toggle-password" aria-label="Toggle password visibility">👁️</button></div>
                 </div>
                 <div class="field-group">
                     <label for="signupPasswordConfirm">Confirm Password</label>
-                    <div class="password-wrapper">
-                        <input id="signupPasswordConfirm" type="password" placeholder="Re-enter password" />
-                        <button type="button" class="toggle-password" aria-label="Toggle password visibility">👁️</button>
-                    </div>
+                    <div class="password-wrapper"><input id="signupPasswordConfirm" type="password" placeholder="Re-enter password" /><button type="button" class="toggle-password" aria-label="Toggle password visibility">👁️</button></div>
                 </div>
 
                 <button class="auth-submit" id="signupSubmit">Create account</button>
@@ -236,323 +517,6 @@
             </div>
         </div>
     </div>
-
-    <!-- CATEGORY FILTER TEMPLATES -->
-
-    <!-- CARS -->
-    <template id="carFilters">
-      <div class="filters-row car-filters">
-        <label>Make:</label>
-        <select>
-          <option>All</option>
-          <option>Toyota</option>
-          <option>VW</option>
-          <option>BMW</option>
-          <!-- add more -->
-        </select>
-
-        <label>Model:</label>
-        <select>
-          <option>All</option>
-          <option>Golf 6</option>
-          <option>Corolla Quest</option>
-          <!-- add more -->
-        </select>
-
-        <label>Year:</label>
-        <select>
-          <option>All</option>
-          <option>2025</option>
-          <option>2024</option>
-          <option>2023</option>
-          <!-- later: generate 1990–2025 -->
-        </select>
-
-        <label>Mileage:</label>
-        <select>
-          <option>All</option>
-          <option>0–50 000 km</option>
-          <option>50 000–100 000 km</option>
-          <option>100 000–150 000 km</option>
-          <option>150 000–200 000 km</option>
-          <option>200 000–300 000 km</option>
-          <option>300 000–500 000 km</option>
-        </select>
-      </div>
-
-      <div class="filters-row car-filters">
-        <label>Body Type:</label>
-        <select>
-          <option>All</option>
-          <option>Hatchback</option>
-          <option>Sedan</option>
-          <option>SUV</option>
-          <option>Bakkie</option>
-          <option>Coupe</option>
-          <option>Van</option>
-        </select>
-
-        <label>Transmission:</label>
-        <select>
-          <option>All</option>
-          <option>Manual</option>
-          <option>Automatic</option>
-        </select>
-
-        <label>Fuel Type:</label>
-        <select>
-          <option>All</option>
-          <option>Petrol</option>
-          <option>Diesel</option>
-          <option>Hybrid</option>
-          <option>Electric</option>
-        </select>
-
-        <label>Condition:</label>
-        <select>
-          <option>All</option>
-          <option>Brand New</option>
-          <option>Used – Good</option>
-          <option>Used – Fair</option>
-          <option>Salvage / Needs Work</option>
-        </select>
-      </div>
-
-      <div class="filters-row car-filters">
-        <label>Vehicle History:</label>
-        <select>
-          <option>All</option>
-          <option>Full Service History (FSH)</option>
-          <option>Partial Service History</option>
-          <option>No Service History</option>
-          <option>Accident-Free</option>
-          <option>Rebuilt / Code 2</option>
-          <option>Code 3</option>
-          <option>One Owner</option>
-        </select>
-
-        <label>Seller Type:</label>
-        <select>
-          <option>All</option>
-          <option>Private Seller</option>
-          <option>Dealer</option>
-          <option>Certified Dealer</option>
-        </select>
-      </div>
-    </template>
-
-    <!-- PHONES -->
-    <template id="phoneFilters">
-      <div class="filters-row phone-filters">
-        <label>Brand:</label>
-        <select>
-          <option>All</option>
-          <option>Samsung</option>
-          <option>Apple</option>
-          <option>Huawei</option>
-          <option>Xiaomi</option>
-          <option>Oppo</option>
-          <option>Vivo</option>
-          <!-- add more -->
-        </select>
-
-        <label>Model:</label>
-        <select>
-          <option>All</option>
-          <option>iPhone 13</option>
-          <option>Samsung A54</option>
-          <!-- add more -->
-        </select>
-
-        <label>Condition:</label>
-        <select>
-          <option>All</option>
-          <option>New</option>
-          <option>Excellent</option>
-          <option>Good</option>
-          <option>Fair</option>
-          <option>Used</option>
-        </select>
-      </div>
-
-      <div class="filters-row phone-filters">
-        <label>Storage:</label>
-        <select>
-          <option>All</option>
-          <option>16GB</option>
-          <option>32GB</option>
-          <option>64GB</option>
-          <option>128GB</option>
-          <option>256GB</option>
-          <option>512GB</option>
-          <option>1TB</option>
-        </select>
-
-        <label>RAM:</label>
-        <select>
-          <option>All</option>
-          <option>2GB</option>
-          <option>3GB</option>
-          <option>4GB</option>
-          <option>6GB</option>
-          <option>8GB</option>
-          <option>12GB</option>
-          <option>16GB</option>
-        </select>
-
-        <label>Trade Options:</label>
-        <select>
-          <option>All</option>
-          <option>Swap / Trade Accepted</option>
-          <option>Cash Only</option>
-          <option>Delivery Available</option>
-        </select>
-      </div>
-
-      <div class="filters-row phone-filters">
-        <label>Seller Type:</label>
-        <select>
-          <option>All</option>
-          <option>Private Seller</option>
-          <option>Shop / Dealer</option>
-        </select>
-      </div>
-    </template>
-
-    <!-- PROPERTY -->
-    <template id="propertyFilters">
-      <div class="filters-row property-filters">
-        <label>Property Type:</label>
-        <select>
-          <option>All</option>
-          <option>House</option>
-          <option>Apartment / Flat</option>
-          <option>Townhouse</option>
-          <option>Duplex</option>
-          <option>Vacant Land</option>
-          <option>Farm</option>
-          <option>Commercial Property</option>
-          <option>Industrial Property</option>
-          <option>Office Space</option>
-          <option>Student Accommodation</option>
-        </select>
-
-        <label>Purpose:</label>
-        <select>
-          <option>All</option>
-          <option>For Sale</option>
-          <option>Auction</option>
-          <option>To Rent</option>
-          <option>Rent-to-Own</option>
-        </select>
-      </div>
-
-      <div class="filters-row property-filters">
-        <label>Bedrooms:</label>
-        <select>
-          <option>All</option>
-          <option>1+</option>
-          <option>2+</option>
-          <option>3+</option>
-          <option>4+</option>
-          <option>5+</option>
-        </select>
-
-        <label>Bathrooms:</label>
-        <select>
-          <option>All</option>
-          <option>1+</option>
-          <option>2+</option>
-          <option>3+</option>
-          <option>4+</option>
-        </select>
-      </div>
-
-      <div class="filters-row property-filters">
-        <label>House Size (m²):</label>
-        <input type="number" placeholder="Min m²">
-        <input type="number" placeholder="Max m²">
-
-        <label>Land Size (m²):</label>
-        <input type="number" placeholder="Min m²">
-        <input type="number" placeholder="Max m²">
-      </div>
-
-      <div class="filters-row property-filters">
-        <label>Seller Type:</label>
-        <select>
-          <option>All</option>
-          <option>Private Seller</option>
-          <option>Agent</option>
-          <option>Bank Sale</option>
-          <option>Auctioneer</option>
-        </select>
-      </div>
-    </template>
-
-    <!-- CLOTHING -->
-    <template id="clothingFilters">
-      <div class="filters-row clothing-filters">
-        <label>Brand:</label>
-        <select>
-          <option>All</option>
-          <option>Nike</option>
-          <option>Adidas</option>
-          <option>Puma</option>
-          <!-- add more -->
-        </select>
-
-        <label>Category:</label>
-        <select>
-          <option>All</option>
-          <option>Men</option>
-          <option>Women</option>
-          <option>Kids</option>
-          <option>Unisex</option>
-        </select>
-      </div>
-
-      <div class="filters-row clothing-filters">
-        <label>Clothing Type:</label>
-        <select>
-          <option>All</option>
-          <option>T-Shirts</option>
-          <option>Shirts</option>
-          <option>Jeans</option>
-          <option>Trousers</option>
-          <option>Dresses</option>
-          <option>Hoodies</option>
-          <option>Jackets</option>
-          <option>Shorts</option>
-          <option>Activewear</option>
-          <option>Underwear</option>
-          <option>Sleepwear</option>
-          <option>Swimwear</option>
-          <option>School Uniforms</option>
-        </select>
-
-        <label>Condition:</label>
-        <select>
-          <option>All</option>
-          <option>New</option>
-          <option>Like New</option>
-          <option>Good</option>
-          <option>Fair</option>
-          <option>Vintage</option>
-          <option>Damaged / For Upcycling</option>
-        </select>
-      </div>
-
-      <div class="filters-row clothing-filters">
-        <label>Seller Type:</label>
-        <select>
-          <option>All</option>
-          <option>Private Seller</option>
-          <option>Boutique Store</option>
-          <option>Thrift Seller</option>
-        </select>
-      </div>
-    </template>
 
     <script type="module">
         import { supabaseClient, signIn, signUp, resetPassword } from './app.js';
@@ -569,11 +533,29 @@
         const searchText = document.getElementById("searchText");
         const searchLocation = document.getElementById("searchLocation");
         const provinceSelect = document.getElementById("provinceSelect");
+        const moreFiltersBtn = document.getElementById("moreFiltersBtn");
+        const dynamicFiltersContainer = document.getElementById("dynamicFiltersContainer");
         const dynamicCategoryFilters = document.getElementById("dynamicCategoryFilters");
 
-        // Show category-specific filters
+        // Show/hide Additional Filters, but the contents themselves depend on category
+        if (moreFiltersBtn && dynamicFiltersContainer) {
+            moreFiltersBtn.addEventListener("click", (e) => {
+                e.preventDefault();
+                if (dynamicFiltersContainer.style.display === "none" || dynamicFiltersContainer.style.display === "") {
+                    dynamicFiltersContainer.style.display = "block";
+                    moreFiltersBtn.textContent = "Less Filters";
+                } else {
+                    dynamicFiltersContainer.style.display = "none";
+                    moreFiltersBtn.textContent = "More Filters";
+                }
+            });
+        }
+
+        // Update which extra filters show based on category
         function updateCategoryFilters() {
+            if (!dynamicCategoryFilters) return;
             dynamicCategoryFilters.innerHTML = "";
+
             const cat = filterCategory.value;
             let templateId = null;
 
@@ -778,7 +760,6 @@
         }
 
         document.getElementById("searchBtn").addEventListener("click", applyFilters);
-
         filterCategory.addEventListener("change", () => {
             updateCategoryFilters();
             applyFilters();
@@ -800,7 +781,7 @@
             filterCategory.value = cat;
             updateCategoryFilters();
             applyFilters();
-            const filtersEl = document.querySelector(".filters");
+            const filtersEl = document.querySelector(".filters-container");
             if (filtersEl) {
                 window.scrollTo({ top: filtersEl.offsetTop - 60, behavior: "smooth" });
             }
@@ -899,7 +880,7 @@
 
         populateTownsForProvince("All provinces");
         fetchAdsFromSupabase();
-        updateCategoryFilters();
+        updateCategoryFilters(); // ensure correct extra filters on load
     </script>
 </body>
 </html>
