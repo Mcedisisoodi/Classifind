@@ -649,6 +649,42 @@
 
               </div>
             </template>
+
+            <!-- JOBS -->
+            <template id="OtherFilters">
+              <div class="filters-row Other-filters">
+
+    <label>Item Type:</label>
+    <select>
+      <option>All</option>
+      <option>Antiques</option>
+      <option>Collectibles</option>
+      <option>Handcrafted Items</option>
+      <option>Toys & Games</option>
+      <option>Musical Instruments</option>
+      <option>Sports & Outdoors</option>
+      <option>Pet Supplies</option>
+      <option>Office Supplies</option>
+      <option>Tools</option>
+      <option>Garden & Outdoor</option>
+      <option>Craft & Hobby Items</option>
+      <option>Event & Party Items</option>
+      <option>Industrial & Commercial</option>
+      <option>Lost & Found</option>
+      <option>General</option>
+    </select>
+
+    <label>Condition:</label>
+    <select>
+      <option>All</option>
+      <option>New</option>
+      <option>Used</option>
+      <option>Refurbished</option>
+      <option>Open-box</option>
+    </select>
+
+  </div>
+</template>
         </div>
 
         <section class="ads-grid" id="adsGrid"></section>
@@ -809,6 +845,8 @@
                 templateId = "jobsFilters";
             } else if (cat === "Green Energy") {
                 templateId = "greenEnergyFilters";
+            } else if (cat === Other") {
+                templateId = "OtherFilters";
             }
 
             if (templateId) {
