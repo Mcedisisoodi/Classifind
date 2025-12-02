@@ -869,3 +869,69 @@ footer h4 {
 #loginBackdrop[style*="display: flex"] {
     display: flex !important;
 }
+/* ==========================
+   Additional (Dynamic) Filters
+   ========================== */
+
+#dynamicFiltersContainer {
+    background: var(--bg-surface);
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    padding: 12px 14px;
+    box-shadow: var(--shadow-sm);
+    margin-bottom: 20px;
+}
+
+#dynamicFiltersContainer h4 {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text-main);
+    margin-bottom: 10px;
+}
+
+/* Shared layout for all dynamic filters */
+#dynamicCategoryFilters {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+#dynamicCategoryFilters .filters-row {
+    margin-bottom: 0; /* avoid extra spacing inside box */
+}
+
+/* Labels inside dynamic filters */
+#dynamicCategoryFilters label {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+/* Inputs/selects inside dynamic filters */
+#dynamicCategoryFilters select,
+#dynamicCategoryFilters input[type="number"],
+#dynamicCategoryFilters input[type="text"] {
+    padding: 7px 9px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 0.85rem;
+    background: #fff;
+    min-width: 120px;
+}
+
+/* Make rows wrap nicely on smaller screens */
+@media (max-width: 768px) {
+    #dynamicCategoryFilters .filters-row {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    #dynamicCategoryFilters select,
+    #dynamicCategoryFilters input[type="number"],
+    #dynamicCategoryFilters input[type="text"] {
+        width: 100%;
+    }
+}
