@@ -353,6 +353,72 @@
                 </select>
               </div>
             </template>
+            
+            <!-- Fashion & Beauty -->
+            <template id="Fashion & Beauty">
+  <div class="filters-row Fashion-&-Beauty-filters">
+
+    <label>Product Type:</label>
+    <select>
+      <option>All</option>
+      <option>Skincare</option>
+      <option>Haircare</option>
+      <option>Makeup</option>
+      <option>Fragrances</option>
+      <option>Nail Care</option>
+      <option>Bath & Body</option>
+      <option>Beauty Tools & Devices</option>
+      <option>Men's Grooming</option>
+      <option>Beauty Services</option>
+    </select>
+
+    <label>Brand:</label>
+    <select>
+      <option>All</option>
+      <option>Nivea</option>
+      <option>Dove</option>
+      <option>L'Oréal</option>
+      <option>Revlon</option>
+      <option>Maybelline</option>
+      <option>Yardley</option>
+      <option>Sorbet</option>
+      <option>Johnson's</option>
+      <option>Garnier</option>
+      <option>MAC</option>
+      <option>Clinique</option>
+      <option>Chanel</option>
+      <option>Dior</option>
+    </select>
+
+    <label>Skin Type:</label>
+    <select>
+      <option>All</option>
+      <option>Normal</option>
+      <option>Dry</option>
+      <option>Oily</option>
+      <option>Combination</option>
+      <option>Sensitive</option>
+    </select>
+
+    <label>Gender:</label>
+    <select>
+      <option>All</option>
+      <option>Women</option>
+      <option>Men</option>
+      <option>Unisex</option>
+    </select>
+
+    <label>Condition:</label>
+    <select>
+      <option>All</option>
+      <option>New</option>
+      <option>Used</option>
+      <option>Unboxed / Opened</option>
+      <option>Bulk / Wholesale</option>
+    </select>
+
+  </div>
+</template>
 
             <!-- CLOTHING -->
             <template id="clothingFilters">
@@ -673,6 +739,8 @@
                 templateId = "phoneFilters";
             } else if (cat === "Property") {
                 templateId = "propertyFilters";
+            } else if (cat === "Fashion & Beauty") {
+                templateId = "Fashion & Beauty";
             } else if (cat === "Clothing") {
                 templateId = "clothingFilters";
             } else if (cat === "Jobs") {
