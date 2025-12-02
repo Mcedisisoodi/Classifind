@@ -417,6 +417,7 @@
                 </select>
               </div>
             </template>
+            
              <!-- PHONES -->
             <template id="jobsFilters">
               <div class="filters-row jobs-filters">
@@ -646,6 +647,8 @@
                 templateId = "propertyFilters";
             } else if (cat === "Clothing") {
                 templateId = "clothingFilters";
+             } else if (cat === "Jobs") {
+                templateId = "jobsFilters";
             }
 
             if (templateId) {
