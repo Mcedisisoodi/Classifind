@@ -209,107 +209,320 @@
         </div>
     </div>
 
-    <!-- NEW: template for car filters -->
     <template id="carFilters">
-      <div class="filters-row car-filters">
-        <label>Make:</label>
-        <select>
-          <option>All</option>
-          <option>Toyota</option>
-          <option>VW</option>
-          <option>BMW</option>
-          <!-- Add more -->
-        </select>
+  <div class="filters-row car-filters">
+    <label>Make:</label>
+    <select>
+      <option>All</option>
+      <option>Toyota</option>
+      <option>VW</option>
+      <option>BMW</option>
+      <!-- add more makes -->
+    </select>
 
-        <label>Model:</label>
-        <select>
-          <option>All</option>
-          <option>Golf 6</option>
-          <option>Corolla Quest</option>
-          <!-- Add more -->
-        </select>
+    <label>Model:</label>
+    <select>
+      <option>All</option>
+      <option>Golf 6</option>
+      <option>Corolla Quest</option>
+      <!-- add more models -->
+    </select>
 
-        <label>Year:</label>
-        <select>
-          <option>All</option>
-          <!-- You can generate 1990–2025 with JS later -->
-          <option>2025</option>
-          <option>2024</option>
-          <option>2023</option>
-        </select>
+    <label>Year:</label>
+    <select>
+      <option>All</option>
+      <!-- you can generate 1990–2025 with JS later -->
+      <option>2025</option>
+      <option>2024</option>
+      <option>2023</option>
+    </select>
 
-        <label>Mileage:</label>
-        <select>
-          <option>All</option>
-          <option>0–50 000 km</option>
-          <option>50 000–100 000 km</option>
-          <option>100 000–150 000 km</option>
-          <option>150 000–200 000 km</option>
-          <option>200 000–300 000 km</option>
-          <option>300 000–500 000 km</option>
-        </select>
-      </div>
+    <label>Mileage:</label>
+    <select>
+      <option>All</option>
+      <option>0–50 000 km</option>
+      <option>50 000–100 000 km</option>
+      <option>100 000–150 000 km</option>
+      <option>150 000–200 000 km</option>
+      <option>200 000–300 000 km</option>
+      <option>300 000–500 000 km</option>
+    </select>
+  </div>
 
-      <div class="filters-row car-filters">
-        <label>Body Type:</label>
-        <select>
-          <option>All</option>
-          <option>Hatchback</option>
-          <option>Sedan</option>
-          <option>SUV</option>
-          <option>Bakkie</option>
-          <option>Coupe</option>
-          <option>Van</option>
-        </select>
+  <div class="filters-row car-filters">
+    <label>Body Type:</label>
+    <select>
+      <option>All</option>
+      <option>Hatchback</option>
+      <option>Sedan</option>
+      <option>SUV</option>
+      <option>Bakkie</option>
+      <option>Coupe</option>
+      <option>Van</option>
+    </select>
 
-        <label>Transmission:</label>
-        <select>
-          <option>All</option>
-          <option>Manual</option>
-          <option>Automatic</option>
-        </select>
+    <label>Transmission:</label>
+    <select>
+      <option>All</option>
+      <option>Manual</option>
+      <option>Automatic</option>
+    </select>
 
-        <label>Fuel Type:</label>
-        <select>
-          <option>All</option>
-          <option>Petrol</option>
-          <option>Diesel</option>
-          <option>Hybrid</option>
-          <option>Electric</option>
-        </select>
+    <label>Fuel Type:</label>
+    <select>
+      <option>All</option>
+      <option>Petrol</option>
+      <option>Diesel</option>
+      <option>Hybrid</option>
+      <option>Electric</option>
+    </select>
 
-        <label>Condition:</label>
-        <select>
-          <option>All</option>
-          <option>Brand New</option>
-          <option>Used – Good</option>
-          <option>Used – Fair</option>
-          <option>Salvage / Needs Work</option>
-        </select>
-      </div>
+    <label>Condition:</label>
+    <select>
+      <option>All</option>
+      <option>Brand New</option>
+      <option>Used – Good</option>
+      <option>Used – Fair</option>
+      <option>Salvage / Needs Work</option>
+    </select>
+  </div>
 
-      <div class="filters-row car-filters">
-        <label>Vehicle History:</label>
-        <select>
-          <option>All</option>
-          <option>Full Service History</option>
-          <option>Partial Service History</option>
-          <option>No Service History</option>
-          <option>Accident-Free</option>
-          <option>Rebuilt / Code 2</option>
-          <option>Code 3</option>
-          <option>One Owner</option>
-        </select>
+  <div class="filters-row car-filters">
+    <label>Vehicle History:</label>
+    <select>
+      <option>All</option>
+      <option>Full Service History (FSH)</option>
+      <option>Partial Service History</option>
+      <option>No Service History</option>
+      <option>Accident-Free</option>
+      <option>Rebuilt / Code 2</option>
+      <option>Code 3</option>
+      <option>One Owner</option>
+    </select>
 
-        <label>Seller Type:</label>
-        <select>
-          <option>All</option>
-          <option>Private Seller</option>
-          <option>Dealer</option>
-          <option>Certified Dealer</option>
-        </select>
-      </div>
-    </template>
+    <label>Seller Type:</label>
+    <select>
+      <option>All</option>
+      <option>Private Seller</option>
+      <option>Dealer</option>
+      <option>Certified Dealer</option>
+    </select>
+  </div>
+</template>
+
+<!-- PHONES -->
+<template id="phoneFilters">
+  <div class="filters-row phone-filters">
+    <label>Brand:</label>
+    <select>
+      <option>All</option>
+      <option>Samsung</option>
+      <option>Apple</option>
+      <option>Huawei</option>
+      <option>Xiaomi</option>
+      <option>Oppo</option>
+      <option>Vivo</option>
+      <!-- add more brands -->
+    </select>
+
+    <label>Model:</label>
+    <select>
+      <option>All</option>
+      <option>iPhone 13</option>
+      <option>Samsung A54</option>
+      <!-- add more models -->
+    </select>
+
+    <label>Condition:</label>
+    <select>
+      <option>All</option>
+      <option>New</option>
+      <option>Excellent</option>
+      <option>Good</option>
+      <option>Fair</option>
+      <option>Used</option>
+    </select>
+  </div>
+
+  <div class="filters-row phone-filters">
+    <label>Storage:</label>
+    <select>
+      <option>All</option>
+      <option>16GB</option>
+      <option>32GB</option>
+      <option>64GB</option>
+      <option>128GB</option>
+      <option>256GB</option>
+      <option>512GB</option>
+      <option>1TB</option>
+    </select>
+
+    <label>RAM:</label>
+    <select>
+      <option>All</option>
+      <option>2GB</option>
+      <option>3GB</option>
+      <option>4GB</option>
+      <option>6GB</option>
+      <option>8GB</option>
+      <option>12GB</option>
+      <option>16GB</option>
+    </select>
+
+    <label>Trade Options:</label>
+    <select>
+      <option>All</option>
+      <option>Swap / Trade Accepted</option>
+      <option>Cash Only</option>
+      <option>Delivery Available</option>
+    </select>
+  </div>
+
+  <div class="filters-row phone-filters">
+    <label>Seller Type:</label>
+    <select>
+      <option>All</option>
+      <option>Private Seller</option>
+      <option>Shop / Dealer</option>
+    </select>
+  </div>
+</template>
+
+<!-- PROPERTY -->
+<template id="propertyFilters">
+  <div class="filters-row property-filters">
+    <label>Property Type:</label>
+    <select>
+      <option>All</option>
+      <option>House</option>
+      <option>Apartment / Flat</option>
+      <option>Townhouse</option>
+      <option>Duplex</option>
+      <option>Vacant Land</option>
+      <option>Farm</option>
+      <option>Commercial Property</option>
+      <option>Industrial Property</option>
+      <option>Office Space</option>
+      <option>Student Accommodation</option>
+    </select>
+
+    <label>Purpose:</label>
+    <select>
+      <option>All</option>
+      <option>For Sale</option>
+      <option>Auction</option>
+      <option>To Rent</option>
+      <option>Rent-to-Own</option>
+    </select>
+  </div>
+
+  <div class="filters-row property-filters">
+    <label>Bedrooms:</label>
+    <select>
+      <option>All</option>
+      <option>1+</option>
+      <option>2+</option>
+      <option>3+</option>
+      <option>4+</option>
+      <option>5+</option>
+    </select>
+
+    <label>Bathrooms:</label>
+    <select>
+      <option>All</option>
+      <option>1+</option>
+      <option>2+</option>
+      <option>3+</option>
+      <option>4+</option>
+    </select>
+  </div>
+
+  <div class="filters-row property-filters">
+    <label>House Size (m²):</label>
+    <!-- You can swap these for range sliders later -->
+    <input type="number" placeholder="Min m²">
+    <input type="number" placeholder="Max m²">
+
+    <label>Land Size (m²):</label>
+    <input type="number" placeholder="Min m²">
+    <input type="number" placeholder="Max m²">
+  </div>
+
+  <div class="filters-row property-filters">
+    <label>Seller Type:</label>
+    <select>
+      <option>All</option>
+      <option>Private Seller</option>
+      <option>Agent</option>
+      <option>Bank Sale</option>
+      <option>Auctioneer</option>
+    </select>
+  </div>
+</template>
+
+<!-- CLOTHING -->
+<template id="clothingFilters">
+  <div class="filters-row clothing-filters">
+    <label>Brand:</label>
+    <select>
+      <option>All</option>
+      <option>Nike</option>
+      <option>Adidas</option>
+      <option>Puma</option>
+      <!-- add more brands -->
+    </select>
+
+    <label>Category:</label>
+    <select>
+      <option>All</option>
+      <option>Men</option>
+      <option>Women</option>
+      <option>Kids</option>
+      <option>Unisex</option>
+    </select>
+  </div>
+
+  <div class="filters-row clothing-filters">
+    <label>Clothing Type:</label>
+    <select>
+      <option>All</option>
+      <option>T-Shirts</option>
+      <option>Shirts</option>
+      <option>Jeans</option>
+      <option>Trousers</option>
+      <option>Dresses</option>
+      <option>Hoodies</option>
+      <option>Jackets</option>
+      <option>Shorts</option>
+      <option>Activewear</option>
+      <option>Underwear</option>
+      <option>Sleepwear</option>
+      <option>Swimwear</option>
+      <option>School Uniforms</option>
+    </select>
+
+    <label>Condition:</label>
+    <select>
+      <option>All</option>
+      <option>New</option>
+      <option>Like New</option>
+      <option>Good</option>
+      <option>Fair</option>
+      <option>Vintage</option>
+      <option>Damaged / For Upcycling</option>
+    </select>
+  </div>
+
+  <div class="filters-row clothing-filters">
+    <label>Seller Type:</label>
+    <select>
+      <option>All</option>
+      <option>Private Seller</option>
+      <option>Boutique Store</option>
+      <option>Thrift Seller</option>
+    </select>
+  </div>
+</template>
 
     <script type="module">
         import { supabaseClient, signIn, signUp, resetPassword } from './app.js';
