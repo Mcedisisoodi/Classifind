@@ -461,6 +461,54 @@
       <option>Degree</option>
       <option>Trade Test</option>
     </select>
+       </div>
+            </template>
+            <template id="greenEnergyFilters">
+  <div class="filters-row green-energy-filters">
+
+    <label>Product Type:</label>
+    <select>
+      <option>All</option>
+      <option>Solar Panels</option>
+      <option>Inverters</option>
+      <option>Batteries</option>
+      <option>Charge Controllers</option>
+      <option>Solar Kits (Complete Systems)</option>
+      <option>Solar Geysers</option>
+      <option>Wind Turbines</option>
+      <option>Eco / Hybrid Generators</option>
+      <option>UPS Systems</option>
+      <option>Cables & Accessories</option>
+      <option>Installation Services</option>
+    </select>
+
+    <label>Battery Type:</label>
+    <select>
+      <option>All</option>
+      <option>Lithium (LiFePO4)</option>
+      <option>AGM Deep Cycle</option>
+      <option>Gel</option>
+      <option>Lead-Acid</option>
+      <option>Sodium-ion</option>
+    </select>
+
+    <label>Inverter Type:</label>
+    <select>
+      <option>All</option>
+      <option>Pure Sine Wave</option>
+      <option>Modified Sine Wave</option>
+      <option>Hybrid Inverter</option>
+      <option>Off-grid Inverter</option>
+      <option>Grid-tied Inverter</option>
+    </select>
+
+    <label>Condition:</label>
+    <select>
+      <option>All</option>
+      <option>New</option>
+      <option>Used</option>
+      <option>Refurbished</option>
+    </select>
 
               </div>
             </template>
@@ -618,6 +666,8 @@
                 templateId = "clothingFilters";
              } else if (cat === "Jobs") {
                 templateId = "jobsFilters";
+           } else if (cat === "green energy") {
+                templateId = "greenEnergyFilters";
             }
 
             if (templateId) {
