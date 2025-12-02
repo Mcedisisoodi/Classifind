@@ -9,7 +9,9 @@
 </head>
 <body>
     <header>
-        <div class="logo">Honey<span>Sweetpot</span> <img src="/categories/HoneyPot.webp" alt="HoneySweetpot Logo" style="height: 60px; vertical-align: bottom; margin-left: 5px;"></div>
+        <div class="logo">Honey<span>Sweetpot</span> 
+            <img src="/categories/HoneyPot.webp" alt="HoneySweetpot Logo" style="height: 60px; vertical-align: bottom; margin-left: 5px;">
+        </div>
         <div class="header-actions">
             <button class="btn" id="loginBtn">Login</button>
             <button class="btn" id="signupBtn">Sign up</button>
@@ -38,6 +40,7 @@
                 <button id="searchBtn">Search</button>
             </div>
         </section>
+
         <h2 class="section-title">Browse by category</h2>
         <section class="categories" id="categoryList">
             <div class="category-card" data-category="Cars"><img src="/categories/cars.webp" alt="Cars" class="category-icon-img"><span><b>Cars</b></span></div>
@@ -50,6 +53,7 @@
             <div class="category-card" data-category="Green Energy"><img src="/categories/Green energy.webp" alt="Green energy" class="category-icon-img"><span><b>Green Energy</b></span></div>
             <div class="category-card" data-category="Other"><img src="/categories/other.webp" alt="Other" class="category-icon-img"><span><b>Other</b></span></div>
         </section>
+
         <h2 class="section-title">All ads</h2>
         <div class="filters-container">
             <div class="filters-row">
@@ -89,8 +93,13 @@
                     <span>Verified Only</span>
                 </label>
             </div>
+
+            <!-- NEW: this is where dynamic filters (like car filters) will appear -->
+            <div id="dynamicCategoryFilters"></div>
         </div>
+
         <section class="ads-grid" id="adsGrid"></section>
+
         <footer>
             <div style="max-width:1100px; margin:0 auto; text-align:left; display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:20px; padding:20px 10px;">
                 <div>
@@ -134,7 +143,10 @@
                 <label for="loginEmail">Email or Phone</label>
                 <input id="loginEmail" type="text" placeholder="you@example.com" />
                 <label for="loginPassword">Password</label>
-                <div class="password-wrapper"><input id="loginPassword" type="password" placeholder="Enter your password" /><button type="button" class="toggle-password" aria-label="Toggle password visibility">👁️</button></div>
+                <div class="password-wrapper">
+                    <input id="loginPassword" type="password" placeholder="Enter your password" />
+                    <button type="button" class="toggle-password" aria-label="Toggle password visibility">👁️</button>
+                </div>
                 <button class="auth-submit" id="loginSubmit">Login</button>
                 <div class="auth-actions">
                     <span id="forgotPassword" class="auth-link" style="font-size:0.8rem;">Forgot Password?</span>
@@ -176,11 +188,17 @@
 
                 <div class="field-group">
                     <label for="signupPassword">Password</label>
-                    <div class="password-wrapper"><input id="signupPassword" type="password" placeholder="Create a password" /><button type="button" class="toggle-password" aria-label="Toggle password visibility">👁️</button></div>
+                    <div class="password-wrapper">
+                        <input id="signupPassword" type="password" placeholder="Create a password" />
+                        <button type="button" class="toggle-password" aria-label="Toggle password visibility">👁️</button>
+                    </div>
                 </div>
                 <div class="field-group">
                     <label for="signupPasswordConfirm">Confirm Password</label>
-                    <div class="password-wrapper"><input id="signupPasswordConfirm" type="password" placeholder="Re-enter password" /><button type="button" class="toggle-password" aria-label="Toggle password visibility">👁️</button></div>
+                    <div class="password-wrapper">
+                        <input id="signupPasswordConfirm" type="password" placeholder="Re-enter password" />
+                        <button type="button" class="toggle-password" aria-label="Toggle password visibility">👁️</button>
+                    </div>
                 </div>
 
                 <button class="auth-submit" id="signupSubmit">Create account</button>
@@ -190,6 +208,108 @@
             </div>
         </div>
     </div>
+
+    <!-- NEW: template for car filters -->
+    <template id="carFilters">
+      <div class="filters-row car-filters">
+        <label>Make:</label>
+        <select>
+          <option>All</option>
+          <option>Toyota</option>
+          <option>VW</option>
+          <option>BMW</option>
+          <!-- Add more -->
+        </select>
+
+        <label>Model:</label>
+        <select>
+          <option>All</option>
+          <option>Golf 6</option>
+          <option>Corolla Quest</option>
+          <!-- Add more -->
+        </select>
+
+        <label>Year:</label>
+        <select>
+          <option>All</option>
+          <!-- You can generate 1990–2025 with JS later -->
+          <option>2025</option>
+          <option>2024</option>
+          <option>2023</option>
+        </select>
+
+        <label>Mileage:</label>
+        <select>
+          <option>All</option>
+          <option>0–50 000 km</option>
+          <option>50 000–100 000 km</option>
+          <option>100 000–150 000 km</option>
+          <option>150 000–200 000 km</option>
+          <option>200 000–300 000 km</option>
+          <option>300 000–500 000 km</option>
+        </select>
+      </div>
+
+      <div class="filters-row car-filters">
+        <label>Body Type:</label>
+        <select>
+          <option>All</option>
+          <option>Hatchback</option>
+          <option>Sedan</option>
+          <option>SUV</option>
+          <option>Bakkie</option>
+          <option>Coupe</option>
+          <option>Van</option>
+        </select>
+
+        <label>Transmission:</label>
+        <select>
+          <option>All</option>
+          <option>Manual</option>
+          <option>Automatic</option>
+        </select>
+
+        <label>Fuel Type:</label>
+        <select>
+          <option>All</option>
+          <option>Petrol</option>
+          <option>Diesel</option>
+          <option>Hybrid</option>
+          <option>Electric</option>
+        </select>
+
+        <label>Condition:</label>
+        <select>
+          <option>All</option>
+          <option>Brand New</option>
+          <option>Used – Good</option>
+          <option>Used – Fair</option>
+          <option>Salvage / Needs Work</option>
+        </select>
+      </div>
+
+      <div class="filters-row car-filters">
+        <label>Vehicle History:</label>
+        <select>
+          <option>All</option>
+          <option>Full Service History</option>
+          <option>Partial Service History</option>
+          <option>No Service History</option>
+          <option>Accident-Free</option>
+          <option>Rebuilt / Code 2</option>
+          <option>Code 3</option>
+          <option>One Owner</option>
+        </select>
+
+        <label>Seller Type:</label>
+        <select>
+          <option>All</option>
+          <option>Private Seller</option>
+          <option>Dealer</option>
+          <option>Certified Dealer</option>
+        </select>
+      </div>
+    </template>
 
     <script type="module">
         import { supabaseClient, signIn, signUp, resetPassword } from './app.js';
@@ -206,6 +326,20 @@
         const searchText = document.getElementById("searchText");
         const searchLocation = document.getElementById("searchLocation");
         const provinceSelect = document.getElementById("provinceSelect");
+        const dynamicCategoryFilters = document.getElementById("dynamicCategoryFilters"); // NEW
+
+        // NEW: show/hide category-specific filters (currently only Cars)
+        function updateCategoryFilters() {
+            dynamicCategoryFilters.innerHTML = "";
+
+            if (filterCategory.value === "Cars") {
+                const tpl = document.getElementById("carFilters");
+                if (tpl) {
+                    const clone = tpl.content.cloneNode(true);
+                    dynamicCategoryFilters.appendChild(clone);
+                }
+            }
+        }
 
         // Province Data
         const provinceAreas = {
@@ -256,7 +390,6 @@
                 
                 const imgDiv = document.createElement("div");
                 imgDiv.className = "ad-image";
-                // Use img tag for better object-fit control
                 const img = document.createElement("img");
                 img.src = ad.img || PLACEHOLDER_IMG;
                 img.loading = "lazy";
@@ -283,7 +416,6 @@
                 card.appendChild(imgDiv);
                 card.appendChild(body);
                 
-                // Link to Ad Details Page
                 card.addEventListener("click", () => {
                     window.location.href = `ad-details.html?id=${ad.id}`;
                 });
@@ -302,19 +434,16 @@
                 return;
             }
             ads = (data || []).map(row => {
-                // Determine primary image: use first from 'images' array if available, else fallback to 'image_url'
                 let primaryImg = "";
                 if (row.images && Array.isArray(row.images) && row.images.length > 0) {
-                    // Find first valid image URL
                     const validImg = row.images.find(url => url && (url.match(/^https?:\/\//i) || url.match(/^data:image\//i) || url.startsWith('/')));
                     primaryImg = validImg || row.images[0];
                 } else {
                     primaryImg = row.image_url || "";
                 }
 
-                // Final validation check
                 if (primaryImg && !primaryImg.match(/^https?:\/\//i) && !primaryImg.match(/^data:image\//i) && !primaryImg.startsWith('/')) {
-                    primaryImg = ""; // Invalid URL (e.g. email address)
+                    primaryImg = "";
                 }
 
                 return {
@@ -337,7 +466,6 @@
         function applyFilters() {
             let list = [...ads];
             
-            // Text Search
             const text = searchText.value.trim().toLowerCase();
             if (text) {
                 list = list.filter(ad =>
@@ -346,7 +474,6 @@
                 );
             }
 
-            // Location Filter (Case Insensitive Fix)
             const province = provinceSelect.value;
             const loc = searchLocation.value.toLowerCase();
             
@@ -362,24 +489,20 @@
                 list = list.filter(ad => ad.location.toLowerCase() === loc);
             }
 
-            // Category Filter
             const cat = filterCategory.value;
             if (cat) {
                 list = list.filter(ad => ad.category === cat);
             }
 
-            // Condition Filter
             const cond = filterCondition.value;
             if (cond) {
                 list = list.filter(ad => ad.condition === cond);
             }
 
-            // Verified Filter
             if (filterVerified.checked) {
                 list = list.filter(ad => ad.verified === true);
             }
 
-            // Price Range Filter
             const min = priceMin.value ? Number(priceMin.value) : 0;
             const max = priceMax.value ? Number(priceMax.value) : Infinity;
             
@@ -388,7 +511,6 @@
                 return p >= min && p <= max;
             });
 
-            // Sorting
             const sort = filterSort.value;
             if (sort === "priceLow") {
                 list.sort((a, b) => (a.price || 0) - (b.price || 0));
@@ -401,7 +523,10 @@
         }
 
         document.getElementById("searchBtn").addEventListener("click", applyFilters);
-        filterCategory.addEventListener("change", applyFilters);
+        filterCategory.addEventListener("change", () => {  // NEW
+            updateCategoryFilters();
+            applyFilters();
+        });
         filterSort.addEventListener("change", applyFilters);
         filterCondition.addEventListener("change", applyFilters);
         filterVerified.addEventListener("change", applyFilters);
@@ -411,11 +536,13 @@
         searchText.addEventListener("keyup", (e) => {
             if (e.key === "Enter") applyFilters();
         });
+
         document.getElementById("categoryList").addEventListener("click", (e) => {
             const card = e.target.closest(".category-card");
             if (!card) return;
             const cat = card.dataset.category;
             filterCategory.value = cat;
+            updateCategoryFilters(); // NEW
             applyFilters();
             const filtersEl = document.querySelector(".filters");
             if (filtersEl) {
@@ -437,9 +564,8 @@
         const bankDetailsSection = document.getElementById("bankDetailsSection");
 
         if(loginBtn) loginBtn.addEventListener("click", () => loginBackdrop.style.display = "flex");
-                if(signupBtn) signupBtn.addEventListener("click", () => {
+        if(signupBtn) signupBtn.addEventListener("click", () => {
             signupBackdrop.classList.add("active");
-            // Reset form state
             if(signupRole) signupRole.value = "buyer";
             if(bankDetailsSection) bankDetailsSection.classList.add("hidden");
         });
@@ -449,7 +575,6 @@
         if(goToSignup) goToSignup.addEventListener("click", () => {
             loginBackdrop.style.display = "none";
             signupBackdrop.classList.add("active");
-            // Reset form state
             if(signupRole) signupRole.value = "buyer";
             if(bankDetailsSection) bankDetailsSection.classList.add("hidden");
         });
@@ -479,7 +604,6 @@
             });
         }
 
-        // Auth Submit
         document.getElementById("loginSubmit").addEventListener("click", async () => {
             const email = document.getElementById("loginEmail").value;
             const password = document.getElementById("loginPassword").value;
@@ -519,6 +643,7 @@
 
         populateTownsForProvince("All provinces");
         fetchAdsFromSupabase();
+        updateCategoryFilters(); // NEW: ensure correct filters show on load
     </script>
 </body>
 </html>
