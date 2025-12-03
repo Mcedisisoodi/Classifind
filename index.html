@@ -1145,18 +1145,27 @@ searchText.addEventListener("keyup", (e) => {
 if (applyDynamicFiltersLink) {
     applyDynamicFiltersLink.addEventListener("click", (e) => {
         e.preventDefault();
+
         applyFilters(); // run filters using current values
 
-        // scroll the "More Filters" box into view (top)
+        // 🔽 Close the "More Filters" box (same as clicking "Less Filters")
         if (dynamicFiltersContainer) {
-            dynamicFiltersContainer.scrollIntoView({
-                behavior: "smooth",
-                block: "start"
+            dynamicFiltersContainer.style.display = "none";
+        }
+        if (moreFiltersBtn) {
+            moreFiltersBtn.textContent = "More Filters";
+        }
+
+        // Optional: scroll back to main filters so user sees the results
+        const filtersEl = document.querySelector(".filters-container");
+        if (filtersEl) {
+            window.scrollTo({
+                top: filtersEl.offsetTop - 60,
+                behavior: "smooth"
             });
         }
     });
 }
-
 // CLEAR FILTERS (dynamic filters)
 if (clearDynamicFiltersLink) {
     clearDynamicFiltersLink.addEventListener("click", (e) => {
