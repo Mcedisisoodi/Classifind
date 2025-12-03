@@ -813,6 +813,7 @@
         const moreFiltersBtn = document.getElementById("moreFiltersBtn");
         const dynamicFiltersContainer = document.getElementById("dynamicFiltersContainer");
         const dynamicCategoryFilters = document.getElementById("dynamicCategoryFilters");
+        const applyDynamicFiltersLink = document.getElementById("applyDynamicFiltersLink");
 
         // Show/hide Additional Filters, but the contents themselves depend on category
         if (moreFiltersBtn && dynamicFiltersContainer) {
@@ -1060,6 +1061,12 @@
         searchText.addEventListener("keyup", (e) => {
             if (e.key === "Enter") applyFilters();
         });
+        if (applyDynamicFiltersLink) {
+    applyDynamicFiltersLink.addEventListener("click", (e) => {
+        e.preventDefault();
+        applyFilters(); // uses current filter + dynamic filter values
+    });
+}
 
         document.getElementById("categoryList").addEventListener("click", (e) => {
             const card = e.target.closest(".category-card");
