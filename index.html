@@ -1123,7 +1123,7 @@ function updateDropdownCounts() {
                 list.sort((a, b) => new Date(b.postedAt) - new Date(a.postedAt));
             }
             renderAds(list);
-    updateDropdownCounts();   // ⬅️ add this line
+    updateDropdownCounts();
 }
         document.getElementById("searchBtn").addEventListener("click", applyFilters);
         filterCategory.addEventListener("change", () => {
