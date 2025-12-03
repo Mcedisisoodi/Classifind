@@ -11,6 +11,9 @@ document.addEventListener("DOMContentLoaded", () => {
     if (select.dataset.hsMsInit === "1") return;
     select.dataset.hsMsInit = "1";
 
+    // Make it logically multi-select
+    select.multiple = true;
+
     // Wrap
     const wrapper = document.createElement("div");
     wrapper.className = "hs-ms-wrapper";
@@ -21,9 +24,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const placeholderSpan = document.createElement("span");
     placeholderSpan.className = "hs-ms-placeholder";
-    placeholderSpan.textContent = select.previousElementSibling && select.previousElementSibling.tagName === "LABEL"
-      ? `Select ${select.previousElementSibling.textContent.replace(":", "").trim()}`
-      : "Select options";
+    placeholderSpan.textContent =
+      select.previousElementSibling &&
+      select.previousElementSibling.tagName === "LABEL"
+        ? `Select ${select.previousElementSibling.textContent
+            .replace(":", "")
+            .trim()}`
+        : "Select options";
 
     const countSpan = document.createElement("span");
     countSpan.className = "hs-ms-count";
@@ -37,11 +44,11 @@ document.addEventListener("DOMContentLoaded", () => {
     list.className = "hs-ms-options";
     list.style.display = "none";
 
-    // Mark original select as hidden for UI
+    // Hide original select visually but keep it for logic
     select.classList.add("hs-ms-original-select");
 
-    // Build options
     const options = Array.from(select.options);
+
     options.forEach((opt, index) => {
       const value = opt.value !== "" ? opt.value : opt.textContent.trim();
       const text = opt.textContent.trim();
@@ -59,35 +66,47 @@ document.addEventListener("DOMContentLoaded", () => {
       optionDiv.appendChild(labelSpan);
       optionDiv.appendChild(circleSpan);
 
-      // Click behaviour
       optionDiv.addEventListener("click", (e) => {
         e.stopPropagation();
 
-        // "All" behaviour: clear others
         const isAll =
-          index === 0 &&
-          text.toLowerCase() === "all";
+          index === 0 && text.toLowerCase() === "all";
 
         if (isAll) {
-          // Clear all selections
-          options.forEach(o => o.selected = false);
-          Array.from(list.children).forEach(child => child.classList.remove("selected"));
+          const alreadySelected = optionDiv.classList.contains("selected");
 
-          // Just treat "All" as "no filter" (nothing selected)
+          // If already selected, unselect "All"
+          if (alreadySelected) {
+            optionDiv.classList.remove("selected");
+            options[index].selected = false;
+          } else {
+            // Select ONLY "All", clear others
+            options.forEach((o) => (o.selected = false));
+            Array.from(list.children).forEach((child) =>
+              child.classList.remove("selected")
+            );
+
+            optionDiv.classList.add("selected");
+            options[index].selected = true;
+          }
+
           updateDisplay();
           return;
         }
 
-        // Toggle this option
+        // Normal options: toggle
         const currentlySelected = optionDiv.classList.contains("selected");
         optionDiv.classList.toggle("selected", !currentlySelected);
-
-        // Mirror to <select> options
         options[index].selected = !currentlySelected;
 
-        // Make sure the first option ("All") is effectively off when others are selected
-        if (options[0] && options[0].textContent.trim().toLowerCase() === "all") {
+        // If "All" exists as first option, clear it when a specific is chosen
+        if (
+          options[0] &&
+          options[0].textContent.trim().toLowerCase() === "all"
+        ) {
           options[0].selected = false;
+          const firstChild = list.children[0];
+          if (firstChild) firstChild.classList.remove("selected");
         }
 
         updateDisplay();
@@ -96,59 +115,60 @@ document.addEventListener("DOMContentLoaded", () => {
       list.appendChild(optionDiv);
     });
 
-    // Update the display text / count
     function updateDisplay() {
-      const selectedOptions = options.filter(o => o.selected);
+      const selectedOptions = options.filter((o) => o.selected);
+
       if (selectedOptions.length === 0) {
+        // Nothing selected
         placeholderSpan.style.display = "inline";
         countSpan.style.display = "none";
       } else if (selectedOptions.length === 1) {
+        // Single selection – show its text (including "All")
         placeholderSpan.style.display = "none";
         countSpan.style.display = "inline";
         countSpan.textContent = selectedOptions[0].textContent.trim();
       } else {
+        // Multiple selected
         placeholderSpan.style.display = "none";
         countSpan.style.display = "inline";
         countSpan.textContent = `${selectedOptions.length} selected`;
       }
     }
 
-    // Toggle dropdown open/close
+    // Toggle dropdown
     display.addEventListener("click", (e) => {
       e.stopPropagation();
       const isOpen = list.style.display === "block";
-      document.querySelectorAll(".hs-ms-options").forEach(el => el.style.display = "none");
+      document
+        .querySelectorAll(".hs-ms-options")
+        .forEach((el) => (el.style.display = "none"));
       list.style.display = isOpen ? "none" : "block";
     });
 
-    // Close when clicking outside
+    // Close on outside click
     document.addEventListener("click", () => {
       list.style.display = "none";
     });
 
-    // Insert wrapper around the select
+    // Insert wrapper
     select.parentNode.insertBefore(wrapper, select);
     wrapper.appendChild(display);
     wrapper.appendChild(list);
     wrapper.appendChild(select);
 
-    // Initial sync
+    // Initial display
     updateDisplay();
   }
 
   function initAllSelectsIn(container) {
     const selects = container.querySelectorAll("select");
-    selects.forEach((select) => {
-      // Make them logically multi-select
-      select.multiple = true;
-      initCustomMultiSelect(select);
-    });
+    selects.forEach((select) => initCustomMultiSelect(select));
   }
 
   // Run on current content
   initAllSelectsIn(dynamicContainer);
 
-  // Watch for category changes (templates being cloned in)
+  // Watch for category filter templates being injected
   const observer = new MutationObserver(() => {
     initAllSelectsIn(dynamicContainer);
   });
