@@ -19,7 +19,7 @@
     <main>
         <section class="search-section">
             <div class="search-row">
-                <input id="searchText" type="text" placeholder="Find cars, phones, property..." />
+                <input id="searchText" type="text" name="site-search" autocomplete="off" placeholder="Find cars, phones, property..." />
                 <select id="provinceSelect">
                     <option value="All provinces">All provinces</option>
                     <option value="Gauteng">Gauteng</option>
@@ -50,7 +50,7 @@
             <div class="category-card" data-category="Green Energy"><img src="/categories/Green Energy.webp" alt="Green Energy" class="category-icon-img"><span><b>Green Energy</b></span></div>
             <div class="category-card" data-category="Other"><img src="/categories/other.webp" alt="Other" class="category-icon-img"><span><b>Other</b></span></div>
         </section>
-        <h2 class="section-title">Filter</h2>
+        <h2 class="section-title" id="filterSectionTitle">Filter</h2>
         <div class="filters-container">
             <div class="filters-row">
                 <select id="filterCategory">
@@ -127,20 +127,58 @@
             <template id="carFilters">
               <div class="filters-row car-filters">
                 <label>Make:</label>
-                <select>
+                <select id="filterCarMake">
                   <option>All</option>
-                  <option>Toyota</option>
-                  <option>VW</option>
+                  <option>Alfa Romeo</option>
+                  <option>Audi</option>
+                  <option>BAIC</option>
+                  <option>Bentley</option>
                   <option>BMW</option>
-                  <!-- add more makes -->
+                  <option>BYD</option>
+                  <option>Changan</option>
+                  <option>Chery</option>
+                  <option>Citroën</option>
+                  <option>Cupra</option>
+                  <option>Fiat</option>
+                  <option>Ford</option>
+                  <option>GAC</option>
+                  <option>Geely</option>
+                  <option>GWM</option>
+                  <option>Haval</option>
+                  <option>Honda</option>
+                  <option>Hyundai</option>
+                  <option>Isuzu</option>
+                  <option>Jaguar</option>
+                  <option>JAC</option>
+                  <option>Jeep</option>
+                  <option>Kia</option>
+                  <option>Land Rover</option>
+                  <option>Lexus</option>
+                  <option>Mahindra</option>
+                  <option>Maserati</option>
+                  <option>Mazda</option>
+                  <option>Mercedes-Benz</option>
+                  <option>Mini</option>
+                  <option>Mitsubishi</option>
+                  <option>Nissan</option>
+                  <option>Opel</option>
+                  <option>Peugeot</option>
+                  <option>Porsche</option>
+                  <option>Proton</option>
+                  <option>Renault</option>
+                  <option>Rolls-Royce</option>
+                  <option>Subaru</option>
+                  <option>Suzuki</option>
+                  <option>Toyota</option>
+                  <option>Volkswagen</option>
+                  <option>Volvo</option>
+                  <option>Other</option>
                 </select>
 
                 <label>Model:</label>
-                <select>
+                <select id="filterCarModel">
                   <option>All</option>
-                  <option>Golf 6</option>
-                  <option>Corolla Quest</option>
-                  <!-- add more models -->
+                  <!-- Models populated via JS -->
                 </select>
 
                 <label>Year:</label>
@@ -747,11 +785,13 @@
                 <button class="auth-close" id="loginClose">&times;</button>
             </div>
             <div class="auth-body">
-                <label for="loginEmail">Email or Phone</label>
-                <input id="loginEmail" type="text" placeholder="you@example.com" />
-                <label for="loginPassword">Password</label>
-                <div class="password-wrapper"><input id="loginPassword" type="password" placeholder="Enter your password" /><button type="button" class="toggle-password" aria-label="Toggle password visibility">👁️</button></div>
-                <button class="auth-submit" id="loginSubmit">Login</button>
+                <form id="loginForm" autocomplete="on">
+                    <label for="loginEmail">Email or Phone</label>
+                    <input id="loginEmail" type="text" name="email" autocomplete="username" placeholder="you@example.com" />
+                    <label for="loginPassword">Password</label>
+                    <div class="password-wrapper"><input id="loginPassword" type="password" name="password" autocomplete="current-password" placeholder="Enter your password" /><button type="button" class="toggle-password" aria-label="Toggle password visibility">👁️</button></div>
+                    <button type="submit" class="auth-submit" id="loginSubmit">Login</button>
+                </form>
                 <div class="auth-actions">
                     <span id="forgotPassword" class="auth-link" style="font-size:0.8rem;">Forgot Password?</span>
                     <span>New here? <span id="goToSignup" class="auth-link">Create an account</span></span>
@@ -768,38 +808,40 @@
                 <button class="auth-close" id="signupClose">&times;</button>
             </div>
             <div class="auth-body">
-                <label for="signupName">Name</label>
-                <input id="signupName" type="text" placeholder="First Name" />
-                <label for="signupSurname">Surname</label>
-                <input id="signupSurname" type="text" placeholder="Last Name" />
-                <label for="signupAddress">Address</label>
-                <input id="signupAddress" type="text" placeholder="Your Address" />
-                <label for="signupPhone">Phone Number</label>
-                <input id="signupPhone" type="tel" placeholder="072 123 4567" />
-                <label for="signupEmail">Email</label>
-                <input id="signupEmail" type="email" placeholder="you@example.com" />
-                
-                <label>I am a:</label>
-                <select id="signupRole">
-                    <option value="buyer">Buyer</option>
-                    <option value="seller">Seller</option>
-                </select>
+                <form id="signupForm" autocomplete="on">
+                    <label for="signupName">Name</label>
+                    <input id="signupName" type="text" name="given-name" autocomplete="given-name" placeholder="First Name" />
+                    <label for="signupSurname">Surname</label>
+                    <input id="signupSurname" type="text" name="family-name" autocomplete="family-name" placeholder="Last Name" />
+                    <label for="signupAddress">Address</label>
+                    <input id="signupAddress" type="text" name="street-address" autocomplete="street-address" placeholder="Your Address" />
+                    <label for="signupPhone">Phone Number</label>
+                    <input id="signupPhone" type="tel" name="tel" autocomplete="tel" placeholder="072 123 4567" />
+                    <label for="signupEmail">Email</label>
+                    <input id="signupEmail" type="email" name="email" autocomplete="email" placeholder="you@example.com" />
+                    
+                    <label>I am a:</label>
+                    <select id="signupRole" name="role">
+                        <option value="buyer">Buyer</option>
+                        <option value="seller">Seller</option>
+                    </select>
 
-                <div id="bankDetailsSection" class="hidden">
-                    <label for="signupBank">Bank Account Details</label>
-                    <textarea id="signupBank" placeholder="Bank Name, Account Number, Branch Code" style="width:100%; padding:8px; border-radius:6px; border:1px solid #ccc; margin-bottom:10px;"></textarea>
-                </div>
+                    <div id="bankDetailsSection" class="hidden">
+                        <label for="signupBank">Bank Account Details</label>
+                        <textarea id="signupBank" name="bank-details" placeholder="Bank Name, Account Number, Branch Code" style="width:100%; padding:8px; border-radius:6px; border:1px solid #ccc; margin-bottom:10px;"></textarea>
+                    </div>
 
-                <div class="field-group">
-                    <label for="signupPassword">Password</label>
-                    <div class="password-wrapper"><input id="signupPassword" type="password" placeholder="Create a password" /><button type="button" class="toggle-password" aria-label="Toggle password visibility">👁️</button></div>
-                </div>
-                <div class="field-group">
-                    <label for="signupPasswordConfirm">Confirm Password</label>
-                    <div class="password-wrapper"><input id="signupPasswordConfirm" type="password" placeholder="Re-enter password" /><button type="button" class="toggle-password" aria-label="Toggle password visibility">👁️</button></div>
-                </div>
+                    <div class="field-group">
+                        <label for="signupPassword">Password</label>
+                        <div class="password-wrapper"><input id="signupPassword" type="password" name="new-password" autocomplete="new-password" placeholder="Create a password" /><button type="button" class="toggle-password" aria-label="Toggle password visibility">👁️</button></div>
+                    </div>
+                    <div class="field-group">
+                        <label for="signupPasswordConfirm">Confirm Password</label>
+                        <div class="password-wrapper"><input id="signupPasswordConfirm" type="password" name="new-password-confirm" autocomplete="new-password" placeholder="Re-enter password" /><button type="button" class="toggle-password" aria-label="Toggle password visibility">👁️</button></div>
+                    </div>
 
-                <button class="auth-submit" id="signupSubmit">Create account</button>
+                    <button type="submit" class="auth-submit" id="signupSubmit">Create account</button>
+                </form>
                 <div class="auth-actions">
                     <span>Already have an account? <span id="goToLogin" class="auth-link">Login</span></span>
                 </div>
@@ -808,7 +850,22 @@
     </div>
 
     <script type="module">
-        import { supabaseClient, signIn, signUp, resetPassword } from './app.js';
+        import { supabaseClient, signIn, signUp, resetPassword, getSession } from './app.js';
+
+        // --- Post Ad Button Logic ---
+        const postAdBtn = document.getElementById("postAdBtn");
+        if (postAdBtn) {
+            postAdBtn.addEventListener("click", async (e) => {
+                e.preventDefault();
+                const session = await getSession();
+                if (session) {
+                    window.location.href = "post-ad.html";
+                } else {
+                    const loginBackdrop = document.getElementById("loginBackdrop");
+                    if (loginBackdrop) loginBackdrop.style.display = "flex";
+                }
+            });
+        }
 
         // --- Ads Logic ---
         let ads = [];
@@ -876,6 +933,54 @@ function updateCategoryFilters() {
         if (tpl) {
             const clone = tpl.content.cloneNode(true);
             dynamicCategoryFilters.appendChild(clone);
+            
+            // --- Special Logic for Car Filters ---
+            if (cat === "Cars") {
+                const makeSelect = dynamicCategoryFilters.querySelector('#filterCarMake');
+                const modelSelect = dynamicCategoryFilters.querySelector('#filterCarModel');
+                
+                const carData = {
+                    "Alfa Romeo": [
+                        "1900", "2000", "Alfetta", "Giulietta (classic)", "Giulia (classic)", "75", "90", "155", "156", "159", "164", "166",
+                        "33", "Sprint", "Arna", "145", "146", "147", "Mito", "Giulietta (modern)",
+                        "4C", "8C Competizione", "8C Spider", "GTV", "GT", "Brera", "SZ / RZ", "Montreal", "Spider",
+                        "Stelvio", "Tonale",
+                        "Sportwagon (156 SW, 159 SW)"
+                    ]
+                };
+
+                if (makeSelect && modelSelect) {
+                    makeSelect.addEventListener("change", () => {
+                        const make = makeSelect.value;
+                        // Clear existing models (keep "All")
+                        while (modelSelect.options.length > 1) {
+                            modelSelect.remove(1);
+                        }
+
+                        if (carData[make]) {
+                            carData[make].forEach(model => {
+                                const opt = document.createElement("option");
+                                opt.value = model;
+                                opt.textContent = model;
+                                modelSelect.appendChild(opt);
+                            });
+                        }
+                        // Trigger filter update
+                        applyFilters();
+                        updateDropdownCounts();
+                    });
+                }
+            }
+
+            // Add change listeners to new selects
+            const newSelects = dynamicCategoryFilters.querySelectorAll("select");
+            newSelects.forEach(sel => {
+                sel.addEventListener("change", () => {
+                    applyFilters();
+                    updateDropdownCounts();
+                });
+            });
+
             updateDropdownCounts();   // ⬅️ optional-but-nice part
         }
     }
@@ -948,7 +1053,8 @@ function updateCategoryFilters() {
                 location.textContent = ad.location + " • " + ad.category;
                 const meta = document.createElement("div");
                 meta.className = "ad-meta";
-                meta.textContent = "Posted: " + ad.postedAt;
+                const displayDate = getRelativeDate(ad.postedAt);
+                meta.innerHTML = `<span style="color: #00008B; font-weight: 600;">Posted:</span> <span style="color: #00008B; font-weight: 600;">${displayDate}</span>`;
                 body.appendChild(price);
                 body.appendChild(title);
                 body.appendChild(location);
@@ -973,7 +1079,11 @@ function updateCategoryFilters() {
                 console.error("Error fetching ads from Supabase:", error);
                 return;
             }
-            ads = (data || []).map(row => {
+            
+            // Filter out hidden ads
+            const visibleAds = (data || []).filter(ad => !ad.hidden && !ad.deleted);
+
+            ads = visibleAds.map(row => {
                 let primaryImg = "";
                 if (row.images && Array.isArray(row.images) && row.images.length > 0) {
                     const validImg = row.images.find(url => url && (url.match(/^https?:\/\//i) || url.match(/^data:image\//i) || url.startsWith('/')));
@@ -997,10 +1107,28 @@ function updateCategoryFilters() {
                     img: primaryImg,
                     description: row.description,
                     seller: row.seller_name || (row.contact ? row.contact : "Private seller"),
-                    postedAt: row.created_at ? row.created_at.slice(0, 10) : ""
+                    postedAt: row.created_at || ""
                 };
             });
             applyFilters();
+        }
+
+        function getRelativeDate(dateStr) {
+            if (!dateStr) return "";
+            const date = new Date(dateStr);
+            const now = new Date();
+            
+            // Reset time to compare dates only
+            const d = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+            const n = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+            const y = new Date(n);
+            y.setDate(n.getDate() - 1);
+
+            if (d.getTime() === n.getTime()) return "Today";
+            if (d.getTime() === y.getTime()) return "Yesterday";
+            
+            // Return YYYY-MM-DD
+            return dateStr.slice(0, 10);
         }
 // ---- DROPDOWN COUNTS (e.g. Toyota (03)) ----
 function updateDropdownCounts() {
@@ -1013,57 +1141,84 @@ function updateDropdownCounts() {
         const fieldLabel = labelEl ? labelEl.textContent.replace(":", "").trim() : null;
 
         Array.from(select.options).forEach(option => {
-            // Get clean value (strip existing "(xx)" if already added before)
-            const baseText = option.textContent.replace(/\s*\(\d+\)$/,"").trim();
-            const value = option.value || baseText;
+                    // Aggressively clean text and value to remove accumulated counts
+                    const baseText = option.textContent.replace(/(\s*\(\d+\))+$/, "").trim();
+                    
+                    let val = option.value;
+                    if (val && /(\s*\(\d+\))+$/.test(val)) {
+                        val = val.replace(/(\s*\(\d+\))+$/, "").trim();
+                    }
+                    // Ensure value is set and clean
+                    if (!val && baseText) val = baseText;
+                    option.value = val;
 
-            // Filter ads with all current filters,
-            // and then additionally match this dropdown's option
-            const matching = ads.filter(ad => {
-                // category filter
-                if (filterCategory.value && ad.category !== filterCategory.value) return false;
+                    // Filter ads with all current filters,
+                    // and then additionally match this dropdown's option
+                    const matching = ads.filter(ad => {
+                        // category filter
+                        if (filterCategory.value && ad.category !== filterCategory.value) return false;
 
-                // condition filter
-                if (filterCondition.value && ad.condition !== filterCondition.value) return false;
+                        // condition filter
+                        if (filterCondition.value && ad.condition !== filterCondition.value) return false;
 
-                // verified filter
-                if (filterVerified.checked && !ad.verified) return false;
+                        // verified filter
+                        if (filterVerified.checked && !ad.verified) return false;
 
-                // price filter
-                const min = priceMin.value ? Number(priceMin.value) : 0;
-                const max = priceMax.value ? Number(priceMax.value) : Infinity;
-                const p = ad.price || 0;
-                if (p < min || p > max) return false;
+                        // price filter
+                        const min = priceMin.value ? Number(priceMin.value) : 0;
+                        const max = priceMax.value ? Number(priceMax.value) : Infinity;
+                        const p = ad.price || 0;
+                        if (p < min || p > max) return false;
 
-                // province + town filter
-                const province = provinceSelect.value;
-                const loc = searchLocation.value.toLowerCase();
-                if (province && province !== "All provinces") {
-                    const adLoc = ad.location.toLowerCase();
-                    const towns = (provinceAreas[province] || []).map(t => t.toLowerCase());
-                    if (!towns.includes(adLoc) && !adLoc.includes(province.toLowerCase())) return false;
-                }
-                if (loc && ad.location.toLowerCase() !== loc) return false;
+                        // province + town filter
+                        const province = provinceSelect.value;
+                        const loc = searchLocation.value.toLowerCase();
+                        if (province && province !== "All provinces") {
+                            const adLoc = ad.location.toLowerCase();
+                            const towns = (provinceAreas[province] || []).map(t => t.toLowerCase());
+                            if (!towns.includes(adLoc) && !adLoc.includes(province.toLowerCase())) return false;
+                        }
+                        if (loc && ad.location.toLowerCase() !== loc) return false;
 
-                // text search
-                const text = searchText.value.trim().toLowerCase();
-                if (text) {
-                    const hay = (ad.title + " " + ad.description).toLowerCase();
-                    if (!hay.includes(text)) return false;
-                }
+                        // text search
+                        const text = searchText.value.trim().toLowerCase();
+                        if (text) {
+                            const hay = (ad.title + " " + ad.description).toLowerCase();
+                            if (!hay.includes(text)) return false;
+                        }
 
-                // now match this specific option (skip if "All")
-                if (value === "All") return true;
+                        // now match this specific option (skip if "All")
+                        if (val === "All") return true;
 
-                const v = value.toLowerCase();
+                        const v = val.toLowerCase();
 
-                // We don't have dedicated "brand/make" fields in ad object,
-                // so we approximate by checking title + description.
-                const combined = (ad.title + " " + ad.description).toLowerCase();
-                return combined.includes(v);
-            });
+                        // We don't have dedicated "brand/make" fields in ad object,
+                        // so we approximate by checking title + description.
+                        const combined = (ad.title + " " + ad.description).toLowerCase();
+                        return combined.includes(v);
+                    });
 
-            option.textContent = `${value} (${String(matching.length).padStart(2, "0")})`;
+                    // Store count in dataset for custom UI
+                    option.dataset.count = matching.length;
+                    
+                    // Update custom UI if it exists
+                    const wrapper = select.previousElementSibling;
+                    if (wrapper && wrapper.classList.contains('hs-ms-wrapper')) {
+                        const customOpts = wrapper.querySelectorAll('.hs-ms-option');
+                        // Note: customOpts order matches options order
+                        if (customOpts[index]) {
+                            const labelSpan = customOpts[index].querySelector('span:not(.hs-ms-circle)');
+                            if (labelSpan) {
+                                labelSpan.innerHTML = `${baseText} <span style="color: #A88905; font-weight: bold; margin-left: 4px;">${matching.length}</span>`;
+                            }
+                        }
+                    }
+                    
+                    // Keep native select clean (or update it if you want fallback)
+                    // option.textContent = `${baseText} (${matching.length})`; 
+                    // User requested specific formatting which implies custom UI usage.
+                    // We'll keep native select clean to avoid double counts if custom UI re-reads it.
+                    option.textContent = baseText;
         });
     });
 }
@@ -1114,6 +1269,26 @@ function updateDropdownCounts() {
                 const p = ad.price || 0;
                 return p >= min && p <= max;
             });
+
+            // --- Dynamic Filters Logic ---
+            if (dynamicCategoryFilters) {
+                const dynamicSelects = dynamicCategoryFilters.querySelectorAll("select");
+                dynamicSelects.forEach(select => {
+                    // Get selected values, ignoring "All"
+                    const selectedValues = Array.from(select.options)
+                        .filter(opt => opt.selected)
+                        .map(opt => opt.value) // Value is preserved now
+                        .filter(val => !val.toLowerCase().startsWith("all"));
+
+                    if (selectedValues.length > 0) {
+                        list = list.filter(ad => {
+                            const combined = (ad.title + " " + ad.description).toLowerCase();
+                            // OR logic within same filter (e.g. Toyota OR BMW)
+                            return selectedValues.some(val => combined.includes(val.toLowerCase()));
+                        });
+                    }
+                });
+            }
 
             const sort = filterSort.value;
             if (sort === "priceLow") {
@@ -1176,11 +1351,11 @@ if (clearDynamicFiltersLink) {
 
         applyFilters();            // re-apply filters with dynamic filters reset
 
-        // scroll the "More Filters" box into view (top)
-        if (dynamicFiltersContainer) {
-            dynamicFiltersContainer.scrollIntoView({
-                behavior: "smooth",
-                block: "start"
+        // scroll to "Less Filters" button
+        if (moreFiltersBtn) {
+             window.scrollTo({
+                top: moreFiltersBtn.offsetTop - 100,
+                behavior: "smooth"
             });
         }
     });
@@ -1193,9 +1368,9 @@ const card = e.target.closest(".category-card");
             filterCategory.value = cat;
             updateCategoryFilters();
             applyFilters();
-            const filtersEl = document.querySelector(".filters-container");
-            if (filtersEl) {
-                window.scrollTo({ top: filtersEl.offsetTop - 60, behavior: "smooth" });
+            const filterTitle = document.getElementById("filterSectionTitle");
+            if (filterTitle) {
+                window.scrollTo({ top: filterTitle.offsetTop - 100, behavior: "smooth" });
             }
         });
 
@@ -1253,7 +1428,8 @@ const card = e.target.closest(".category-card");
             });
         }
 
-        document.getElementById("loginSubmit").addEventListener("click", async () => {
+        document.getElementById("loginForm").addEventListener("submit", async (e) => {
+            e.preventDefault();
             const email = document.getElementById("loginEmail").value;
             const password = document.getElementById("loginPassword").value;
             const { error } = await signIn(email, password);
@@ -1263,7 +1439,8 @@ const card = e.target.closest(".category-card");
             }
         });
 
-        document.getElementById("signupSubmit").addEventListener("click", async () => {
+        document.getElementById("signupForm").addEventListener("submit", async (e) => {
+            e.preventDefault();
             const email = document.getElementById("signupEmail").value;
             const password = document.getElementById("signupPassword").value;
             const confirm = document.getElementById("signupPasswordConfirm").value;
