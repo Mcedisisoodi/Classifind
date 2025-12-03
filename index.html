@@ -871,12 +871,12 @@
                 templateId = "OtherFilters";
             }
 
-if (templateId) {
-        const tpl = document.getElementById(templateId);
-        if (tpl) {
-            const clone = tpl.content.cloneNode(true);
-            dynamicCategoryFilters.appendChild(clone);
-            updateDropdownCounts();   // ⬅️ optional-but-nice part                }
+            if (templateId) {
+                const tpl = document.getElementById(templateId);
+                if (tpl) {
+                    const clone = tpl.content.cloneNode(true);
+                    dynamicCategoryFilters.appendChild(clone);
+                }
             }
         }
 
@@ -1123,8 +1123,8 @@ function updateDropdownCounts() {
                 list.sort((a, b) => new Date(b.postedAt) - new Date(a.postedAt));
             }
             renderAds(list);
-    updateDropdownCounts();
-}
+        }
+
         document.getElementById("searchBtn").addEventListener("click", applyFilters);
         filterCategory.addEventListener("change", () => {
             updateCategoryFilters();
