@@ -3,7 +3,13 @@
 <head>
     <meta charset="UTF-8" />
     <title>Post Ad – HoneySweetpot</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="theme-color" content="#004d40" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="apple-mobile-web-app-title" content="HoneySweetpot" />
     <link rel="stylesheet" href="styles.css" />
     <script type="module" src="app.js"></script>
 </head>
@@ -11,6 +17,7 @@
     <header>
         <div class="logo"><a href="index.html" style="text-decoration:none; color:inherit;">Honey<span>Sweetpot</span> <img src="/categories/HoneyPot.webp" alt="HoneySweetpot Logo" style="height: 60px; vertical-align: bottom; margin-left: 5px;"></a></div>
         <div class="header-actions">
+            <a href="index.html" class="btn">Return Home</a>
             <button class="btn" id="loginBtn">Login</button>
             <button class="btn" id="signupBtn">Sign up</button>
             <!-- Post Ad button hidden on this page or disabled -->
@@ -94,7 +101,10 @@
                 </div>
                 <p class="postad-note">You can upload multiple photos. The first one will be the main cover image.</p>
 
-                <button class="postad-submit" id="postAdSubmit">Post Ad</button>
+                <div class="form-actions" style="display: flex; gap: 10px; align-items: center; margin-top: 20px;">
+                    <button class="postad-submit" id="postAdSubmit" style="flex: 1;">Post Ad</button>
+                    <a href="index.html" class="btn" style="background: #eee; color: #333; text-decoration: none; padding: 12px 20px; border-radius: 6px; font-weight: 600; border: 1px solid #ccc; text-align: center;">Return Home</a>
+                </div>
             </div>
         </div>
     </main>
@@ -861,8 +871,108 @@
         const postCategory = document.getElementById("postCategory");
         const dynamicFieldsContainer = document.getElementById("dynamicFieldsContainer");
         let selectedFiles = [];
+        const urlParams = new URLSearchParams(window.location.search);
+        let editId = urlParams.get("id");
+        let fromPage = urlParams.get("from");
+        let isEditMode = !!editId;
+        let existingImages = []; // To track images already on server
 
-        // --- Drag and Drop Logic ---
+        if (isEditMode) {
+            document.title = "Edit Ad – HoneySweetpot";
+            document.querySelector(".postad-header h2").textContent = "Edit Ad";
+            document.getElementById("postAdSubmit").textContent = "Update Ad";
+            
+            // Adjust Return Links if from Admin
+            if (fromPage === "admin") {
+                document.querySelectorAll('a[href="index.html"]').forEach(btn => {
+                    if (btn.textContent.includes("Return")) {
+                        btn.href = "admin.html";
+                        btn.textContent = "Return to Admin";
+                    }
+                });
+            }
+            
+            loadAdDetails(editId);
+        }
+
+        async function loadAdDetails(id) {
+            const { data: ad, error } = await supabaseClient
+                .from('ads')
+                .select('*')
+                .eq('id', id)
+                .single();
+
+            if (error) {
+                alert("Error loading ad: " + error.message);
+                window.location.href = "my-ads.html";
+                return;
+            }
+
+            // Populate standard fields
+            document.getElementById("postTitle").value = ad.title;
+            document.getElementById("postPrice").value = ad.price;
+            document.getElementById("postCondition").value = ad.condition || "Used";
+            document.getElementById("postLocation").value = ad.location;
+            document.getElementById("postSellerName").value = ad.seller_name || "";
+            document.getElementById("postContact").value = ad.contact || "";
+            
+            // Handle Description & Dynamic Fields
+            let desc = ad.description || "";
+            let dynamicData = {};
+            
+            if (desc.includes("--- Additional Details ---")) {
+                const parts = desc.split("--- Additional Details ---");
+                desc = parts[0].trim();
+                const detailsBlock = parts[1].trim();
+                
+                detailsBlock.split("\n").forEach(line => {
+                    const [key, val] = line.split(":").map(s => s.trim());
+                    if (key && val) dynamicData[key] = val;
+                });
+            }
+            
+            document.getElementById("postDescription").value = desc;
+
+            // Set Category and Trigger Change
+            if (ad.category) {
+                postCategory.value = ad.category;
+                postCategory.dispatchEvent(new Event("change"));
+                
+                // Populate Dynamic Inputs
+                setTimeout(() => {
+                    const inputs = dynamicFieldsContainer.querySelectorAll(".dynamic-input");
+                    inputs.forEach(input => {
+                        const label = input.dataset.label;
+                        if (dynamicData[label]) {
+                            input.value = dynamicData[label];
+                            
+                            // Special handling for Car Make to trigger Model population
+                            if (label === "Make") {
+                                input.dispatchEvent(new Event("change"));
+                                // Try to set model after make change
+                                setTimeout(() => {
+                                    const modelInput = dynamicFieldsContainer.querySelector('[data-label="Model"]');
+                                    if (modelInput && dynamicData["Model"]) {
+                                        modelInput.value = dynamicData["Model"];
+                                    }
+                                }, 50);
+                            }
+                        }
+                    });
+                }, 50);
+            }
+
+            // Handle Images
+            // Existing images (from server)
+            if (ad.images && ad.images.length > 0) {
+                existingImages = ad.images;
+            } else if (ad.image_url) {
+                existingImages = [ad.image_url];
+            }
+            
+            updateImagePreviews();
+        }
+
         const dropZone = document.getElementById('dropZone');
         
         if (dropZone) {
@@ -1014,7 +1124,28 @@
         async function updateImagePreviews() {
             imagePreviewContainer.innerHTML = "";
             
-            // Use Promise.all to ensure images are read and displayed in the correct order
+            // 1. Show Existing Images (Edit Mode)
+            existingImages.forEach((src, index) => {
+                const div = document.createElement("div");
+                div.className = "preview-card";
+                
+                const img = document.createElement("img");
+                img.src = src;
+                
+                const removeBtn = document.createElement("button");
+                removeBtn.innerHTML = "&times;";
+                removeBtn.className = "preview-remove";
+                removeBtn.onclick = () => {
+                    existingImages.splice(index, 1);
+                    updateImagePreviews();
+                };
+
+                div.appendChild(img);
+                div.appendChild(removeBtn);
+                imagePreviewContainer.appendChild(div);
+            });
+
+            // 2. Show New Selected Files
             const readPromises = selectedFiles.map(file => {
                 return new Promise((resolve) => {
                     const reader = new FileReader();
@@ -1047,17 +1178,19 @@
         }
         
         // Auto-fill seller info if logged in
-        getSession().then(session => {
-            if (session && session.user) {
-                const email = session.user.email;
-                const meta = session.user.user_metadata;
-                if (meta) {
-                    const fullName = [meta.first_name, meta.last_name].filter(Boolean).join(" ");
-                    if (fullName) document.getElementById("postSellerName").value = fullName;
+        if (!isEditMode) {
+            getSession().then(session => {
+                if (session && session.user) {
+                    const email = session.user.email;
+                    const meta = session.user.user_metadata;
+                    if (meta) {
+                        const fullName = [meta.first_name, meta.last_name].filter(Boolean).join(" ");
+                        if (fullName) document.getElementById("postSellerName").value = fullName;
+                    }
+                    document.getElementById("postContact").value = email;
                 }
-                document.getElementById("postContact").value = email;
-            }
-        });
+            });
+        }
 
         postAdSubmit.addEventListener("click", async () => {
             const category = document.getElementById("postCategory").value.trim();
@@ -1091,7 +1224,7 @@
             }
 
             postAdSubmit.disabled = true;
-            postAdSubmit.textContent = "Posting...";
+            postAdSubmit.textContent = isEditMode ? "Updating..." : "Posting...";
 
             let uploadedImageUrls = [];
             
@@ -1147,41 +1280,62 @@
             // Filter out any empty or null URLs to prevent "empty" images
             uploadedImageUrls = uploadedImageUrls.filter(url => url && url.trim() !== "");
 
+            // Combine existing images (if edit) with new uploads
+            // New uploads go to the end, or front? Usually users expect new photos at the end or front.
+            // Let's append new photos to existing ones.
+            const finalImages = [...existingImages, ...uploadedImageUrls];
+
             // 3. Prepare data
             // Primary image is the first one
-            const primaryImage = uploadedImageUrls.length > 0 ? uploadedImageUrls[0] : null;
+            const primaryImage = finalImages.length > 0 ? finalImages[0] : null;
 
-            const { data, error } = await supabaseClient
-                .from("ads")
-                .insert({
-                    title,
-                    description,
-                    category,
-                    price: price ? Number(price) : null,
-                    condition,
-                    location,
-                    seller_name: sellerName || null,
-                    contact: contact || null,
-                    image_url: primaryImage, // Keep for backward compatibility
-                    images: uploadedImageUrls // New JSONB column
-                })
-                .select()
-                .single();
+            const payload = {
+                title,
+                description,
+                category,
+                price: price ? Number(price) : null,
+                condition,
+                location,
+                seller_name: sellerName || null,
+                contact: contact || null,
+                image_url: primaryImage, // Keep for backward compatibility
+                images: finalImages // New JSONB column
+            };
+
+            let error;
+            
+            if (isEditMode) {
+                const { error: updateError } = await supabaseClient
+                    .from("ads")
+                    .update(payload)
+                    .eq('id', editId);
+                error = updateError;
+            } else {
+                const { error: insertError } = await supabaseClient
+                    .from("ads")
+                    .insert(payload);
+                error = insertError;
+            }
 
             if (error) {
-                console.error("Error inserting ad:", error);
+                console.error("Error saving ad:", error);
                 postAdSubmit.disabled = false;
-                postAdSubmit.textContent = "Post Ad";
+                postAdSubmit.textContent = isEditMode ? "Update Ad" : "Post Ad";
                 if (error.message.includes("row-level security")) {
-                    alert("Post failed: Database permissions missing.\n\nPlease run the 'supabase_setup.sql' script in your Supabase Dashboard.");
+                    alert("Operation failed: Database permissions missing.\n\nPlease ensure you are logged in and have permission to edit this ad.");
                 } else {
                     alert("Could not save your ad: " + error.message);
                 }
                 return;
             }
 
-            alert("Your ad has been posted! Redirecting to home...");
-            window.location.href = "index.html";
+            alert(isEditMode ? "Ad updated successfully!" : "Your ad has been posted! Redirecting to home...");
+            
+            if (fromPage === "admin") {
+                window.location.href = "admin.html";
+            } else {
+                window.location.href = isEditMode ? "my-ads.html" : "index.html";
+            }
         });
     </script>
 </body>
