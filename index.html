@@ -101,11 +101,23 @@
            <!-- This is where the correct category filters will appear -->
 <div id="dynamicCategoryFilters" style="display:flex; flex-direction:column; gap:10px;"></div>
 
-<!-- Bottom-left Apply Filters link -->
-<div style="margin-top: 12px; text-align: left;">
+<!-- Bottom Apply (left) + Clear (right) -->
+<div style="
+    margin-top: 12px; 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center;
+">
+    <!-- LEFT: APPLY -->
     <a href="#" id="applyDynamicFiltersLink"
        style="color: #00008B; text-decoration: underline; font-weight: 600; font-size: 0.85rem;">
         Apply Filters
+    </a>
+
+    <!-- RIGHT: CLEAR -->
+    <a href="#" id="clearDynamicFiltersLink"
+       style="color: #555; text-decoration: underline; font-weight: 500; font-size: 0.85rem;">
+        Clear Filters
     </a>
 </div>
 
@@ -814,6 +826,8 @@
         const dynamicFiltersContainer = document.getElementById("dynamicFiltersContainer");
         const dynamicCategoryFilters = document.getElementById("dynamicCategoryFilters");
         const applyDynamicFiltersLink = document.getElementById("applyDynamicFiltersLink");
+         const clearDynamicFiltersLink = document.getElementById("clearDynamicFiltersLink");
+        
 
         // Show/hide Additional Filters, but the contents themselves depend on category
         if (moreFiltersBtn && dynamicFiltersContainer) {
@@ -1053,23 +1067,53 @@
             applyFilters();
         });
         filterSort.addEventListener("change", applyFilters);
-        filterCondition.addEventListener("change", applyFilters);
-        filterVerified.addEventListener("change", applyFilters);
-        priceMin.addEventListener("input", applyFilters);
-        priceMax.addEventListener("input", applyFilters);
-        searchLocation.addEventListener("change", applyFilters);
-        searchText.addEventListener("keyup", (e) => {
-            if (e.key === "Enter") applyFilters();
-        });
-        if (applyDynamicFiltersLink) {
+filterCondition.addEventListener("change", applyFilters);
+filterVerified.addEventListener("change", applyFilters);
+priceMin.addEventListener("input", applyFilters);
+priceMax.addEventListener("input", applyFilters);
+searchLocation.addEventListener("change", applyFilters);
+searchText.addEventListener("keyup", (e) => {
+    if (e.key === "Enter") applyFilters();
+});
+
+// APPLY FILTERS (dynamic filters)
+if (applyDynamicFiltersLink) {
     applyDynamicFiltersLink.addEventListener("click", (e) => {
         e.preventDefault();
-        applyFilters(); // uses current filter + dynamic filter values
+        applyFilters(); // run filters using current values
+
+        // scroll the "More Filters" box into view (top)
+        if (dynamicFiltersContainer) {
+            dynamicFiltersContainer.scrollIntoView({
+                behavior: "smooth",
+                block: "start"
+            });
+        }
     });
 }
 
-        document.getElementById("categoryList").addEventListener("click", (e) => {
-            const card = e.target.closest(".category-card");
+// CLEAR FILTERS (dynamic filters)
+if (clearDynamicFiltersLink) {
+    clearDynamicFiltersLink.addEventListener("click", (e) => {
+        e.preventDefault();
+
+        // Reset ONLY the dynamic category filters by reloading the template
+        updateCategoryFilters();   // wipes current dynamic filters and re-clones fresh ones
+
+        applyFilters();            // re-apply filters with dynamic filters reset
+
+        // scroll the "More Filters" box into view (top)
+        if (dynamicFiltersContainer) {
+            dynamicFiltersContainer.scrollIntoView({
+                behavior: "smooth",
+                block: "start"
+            });
+        }
+    });
+}
+
+document.getElementById("categoryList").addEventListener("click", (e) => {            
+const card = e.target.closest(".category-card");
             if (!card) return;
             const cat = card.dataset.category;
             filterCategory.value = cat;
