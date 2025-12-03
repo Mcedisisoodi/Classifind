@@ -844,41 +844,42 @@
         }
 
         // Update which extra filters show based on category
-        function updateCategoryFilters() {
-            if (!dynamicCategoryFilters) return;
-            dynamicCategoryFilters.innerHTML = "";
+function updateCategoryFilters() {
+    if (!dynamicCategoryFilters) return;
+    dynamicCategoryFilters.innerHTML = "";
 
-            const cat = filterCategory.value;
-            let templateId = null;
+    const cat = filterCategory.value;
+    let templateId = null;
 
-            if (cat === "Cars") {
-                templateId = "carFilters";
-            } else if (cat === "Phones") {
-                templateId = "phoneFilters";
-            } else if (cat === "Property") {
-                templateId = "propertyFilters";
-            } else if (cat === "Electronics") {
-                templateId = "ElectronicsFilters";
-            } else if (cat === "Fashion & Beauty") {
-                templateId = "Fashion & Beauty";
-            } else if (cat === "Clothing") {
-                templateId = "clothingFilters";
-            } else if (cat === "Jobs") {
-                templateId = "jobsFilters";
-            } else if (cat === "Green Energy") {
-                templateId = "greenEnergyFilters";
-            } else if (cat === "Other") {
-                templateId = "OtherFilters";
-            }
+    if (cat === "Cars") {
+        templateId = "carFilters";
+    } else if (cat === "Phones") {
+        templateId = "phoneFilters";
+    } else if (cat === "Property") {
+        templateId = "propertyFilters";
+    } else if (cat === "Electronics") {
+        templateId = "ElectronicsFilters";
+    } else if (cat === "Fashion & Beauty") {
+        templateId = "Fashion & Beauty";
+    } else if (cat === "Clothing") {
+        templateId = "clothingFilters";
+    } else if (cat === "Jobs") {
+        templateId = "jobsFilters";
+    } else if (cat === "Green Energy") {
+        templateId = "greenEnergyFilters";
+    } else if (cat === "Other") {
+        templateId = "OtherFilters";
+    }
 
-            if (templateId) {
-                const tpl = document.getElementById(templateId);
-                if (tpl) {
-                    const clone = tpl.content.cloneNode(true);
-                    dynamicCategoryFilters.appendChild(clone);
-                }
-            }
+    if (templateId) {
+        const tpl = document.getElementById(templateId);
+        if (tpl) {
+            const clone = tpl.content.cloneNode(true);
+            dynamicCategoryFilters.appendChild(clone);
+            updateDropdownCounts();   // ⬅️ optional-but-nice part
         }
+    }
+}
 
         // Province Data
         const provinceAreas = {
