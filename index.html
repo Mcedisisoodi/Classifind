@@ -871,12 +871,12 @@
                 templateId = "OtherFilters";
             }
 
-            if (templateId) {
-                const tpl = document.getElementById(templateId);
-                if (tpl) {
-                    const clone = tpl.content.cloneNode(true);
-                    dynamicCategoryFilters.appendChild(clone);
-                }
+if (templateId) {
+        const tpl = document.getElementById(templateId);
+        if (tpl) {
+            const clone = tpl.content.cloneNode(true);
+            dynamicCategoryFilters.appendChild(clone);
+            updateDropdownCounts();   // ⬅️ optional-but-nice part                }
             }
         }
 
@@ -1001,7 +1001,71 @@
             });
             applyFilters();
         }
+// ---- DROPDOWN COUNTS (e.g. Toyota (03)) ----
+function updateDropdownCounts() {
+    if (!dynamicCategoryFilters) return;
 
+    const selects = dynamicCategoryFilters.querySelectorAll("select");
+
+    selects.forEach(select => {
+        const labelEl = select.previousElementSibling;
+        const fieldLabel = labelEl ? labelEl.textContent.replace(":", "").trim() : null;
+
+        Array.from(select.options).forEach(option => {
+            // Get clean value (strip existing "(xx)" if already added before)
+            const baseText = option.textContent.replace(/\s*\(\d+\)$/,"").trim();
+            const value = option.value || baseText;
+
+            // Filter ads with all current filters,
+            // and then additionally match this dropdown's option
+            const matching = ads.filter(ad => {
+                // category filter
+                if (filterCategory.value && ad.category !== filterCategory.value) return false;
+
+                // condition filter
+                if (filterCondition.value && ad.condition !== filterCondition.value) return false;
+
+                // verified filter
+                if (filterVerified.checked && !ad.verified) return false;
+
+                // price filter
+                const min = priceMin.value ? Number(priceMin.value) : 0;
+                const max = priceMax.value ? Number(priceMax.value) : Infinity;
+                const p = ad.price || 0;
+                if (p < min || p > max) return false;
+
+                // province + town filter
+                const province = provinceSelect.value;
+                const loc = searchLocation.value.toLowerCase();
+                if (province && province !== "All provinces") {
+                    const adLoc = ad.location.toLowerCase();
+                    const towns = (provinceAreas[province] || []).map(t => t.toLowerCase());
+                    if (!towns.includes(adLoc) && !adLoc.includes(province.toLowerCase())) return false;
+                }
+                if (loc && ad.location.toLowerCase() !== loc) return false;
+
+                // text search
+                const text = searchText.value.trim().toLowerCase();
+                if (text) {
+                    const hay = (ad.title + " " + ad.description).toLowerCase();
+                    if (!hay.includes(text)) return false;
+                }
+
+                // now match this specific option (skip if "All")
+                if (value === "All") return true;
+
+                const v = value.toLowerCase();
+
+                // We don't have dedicated "brand/make" fields in ad object,
+                // so we approximate by checking title + description.
+                const combined = (ad.title + " " + ad.description).toLowerCase();
+                return combined.includes(v);
+            });
+
+            option.textContent = `${value} (${String(matching.length).padStart(2, "0")})`;
+        });
+    });
+}
         function applyFilters() {
             let list = [...ads];
             
@@ -1059,8 +1123,8 @@
                 list.sort((a, b) => new Date(b.postedAt) - new Date(a.postedAt));
             }
             renderAds(list);
-        }
-
+    updateDropdownCounts();   // ⬅️ add this line
+}
         document.getElementById("searchBtn").addEventListener("click", applyFilters);
         filterCategory.addEventListener("change", () => {
             updateCategoryFilters();
