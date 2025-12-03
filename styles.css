@@ -935,3 +935,89 @@ footer h4 {
         width: 100%;
     }
 }
+/* === Custom multi-select dropdown === */
+
+.hs-ms-wrapper {
+  position: relative;
+  display: inline-block;
+  min-width: 170px;
+  font-size: 0.85rem;
+}
+
+.hs-ms-display {
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  padding: 6px 10px;
+  background: #fff;
+  cursor: pointer;
+  min-height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+}
+
+.hs-ms-display span.hs-ms-placeholder {
+  color: #777;
+}
+
+.hs-ms-display span.hs-ms-count {
+  font-weight: 600;
+  color: #333;
+}
+
+.hs-ms-display::after {
+  content: "▾";
+  font-size: 0.7rem;
+  color: #555;
+}
+
+/* Dropdown list */
+.hs-ms-options {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc(100% + 4px);
+  z-index: 50;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  max-height: 230px;
+  overflow-y: auto;
+  padding: 4px 0;
+}
+
+.hs-ms-option {
+  padding: 6px 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  cursor: pointer;
+  font-size: 0.85rem;
+}
+
+.hs-ms-option:hover {
+  background: #f4f4f4;
+}
+
+/* The circle on the right */
+.hs-ms-circle {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 2px solid #999;
+  flex-shrink: 0;
+}
+
+/* When selected, fill the circle */
+.hs-ms-option.selected .hs-ms-circle {
+  background: #0074d9;
+  border-color: #0074d9;
+}
+
+/* Hide the original <select> but keep it in the DOM for form logic */
+.hs-ms-original-select {
+  display: none;
+}
