@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>My Ads – HoneySweetpot</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="styles.css" />
+    <script type="module" src="app.js"></script>
+    <style>
+        .admin-container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        .admin-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .admin-table th, .admin-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+        .admin-table th {
+            background-color: #f9f9f9;
+            font-weight: 600;
+        }
+        .admin-table tr:hover {
+            background-color: #f5f5f5;
+        }
+        .action-btn {
+            padding: 6px 12px;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
+            font-size: 0.85rem;
+            margin-right: 5px;
+        }
+        .edit-btn {
+            background-color: #ffca28;
+            color: #333;
+        }
+        .delete-btn {
+            background-color: #c62828;
+            color: #fff;
+        }
+        /* Modal Styles */
+        .modal-backdrop {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        .modal-content {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 500px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+        .form-group input, .form-group textarea, .form-group select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo"><a href="index.html" style="text-decoration:none; color:inherit;">Honey<span>Sweetpot</span> <img src="/categories/HoneyPot.webp" alt="HoneySweetpot Logo" style="height: 60px; vertical-align: bottom; margin-left: 5px;"></a></div>
+        <div class="header-actions">
+            <a href="index.html" class="btn">Back to Home</a>
+            <a href="post-ad.html" class="btn primary">+ Post Ad</a>
+        </div>
+    </header>
+    <main>
+        <div id="loadingMsg" style="text-align:center; margin-top:50px;">Checking login status...</div>
+        
+        <div id="adminContent" class="admin-container" style="display:none;">
+            <div class="admin-header">
+                <h2>My Ads</h2>
+                <span id="userEmail" style="color: #666;"></span>
+            </div>
+            
+            <div style="overflow-x:auto;">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>Image</th>
+                            <th>Title</th>
+                            <th>Category</th>
+                            <th>Price</th>
+                            <th>Posted</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="adsTableBody">
+                        <!-- Rows will be populated here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <!-- Edit Modal -->
+    <div id="editModal" class="modal-backdrop">
+        <div class="modal-content" style="position: relative;">
+            <button id="closeEditX" style="position: absolute; top: 10px; right: 10px; background: none; border: none; font-size: 1.5rem; cursor: pointer;">&times;</button>
+            <h3>Edit Ad</h3>
+            <form id="editForm">
+                <input type="hidden" id="editId">
+                <div class="form-group">
+                    <label>Title</label>
+                    <input type="text" id="editTitle" required>
+                </div>
+                <div class="form-group">
+                    <label>Price</label>
+                    <input type="number" id="editPrice" required>
+                </div>
+                <div class="form-group">
+                    <label>Category</label>
+                    <select id="editCategory">
+                        <option value="Cars">Cars</option>
+                        <option value="Phones">Phones & Tablets</option>
+                        <option value="Property">Property</option>
+                        <option value="Electronics">Electronics</option>
+                        <option value="Fashion & Beauty">Fashion & Beauty</option>
+                        <option value="Clothing">Clothing</option>
+                        <option value="Jobs">Jobs</option>
+                        <option value="Green Energy">Green Energy</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Condition</label>
+                    <select id="editCondition">
+                        <option value="New">New</option>
+                        <option value="Used">Used</option>
+                        <option value="Needs Repair">Needs Repair</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Location</label>
+                    <input type="text" id="editLocation">
+                </div>
+                <div class="form-group">
+                    <label>Description</label>
+                    <textarea id="editDescription" rows="5"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label>Images</label>
+                    <div id="editImagesContainer" style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:10px;"></div>
+                    <input type="file" id="editImageUpload" accept="image/*" multiple>
+                    <small style="color:#666;">Select new images to add.</small>
+                </div>
+
+                <div style="text-align:right; margin-top:20px;">
+                    <button type="button" class="btn" id="cancelEdit">Cancel</button>
+                    <button type="submit" class="btn primary">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script type="module">
+        import { supabaseClient, getSession, signOut } from './app.js';
+
+        const loadingMsg = document.getElementById("loadingMsg");
+        const adminContent = document.getElementById("adminContent");
+        const adsTableBody = document.getElementById("adsTableBody");
+        const editModal = document.getElementById("editModal");
+        const editForm = document.getElementById("editForm");
+        let currentEditImages = [];
+        let currentUserEmail = "";
+
+        // Check Auth
+        async function checkUser() {
+            const session = await getSession();
+            if (!session || !session.user || !session.user.email) {
+                loadingMsg.textContent = "Please login to view your ads.";
+                loadingMsg.style.color = "red";
+                setTimeout(() => {
+                    window.location.href = "index.html";
+                }, 2000);
+                return;
+            }
+
+            currentUserEmail = session.user.email;
+            document.getElementById("userEmail").textContent = currentUserEmail;
+            loadingMsg.style.display = "none";
+            adminContent.style.display = "block";
+            fetchAds();
+        }
+
+        // Fetch Ads
+        async function fetchAds() {
+            adsTableBody.innerHTML = '<tr><td colspan="7" style="text-align:center;">Loading ads...</td></tr>';
+            
+            // Filter by contact containing email (case insensitive) and NOT deleted
+            const { data: ads, error } = await supabaseClient
+                .from('ads')
+                .select('*')
+                .ilike('contact', `%${currentUserEmail}%`)
+                .eq('deleted', false)
+                .order('created_at', { ascending: false });
+
+            if (error) {
+                alert("Error fetching ads: " + error.message);
+                return;
+            }
+
+            renderAds(ads);
+        }
+
+        // Render Ads
+        function renderAds(ads) {
+            adsTableBody.innerHTML = "";
+            if (ads.length === 0) {
+                adsTableBody.innerHTML = '<tr><td colspan="7" style="text-align:center;">No ads found for this email.</td></tr>';
+                return;
+            }
+
+            ads.forEach(ad => {
+                const tr = document.createElement("tr");
+                
+                // Image handling
+                let imgUrl = ad.image_url;
+                if (ad.images && ad.images.length > 0) imgUrl = ad.images[0];
+                if (!imgUrl) imgUrl = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='50' height='50' viewBox='0 0 50 50'%3E%3Crect width='50' height='50' fill='%23eee'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='10'%3ENo Img%3C/text%3E%3C/svg%3E";
+
+                const isFlagged = ad.hidden && !ad.sold;
+
+                tr.innerHTML = `
+                    <td><img src="${imgUrl}" style="width:50px; height:50px; object-fit:cover; border-radius:4px;"></td>
+                    <td>${ad.title}</td>
+                    <td>${ad.category}</td>
+                    <td>R ${Number(ad.price).toLocaleString()}</td>
+                    <td>${new Date(ad.created_at).toLocaleDateString()}</td>
+                    <td>
+                        ${ad.sold ? `<span style="color:gray; font-weight:bold;">Sold</span><br><small style="color:#666;">${new Date(ad.updated_at).toLocaleDateString()} ${new Date(ad.updated_at).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</small>` : (ad.hidden ? '<span style="color:red; font-weight:bold;">Flagged - <a href="mailto:Compsody@gmail.com?subject=Flagged Ad Inquiry: ' + encodeURIComponent(ad.title) + '" style="color:blue; text-decoration:underline;">Contact Admin</a></span>' : '<span style="color:green;">Active</span>')}
+                    </td>
+                    <td>
+                        <button class="action-btn edit-btn" data-id="${ad.id}" ${ad.sold || isFlagged ? 'disabled style="opacity:0.5; cursor:not-allowed;"' : ''}>Edit</button>
+                        ${ad.sold ? 
+                            '<button class="action-btn" disabled style="background-color: #ccc; cursor:not-allowed;">Sold</button>' : 
+                            `<button class="action-btn sold-btn" data-id="${ad.id}" style="background-color: #555; color: #fff;" ${isFlagged ? 'disabled style="opacity:0.5; cursor:not-allowed; background-color: #ccc;"' : ''}>Mark Sold</button>`
+                        }
+                        <button class="action-btn delete-btn" data-id="${ad.id}" ${isFlagged ? 'disabled style="opacity:0.5; cursor:not-allowed; background-color: #ccc;"' : ''}>Delete</button>
+                    </td>
+                `;
+                adsTableBody.appendChild(tr);
+            });
+
+            // Attach event listeners
+            document.querySelectorAll(".delete-btn").forEach(btn => {
+                if (!btn.disabled) btn.addEventListener("click", () => deleteAd(btn.dataset.id));
+            });
+            document.querySelectorAll(".edit-btn").forEach(btn => {
+                if (!btn.disabled) {
+                    btn.addEventListener("click", () => openEditModal(btn.dataset.id));
+                }
+            });
+            document.querySelectorAll(".sold-btn").forEach(btn => {
+                if (!btn.disabled) btn.addEventListener("click", () => markAsSold(btn.dataset.id));
+            });
+        }
+
+        // Mark as Sold
+        async function markAsSold(id) {
+            if (!confirm("Are you sure you want to mark this ad as SOLD? This will hide the ad permanently and it cannot be edited or reposted.")) return;
+
+            const { error } = await supabaseClient
+                .from('ads')
+                .update({ sold: true, hidden: true, updated_at: new Date() }) // Mark as sold AND hidden
+                .eq('id', id);
+
+            if (error) {
+                console.error("Error marking as sold:", error);
+                if (error.message.includes("row-level security") || error.code === "42501") {
+                    alert("Permission denied: You can only manage ads where the contact email matches your login email.");
+                } else {
+                    alert("Error updating ad status: " + error.message);
+                }
+            } else {
+                fetchAds();
+            }
+        }
+
+        // Delete Ad
+        async function deleteAd(id) {
+            if (!confirm("Are you sure you want to delete this ad? This action cannot be undone.")) return;
+
+            const { error } = await supabaseClient
+                .from('ads')
+                .update({ deleted: true, updated_at: new Date() }) // Soft delete
+                .eq('id', id);
+
+            if (error) {
+                console.error("Error deleting ad:", error);
+                if (error.message.includes("row-level security") || error.code === "42501") {
+                    alert("Permission denied: You can only delete ads where the contact email matches your login email.");
+                } else {
+                    alert("Error deleting ad: " + error.message);
+                }
+            } else {
+                fetchAds(); // Refresh list
+            }
+        }
+
+        // Edit Ad
+        async function openEditModal(id) {
+            const { data: ad, error } = await supabaseClient
+                .from('ads')
+                .select('*')
+                .eq('id', id)
+                .single();
+
+            if (error) {
+                alert("Error loading ad details: " + error.message);
+                return;
+            }
+
+            document.getElementById("editId").value = ad.id;
+            document.getElementById("editTitle").value = ad.title;
+            document.getElementById("editPrice").value = ad.price;
+            document.getElementById("editCategory").value = ad.category;
+            document.getElementById("editCondition").value = ad.condition || "Used";
+            document.getElementById("editLocation").value = ad.location;
+            document.getElementById("editDescription").value = ad.description;
+
+            // Handle Images
+            currentEditImages = ad.images || (ad.image_url ? [ad.image_url] : []);
+            renderEditImages();
+
+            editModal.style.display = "flex";
+        }
+
+        function renderEditImages() {
+            const container = document.getElementById("editImagesContainer");
+            container.innerHTML = "";
+            currentEditImages.forEach((url, index) => {
+                const div = document.createElement("div");
+                div.style.position = "relative";
+                div.style.width = "80px";
+                div.style.height = "80px";
+                
+                const img = document.createElement("img");
+                img.src = url;
+                img.style.width = "100%";
+                img.style.height = "100%";
+                img.style.objectFit = "cover";
+                img.style.borderRadius = "4px";
+                
+                const btn = document.createElement("button");
+                btn.innerHTML = "&times;";
+                btn.style.position = "absolute";
+                btn.style.top = "-5px";
+                btn.style.right = "-5px";
+                btn.style.background = "red";
+                btn.style.color = "white";
+                btn.style.border = "none";
+                btn.style.borderRadius = "50%";
+                btn.style.width = "20px";
+                btn.style.height = "20px";
+                btn.style.cursor = "pointer";
+                btn.onclick = (e) => {
+                    e.preventDefault();
+                    currentEditImages.splice(index, 1);
+                    renderEditImages();
+                };
+                
+                div.appendChild(img);
+                div.appendChild(btn);
+                container.appendChild(div);
+            });
+        }
+
+        // Save Edit
+        editForm.addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const id = document.getElementById("editId").value;
+            const submitBtn = editForm.querySelector('button[type="submit"]');
+            submitBtn.disabled = true;
+            submitBtn.textContent = "Saving...";
+
+            // Upload new images
+            const fileInput = document.getElementById("editImageUpload");
+            const newFiles = Array.from(fileInput.files);
+            
+            if (newFiles.length > 0) {
+                try {
+                    const uploadPromises = newFiles.map(async (file) => {
+                        const fileExt = file.name.split(".").pop();
+                        const fileName = `${Date.now()}-${Math.random().toString(36).slice(2)}.${fileExt}`;
+                        const filePath = `ads/${fileName}`;
+                        
+                        const { data, error } = await supabaseClient
+                            .storage
+                            .from("ad-images")
+                            .upload(filePath, file);
+                        
+                        if (error) throw error;
+
+                        const { data: publicUrlData } = supabaseClient
+                            .storage
+                            .from("ad-images")
+                            .getPublicUrl(filePath);
+                        
+                        return publicUrlData.publicUrl;
+                    });
+
+                    const newUrls = await Promise.all(uploadPromises);
+                    currentEditImages = [...currentEditImages, ...newUrls];
+                } catch (err) {
+                    console.error("Upload error:", err);
+                    alert("Failed to upload some images: " + err.message);
+                }
+            }
+
+            const updates = {
+                title: document.getElementById("editTitle").value,
+                price: document.getElementById("editPrice").value,
+                category: document.getElementById("editCategory").value,
+                condition: document.getElementById("editCondition").value,
+                location: document.getElementById("editLocation").value,
+                description: document.getElementById("editDescription").value,
+                images: currentEditImages,
+                image_url: currentEditImages.length > 0 ? currentEditImages[0] : null // Update legacy column
+            };
+
+            const { error } = await supabaseClient
+                .from('ads')
+                .update(updates)
+                .eq('id', id);
+
+            submitBtn.disabled = false;
+            submitBtn.textContent = "Save Changes";
+
+            if (error) {
+                console.error("Error updating ad:", error);
+                if (error.message.includes("row-level security") || error.code === "42501") {
+                    alert("Permission denied: You can only edit ads where the contact email matches your login email.\n\nIf this is your ad, please ensure the database permissions are set up (run supabase_admin_setup.sql).");
+                } else {
+                    alert("Error updating ad: " + error.message);
+                }
+            } else {
+                editModal.style.display = "none";
+                fetchAds();
+            }
+        });
+
+        document.getElementById("cancelEdit").addEventListener("click", () => {
+            editModal.style.display = "none";
+        });
+        document.getElementById("closeEditX").addEventListener("click", () => {
+            editModal.style.display = "none";
+        });
+        window.addEventListener("click", (e) => {
+            if (e.target === editModal) {
+                editModal.style.display = "none";
+            }
+        });
+
+        // Init
+        checkUser();
+    </script>
+</body>
+</html>

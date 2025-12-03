@@ -1,0 +1,1188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Post Ad – HoneySweetpot</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="styles.css" />
+    <script type="module" src="app.js"></script>
+</head>
+<body>
+    <header>
+        <div class="logo"><a href="index.html" style="text-decoration:none; color:inherit;">Honey<span>Sweetpot</span> <img src="/categories/HoneyPot.webp" alt="HoneySweetpot Logo" style="height: 60px; vertical-align: bottom; margin-left: 5px;"></a></div>
+        <div class="header-actions">
+            <button class="btn" id="loginBtn">Login</button>
+            <button class="btn" id="signupBtn">Sign up</button>
+            <!-- Post Ad button hidden on this page or disabled -->
+        </div>
+    </header>
+    <main>
+        <div class="post-ad-container">
+            <div class="postad-header">
+                <h2>Post an Ad</h2>
+            </div>
+            <div class="postad-body">
+                <label for="postCategory">Category</label>
+                <select id="postCategory">
+                    <option value="">Select category</option>
+                    <option value="Cars">Cars</option>
+                    <option value="Phones">Phones & Tablets</option>
+                    <option value="Property">Property</option>
+                    <option value="Electronics">Electronics</option>
+                    <option value="Fashion & Beauty">Fashion & Beauty</option>
+                    <option value="Clothing">Clothing</option>
+                    <option value="Jobs">Jobs</option>
+                    <option value="Green Energy">Green Energy</option>
+                    <option value="Other">Other</option>
+                </select>
+
+                <!-- Dynamic Fields Container -->
+                <div id="dynamicFieldsContainer"></div>
+
+                <label for="postTitle">Ad title</label>
+                <input id="postTitle" type="text" placeholder="e.g. VW Polo 1.4 Trendline, excellent condition" />
+
+                <label for="postDescription">Description</label>
+                <textarea id="postDescription" placeholder="Describe the item, condition, mileage, features, etc."></textarea>
+
+                <label for="postPrice">Price (R)</label>
+                <input id="postPrice" type="number" min="0" placeholder="e.g. 145000" />
+
+                <label for="postCondition">Condition (General)</label>
+                <select id="postCondition">
+                    <option value="New">New</option>
+                    <option value="Used" selected>Used</option>
+                    <option value="Needs Repair">Needs Repair</option>
+                </select>
+
+                <label for="postLocation">Location (Town / City)</label>
+                <input id="postLocation" type="text" placeholder="e.g. Klerksdorp, Johannesburg, Cape Town" />
+
+                <label for="postSellerName">Your name</label>
+                <input id="postSellerName" type="text" placeholder="Your name or business" />
+
+                <label for="postContact">Contact (phone / email)</label>
+                <input id="postContact" type="text" placeholder="e.g. 072 123 4567 or you@example.com" />
+
+                <label for="postImageUrl">Image URL (optional)</label>
+                <input id="postImageUrl" type="url" placeholder="Paste an image link (jpg, png...)" />
+
+                <label>Upload images</label>
+                <div class="upload-container">
+                    <div class="drop-zone" id="dropZone">
+                        <div class="drop-zone-content">
+                            <div class="upload-icon">☁️</div>
+                            <h3>Upload Photos</h3>
+                            <p class="desktop-only">Drag & drop files here or choose an option below</p>
+                            <p class="mobile-only">Choose an option below to upload photos</p>
+                            
+                            <div class="upload-actions">
+                                <label class="upload-btn gallery-btn">
+                                    <span>🖼️ Select Files</span>
+                                    <input id="postImageFiles" type="file" accept="image/*" multiple hidden />
+                                </label>
+                                
+                                <label class="upload-btn camera-btn">
+                                    <span>📷 Take Photo</span>
+                                    <input id="postCameraInput" type="file" accept="image/*" capture="environment" hidden />
+                                </label>
+                            </div>
+                            <p class="upload-hint">Supported formats: JPG, PNG, WEBP</p>
+                        </div>
+                    </div>
+                    <div id="imagePreviewContainer" class="image-preview-grid"></div>
+                </div>
+                <p class="postad-note">You can upload multiple photos. The first one will be the main cover image.</p>
+
+                <button class="postad-submit" id="postAdSubmit">Post Ad</button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Templates for Dynamic Fields -->
+    <!-- CARS -->
+    <template id="tpl-Cars">
+        <label>Make</label>
+        <select class="dynamic-input" data-label="Make" id="carMakeSelect">
+            <option value="">Select Make</option>
+            <option>Alfa Romeo</option>
+            <option>Audi</option>
+            <option>BAIC</option>
+            <option>Bentley</option>
+            <option>BMW</option>
+            <option>BYD</option>
+            <option>Changan</option>
+            <option>Chery</option>
+            <option>Citroën</option>
+            <option>Cupra</option>
+            <option>Fiat</option>
+            <option>Ford</option>
+            <option>GAC</option>
+            <option>Geely</option>
+            <option>GWM</option>
+            <option>Haval</option>
+            <option>Honda</option>
+            <option>Hyundai</option>
+            <option>Isuzu</option>
+            <option>Jaguar</option>
+            <option>JAC</option>
+            <option>Jeep</option>
+            <option>Kia</option>
+            <option>Land Rover</option>
+            <option>Lexus</option>
+            <option>Mahindra</option>
+            <option>Maserati</option>
+            <option>Mazda</option>
+            <option>Mercedes-Benz</option>
+            <option>Mini</option>
+            <option>Mitsubishi</option>
+            <option>Nissan</option>
+            <option>Opel</option>
+            <option>Peugeot</option>
+            <option>Porsche</option>
+            <option>Proton</option>
+            <option>Renault</option>
+            <option>Rolls-Royce</option>
+            <option>Subaru</option>
+            <option>Suzuki</option>
+            <option>Toyota</option>
+            <option>Volkswagen</option>
+            <option>Volvo</option>
+            <option>Other</option>
+        </select>
+
+        <label>Model</label>
+        <select class="dynamic-input" data-label="Model" id="carModelSelect">
+            <option value="">Select Model</option>
+            <!-- Models populated via JS -->
+        </select>
+
+        <label>Year</label>
+        <select class="dynamic-input" data-label="Year">
+            <option value="">Select Year</option>
+            <option>2025</option>
+            <option>2024</option>
+            <option>2023</option>
+            <option>2022</option>
+            <option>2021</option>
+            <option>2020</option>
+            <option>2019</option>
+            <option>2018</option>
+            <option>2017</option>
+            <option>2016</option>
+            <option>2015</option>
+            <option>2014</option>
+            <option>2013</option>
+            <option>2012</option>
+            <option>2011</option>
+            <option>2010</option>
+            <option>Older</option>
+        </select>
+
+        <label>Mileage</label>
+        <select class="dynamic-input" data-label="Mileage">
+            <option value="">Select Mileage</option>
+            <option>0–50 000 km</option>
+            <option>50 000–100 000 km</option>
+            <option>100 000–150 000 km</option>
+            <option>150 000–200 000 km</option>
+            <option>200 000–300 000 km</option>
+            <option>300 000–500 000 km</option>
+            <option>500 000+ km</option>
+        </select>
+
+        <label>Body Type</label>
+        <select class="dynamic-input" data-label="Body Type">
+            <option value="">Select Body Type</option>
+            <option>Hatchback</option>
+            <option>Sedan</option>
+            <option>SUV</option>
+            <option>Bakkie</option>
+            <option>Coupe</option>
+            <option>Van</option>
+        </select>
+
+        <label>Transmission</label>
+        <select class="dynamic-input" data-label="Transmission">
+            <option value="">Select Transmission</option>
+            <option>Manual</option>
+            <option>Automatic</option>
+        </select>
+
+        <label>Fuel Type</label>
+        <select class="dynamic-input" data-label="Fuel Type">
+            <option value="">Select Fuel Type</option>
+            <option>Petrol</option>
+            <option>Diesel</option>
+            <option>Hybrid</option>
+            <option>Electric</option>
+        </select>
+
+        <label>Vehicle Condition</label>
+        <select class="dynamic-input" data-label="Vehicle Condition">
+            <option value="">Select Condition</option>
+            <option>Brand New</option>
+            <option>Used – Good</option>
+            <option>Used – Fair</option>
+            <option>Salvage / Needs Work</option>
+        </select>
+
+        <label>Vehicle History</label>
+        <select class="dynamic-input" data-label="Vehicle History">
+            <option value="">Select History</option>
+            <option>Full Service History (FSH)</option>
+            <option>Partial Service History</option>
+            <option>No Service History</option>
+            <option>Accident-Free</option>
+            <option>Rebuilt / Code 2</option>
+            <option>Code 3</option>
+            <option>One Owner</option>
+        </select>
+
+        <label>Seller Type</label>
+        <select class="dynamic-input" data-label="Seller Type">
+            <option value="">Select Seller Type</option>
+            <option>Private Seller</option>
+            <option>Dealer</option>
+            <option>Certified Dealer</option>
+        </select>
+    </template>
+
+    <!-- PHONES -->
+    <template id="tpl-Phones">
+        <label>Brand</label>
+        <select class="dynamic-input" data-label="Brand">
+            <option value="">Select Brand</option>
+            <option>Samsung</option>
+            <option>Apple</option>
+            <option>Huawei</option>
+            <option>Xiaomi</option>
+            <option>Oppo</option>
+            <option>Vivo</option>
+        </select>
+
+        <label>Model</label>
+        <select class="dynamic-input" data-label="Model">
+            <option value="">Select Model</option>
+            <option>iPhone 13</option>
+            <option>Samsung A54</option>
+            <!-- Add more models -->
+        </select>
+
+        <label>Device Condition</label>
+        <select class="dynamic-input" data-label="Device Condition">
+            <option value="">Select Condition</option>
+            <option>New</option>
+            <option>Excellent</option>
+            <option>Good</option>
+            <option>Fair</option>
+            <option>Used</option>
+        </select>
+
+        <label>Storage</label>
+        <select class="dynamic-input" data-label="Storage">
+            <option value="">Select Storage</option>
+            <option>16GB</option>
+            <option>32GB</option>
+            <option>64GB</option>
+            <option>128GB</option>
+            <option>256GB</option>
+            <option>512GB</option>
+            <option>1TB</option>
+        </select>
+
+        <label>RAM</label>
+        <select class="dynamic-input" data-label="RAM">
+            <option value="">Select RAM</option>
+            <option>2GB</option>
+            <option>3GB</option>
+            <option>4GB</option>
+            <option>6GB</option>
+            <option>8GB</option>
+            <option>12GB</option>
+            <option>16GB</option>
+        </select>
+
+        <label>Trade Options</label>
+        <select class="dynamic-input" data-label="Trade Options">
+            <option value="">Select Option</option>
+            <option>Swap / Trade Accepted</option>
+            <option>Cash Only</option>
+            <option>Delivery Available</option>
+        </select>
+
+        <label>Seller Type</label>
+        <select class="dynamic-input" data-label="Seller Type">
+            <option value="">Select Seller Type</option>
+            <option>Private Seller</option>
+            <option>Shop / Dealer</option>
+        </select>
+    </template>
+
+    <!-- PROPERTY -->
+    <template id="tpl-Property">
+        <label>Property Type</label>
+        <select class="dynamic-input" data-label="Property Type">
+            <option value="">Select Type</option>
+            <option>House</option>
+            <option>Apartment / Flat</option>
+            <option>Townhouse</option>
+            <option>Duplex</option>
+            <option>Vacant Land</option>
+            <option>Farm</option>
+            <option>Commercial Property</option>
+            <option>Industrial Property</option>
+            <option>Office Space</option>
+            <option>Student Accommodation</option>
+        </select>
+
+        <label>Purpose</label>
+        <select class="dynamic-input" data-label="Purpose">
+            <option value="">Select Purpose</option>
+            <option>For Sale</option>
+            <option>Auction</option>
+            <option>To Rent</option>
+            <option>Rent-to-Own</option>
+        </select>
+
+        <label>Bedrooms</label>
+        <select class="dynamic-input" data-label="Bedrooms">
+            <option value="">Select Bedrooms</option>
+            <option>1+</option>
+            <option>2+</option>
+            <option>3+</option>
+            <option>4+</option>
+            <option>5+</option>
+        </select>
+
+        <label>Bathrooms</label>
+        <select class="dynamic-input" data-label="Bathrooms">
+            <option value="">Select Bathrooms</option>
+            <option>1+</option>
+            <option>2+</option>
+            <option>3+</option>
+            <option>4+</option>
+        </select>
+
+        <label>House Size (m²)</label>
+        <input type="number" class="dynamic-input" data-label="House Size" placeholder="e.g. 150">
+
+        <label>Land Size (m²)</label>
+        <input type="number" class="dynamic-input" data-label="Land Size" placeholder="e.g. 500">
+
+        <label>Seller Type</label>
+        <select class="dynamic-input" data-label="Seller Type">
+            <option value="">Select Seller Type</option>
+            <option>Private Seller</option>
+            <option>Agent</option>
+            <option>Bank Sale</option>
+            <option>Auctioneer</option>
+        </select>
+    </template>
+
+    <!-- ELECTRONICS -->
+    <template id="tpl-Electronics">
+        <label>Product Type</label>
+        <select class="dynamic-input" data-label="Product Type">
+            <option value="">Select Type</option>
+            <option>TVs</option>
+            <option>Laptops</option>
+            <option>Desktops</option>
+            <option>Tablets</option>
+            <option>Cameras</option>
+            <option>Gaming Consoles</option>
+            <option>Audio Systems</option>
+            <option>Speakers</option>
+            <option>Headphones</option>
+            <option>Smartwatches</option>
+            <option>Smart Home Devices</option>
+            <option>Printers & Scanners</option>
+            <option>Routers / WiFi Equipment</option>
+            <option>Home Theatre Systems</option>
+            <option>Projectors</option>
+            <option>Monitors</option>
+            <option>Accessories</option>
+        </select>
+
+        <label>Brand</label>
+        <select class="dynamic-input" data-label="Brand">
+            <option value="">Select Brand</option>
+            <option>Samsung</option>
+            <option>LG</option>
+            <option>Sony</option>
+            <option>Hisense</option>
+            <option>Toshiba</option>
+            <option>Apple</option>
+            <option>Huawei</option>
+            <option>Lenovo</option>
+            <option>HP</option>
+            <option>Dell</option>
+            <option>Acer</option>
+            <option>Canon</option>
+            <option>Nikon</option>
+            <option>JBL</option>
+            <option>Bose</option>
+            <option>PlayStation</option>
+            <option>Xbox</option>
+        </select>
+
+        <label>Condition</label>
+        <select class="dynamic-input" data-label="Condition">
+            <option value="">Select Condition</option>
+            <option>New</option>
+            <option>Used</option>
+            <option>Refurbished</option>
+            <option>Open-box</option>
+        </select>
+    </template>
+
+    <!-- FASHION & BEAUTY -->
+    <template id="tpl-Fashion & Beauty">
+        <label>Product Type</label>
+        <select class="dynamic-input" data-label="Product Type">
+            <option value="">Select Type</option>
+            <option>Skincare</option>
+            <option>Haircare</option>
+            <option>Makeup</option>
+            <option>Fragrances</option>
+            <option>Nail Care</option>
+            <option>Bath & Body</option>
+            <option>Beauty Tools & Devices</option>
+            <option>Men's Grooming</option>
+            <option>Beauty Services</option>
+        </select>
+
+        <label>Brand</label>
+        <select class="dynamic-input" data-label="Brand">
+            <option value="">Select Brand</option>
+            <option>Nivea</option>
+            <option>Dove</option>
+            <option>L'Oréal</option>
+            <option>Revlon</option>
+            <option>Maybelline</option>
+            <option>Yardley</option>
+            <option>Sorbet</option>
+            <option>Johnson's</option>
+            <option>Garnier</option>
+            <option>MAC</option>
+            <option>Clinique</option>
+            <option>Chanel</option>
+            <option>Dior</option>
+        </select>
+
+        <label>Skin Type</label>
+        <select class="dynamic-input" data-label="Skin Type">
+            <option value="">Select Skin Type</option>
+            <option>Normal</option>
+            <option>Dry</option>
+            <option>Oily</option>
+            <option>Combination</option>
+            <option>Sensitive</option>
+        </select>
+
+        <label>Gender</label>
+        <select class="dynamic-input" data-label="Gender">
+            <option value="">Select Gender</option>
+            <option>Women</option>
+            <option>Men</option>
+            <option>Unisex</option>
+        </select>
+
+        <label>Condition</label>
+        <select class="dynamic-input" data-label="Condition">
+            <option value="">Select Condition</option>
+            <option>New</option>
+            <option>Used</option>
+            <option>Unboxed / Opened</option>
+            <option>Bulk / Wholesale</option>
+        </select>
+    </template>
+
+    <!-- CLOTHING -->
+    <template id="tpl-Clothing">
+        <label>Brand</label>
+        <select class="dynamic-input" data-label="Brand">
+            <option value="">Select Brand</option>
+            <option>Nike</option>
+            <option>Adidas</option>
+            <option>Puma</option>
+        </select>
+
+        <label>Category</label>
+        <select class="dynamic-input" data-label="Category">
+            <option value="">Select Category</option>
+            <option>Men</option>
+            <option>Women</option>
+            <option>Kids</option>
+            <option>Unisex</option>
+        </select>
+
+        <label>Clothing Type</label>
+        <select class="dynamic-input" data-label="Clothing Type">
+            <option value="">Select Type</option>
+            <option>T-Shirts</option>
+            <option>Shirts</option>
+            <option>Jeans</option>
+            <option>Trousers</option>
+            <option>Dresses</option>
+            <option>Hoodies</option>
+            <option>Jackets</option>
+            <option>Shorts</option>
+            <option>Activewear</option>
+            <option>Underwear</option>
+            <option>Sleepwear</option>
+            <option>Swimwear</option>
+            <option>School Uniforms</option>
+        </select>
+
+        <label>Condition</label>
+        <select class="dynamic-input" data-label="Condition">
+            <option value="">Select Condition</option>
+            <option>New</option>
+            <option>Like New</option>
+            <option>Good</option>
+            <option>Fair</option>
+            <option>Vintage</option>
+            <option>Damaged / For Upcycling</option>
+        </select>
+
+        <label>Seller Type</label>
+        <select class="dynamic-input" data-label="Seller Type">
+            <option value="">Select Seller Type</option>
+            <option>Private Seller</option>
+            <option>Boutique Store</option>
+            <option>Thrift Seller</option>
+        </select>
+    </template>
+
+    <!-- JOBS -->
+    <template id="tpl-Jobs">
+        <label>Job Type</label>
+        <select class="dynamic-input" data-label="Job Type">
+            <option value="">Select Job Type</option>
+            <option>Full-time</option>
+            <option>Part-time</option>
+            <option>Contract</option>
+            <option>Temporary</option>
+            <option>Internship</option>
+            <option>Freelance</option>
+        </select>
+
+        <label>Salary Range</label>
+        <select class="dynamic-input" data-label="Salary Range">
+            <option value="">Select Salary Range</option>
+            <option>R0–R4,999</option>
+            <option>R5,000–R9,999</option>
+            <option>R10,000–R19,999</option>
+            <option>R20,000–R40,000</option>
+            <option>Above R40,000</option>
+        </select>
+
+        <label>Experience Level</label>
+        <select class="dynamic-input" data-label="Experience Level">
+            <option value="">Select Experience</option>
+            <option>No experience</option>
+            <option>1–2 years</option>
+            <option>3–5 years</option>
+            <option>5+ years</option>
+        </select>
+
+        <label>Education Level</label>
+        <select class="dynamic-input" data-label="Education Level">
+            <option value="">Select Education</option>
+            <option>Grade 12</option>
+            <option>Certificate</option>
+            <option>Diploma</option>
+            <option>Degree</option>
+            <option>Trade Test</option>
+        </select>
+    </template>
+
+    <!-- GREEN ENERGY -->
+    <template id="tpl-Green Energy">
+        <label>Product Type</label>
+        <select class="dynamic-input" data-label="Product Type">
+            <option value="">Select Type</option>
+            <option>Solar Panels</option>
+            <option>Inverters</option>
+            <option>Batteries</option>
+            <option>Charge Controllers</option>
+            <option>Solar Kits (Complete Systems)</option>
+            <option>Solar Geysers</option>
+            <option>Wind Turbines</option>
+            <option>Eco / Hybrid Generators</option>
+            <option>UPS Systems</option>
+            <option>Cables & Accessories</option>
+            <option>Installation Services</option>
+        </select>
+
+        <label>Battery Type</label>
+        <select class="dynamic-input" data-label="Battery Type">
+            <option value="">Select Battery Type</option>
+            <option>Lithium (LiFePO4)</option>
+            <option>AGM Deep Cycle</option>
+            <option>Gel</option>
+            <option>Lead-Acid</option>
+            <option>Sodium-ion</option>
+        </select>
+
+        <label>Battery Capacity</label>
+        <select class="dynamic-input" data-label="Battery Capacity">
+            <option value="">Select Capacity</option>
+            <option>12V 50Ah</option>
+            <option>12V 100Ah</option>
+            <option>24V 100Ah</option>
+            <option>48V 100Ah</option>
+            <option>5 kWh</option>
+            <option>10 kWh</option>
+            <option>15 kWh+</option>
+        </select>
+
+        <label>Inverter Type</label>
+        <select class="dynamic-input" data-label="Inverter Type">
+            <option value="">Select Inverter Type</option>
+            <option>Pure Sine Wave</option>
+            <option>Modified Sine Wave</option>
+            <option>Hybrid Inverter</option>
+            <option>Off-grid Inverter</option>
+            <option>Grid-tied Inverter</option>
+        </select>
+
+        <label>Condition</label>
+        <select class="dynamic-input" data-label="Condition">
+            <option value="">Select Condition</option>
+            <option>New</option>
+            <option>Used</option>
+            <option>Refurbished</option>
+        </select>
+    </template>
+
+    <!-- OTHER -->
+    <template id="tpl-Other">
+        <label>Item Type</label>
+        <select class="dynamic-input" data-label="Item Type">
+            <option value="">Select Type</option>
+            <option>Antiques</option>
+            <option>Collectibles</option>
+            <option>Handcrafted Items</option>
+            <option>Toys & Games</option>
+            <option>Musical Instruments</option>
+            <option>Sports & Outdoors</option>
+            <option>Pet Supplies</option>
+            <option>Office Supplies</option>
+            <option>Tools</option>
+            <option>Garden & Outdoor</option>
+            <option>Craft & Hobby Items</option>
+            <option>Event & Party Items</option>
+            <option>Industrial & Commercial</option>
+            <option>Lost & Found</option>
+            <option>General</option>
+        </select>
+
+        <label>Condition</label>
+        <select class="dynamic-input" data-label="Condition">
+            <option value="">Select Condition</option>
+            <option>New</option>
+            <option>Used</option>
+            <option>Refurbished</option>
+            <option>Open-box</option>
+        </select>
+    </template>
+
+    <!-- Auth Modals -->
+    <div class="auth-backdrop" id="loginBackdrop">
+        <div class="auth-modal">
+            <div class="auth-header">
+                <h2>Login</h2>
+                <button class="auth-close" id="loginClose">&times;</button>
+            </div>
+            <div class="auth-body">
+                <label for="loginEmail">Email or Phone</label>
+                <input id="loginEmail" type="text" placeholder="you@example.com" />
+                <label for="loginPassword">Password</label>
+                <input id="loginPassword" type="password" placeholder="Enter your password" />
+                <button class="auth-submit" id="loginSubmit">Login</button>
+                <div class="auth-actions">
+                    <span id="forgotPassword" class="auth-link" style="font-size:0.8rem;">Forgot Password?</span>
+                    <span>New here? <span id="goToSignup" class="auth-link">Create an account</span></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="auth-backdrop" id="signupBackdrop">
+        <div class="auth-modal">
+            <div class="auth-header">
+                <h2>Sign up</h2>
+                <button class="auth-close" id="signupClose">&times;</button>
+            </div>
+            <div class="auth-body">
+                <label for="signupName">Name</label>
+                <input id="signupName" type="text" placeholder="First Name" />
+                <label for="signupSurname">Surname</label>
+                <input id="signupSurname" type="text" placeholder="Last Name" />
+                <label for="signupAddress">Address</label>
+                <input id="signupAddress" type="text" placeholder="Your Address" />
+                <label for="signupPhone">Phone Number</label>
+                <input id="signupPhone" type="tel" placeholder="072 123 4567" />
+                <label for="signupEmail">Email</label>
+                <input id="signupEmail" type="email" placeholder="you@example.com" />
+                
+                <label>I am a:</label>
+                <select id="signupRole">
+                    <option value="buyer">Buyer</option>
+                    <option value="seller">Seller</option>
+                </select>
+
+                <div id="bankDetailsSection" class="hidden">
+                    <label for="signupBank">Bank Account Details</label>
+                    <textarea id="signupBank" placeholder="Bank Name, Account Number, Branch Code" style="width:100%; padding:8px; border-radius:6px; border:1px solid #ccc; margin-bottom:10px;"></textarea>
+                </div>
+
+                <div class="field-group">
+                    <label for="signupPassword">Password</label>
+                    <input id="signupPassword" type="password" placeholder="Create a password" />
+                </div>
+                <div class="field-group">
+                    <label for="signupPasswordConfirm">Confirm Password</label>
+                    <input id="signupPasswordConfirm" type="password" placeholder="Re-enter password" />
+                </div>
+
+                <button class="auth-submit" id="signupSubmit">Create account</button>
+                <div class="auth-actions">
+                    <span>Already have an account? <span id="goToLogin" class="auth-link">Login</span></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { supabaseClient, getSession, signIn, signUp, resetPassword } from './app.js';
+
+        // Auth Modal Logic
+        const loginBtn = document.getElementById("loginBtn");
+        const signupBtn = document.getElementById("signupBtn");
+        const loginBackdrop = document.getElementById("loginBackdrop");
+        const signupBackdrop = document.getElementById("signupBackdrop");
+        const loginClose = document.getElementById("loginClose");
+        const signupClose = document.getElementById("signupClose");
+        const goToSignup = document.getElementById("goToSignup");
+        const goToLogin = document.getElementById("goToLogin");
+        const forgotPassword = document.getElementById("forgotPassword");
+        const signupRole = document.getElementById("signupRole");
+        const bankDetailsSection = document.getElementById("bankDetailsSection");
+
+        if(loginBtn) loginBtn.addEventListener("click", () => loginBackdrop.style.display = "flex");
+                if(signupBtn) signupBtn.addEventListener("click", () => {
+            signupBackdrop.style.display = "flex";
+            // Reset form state
+            if(signupRole) signupRole.value = "buyer";
+            if(bankDetailsSection) bankDetailsSection.classList.add("hidden");
+        });
+        if(loginClose) loginClose.addEventListener("click", () => loginBackdrop.style.display = "none");
+        if(signupClose) signupClose.addEventListener("click", () => signupBackdrop.style.display = "none");
+        
+        if(goToSignup) goToSignup.addEventListener("click", () => {
+            loginBackdrop.style.display = "none";
+            signupBackdrop.style.display = "flex";
+            // Reset form state
+            if(signupRole) signupRole.value = "buyer";
+            if(bankDetailsSection) bankDetailsSection.classList.add("hidden");
+        });
+        if(goToLogin) goToLogin.addEventListener("click", () => {
+            signupBackdrop.style.display = "none";
+            loginBackdrop.style.display = "flex";
+        });
+
+        if(signupRole) {
+            signupRole.addEventListener("change", () => {
+                if(signupRole.value === "seller") {
+                    bankDetailsSection.classList.remove("hidden");
+                } else {
+                    bankDetailsSection.classList.add("hidden");
+                }
+            });
+        }
+
+        if(forgotPassword) {
+            forgotPassword.addEventListener("click", async () => {
+                const email = prompt("Please enter your email address to reset your password:");
+                if(email) {
+                    const { error } = await resetPassword(email);
+                    if(error) alert("Error: " + error.message);
+                    else alert("Password reset link sent to " + email);
+                }
+            });
+        }
+
+        // Auth Submit Logic
+        document.getElementById("loginSubmit").addEventListener("click", async () => {
+            const email = document.getElementById("loginEmail").value;
+            const password = document.getElementById("loginPassword").value;
+            const { error } = await signIn(email, password);
+            if (error) alert("Login failed: " + error.message);
+            else {
+                loginBackdrop.style.display = "none";
+            }
+        });
+
+        document.getElementById("signupSubmit").addEventListener("click", async () => {
+            const email = document.getElementById("signupEmail").value;
+            const password = document.getElementById("signupPassword").value;
+            const confirm = document.getElementById("signupPasswordConfirm").value;
+            
+            if(password !== confirm) {
+                alert("Passwords do not match!");
+                return;
+            }
+
+            const metadata = {
+                first_name: document.getElementById("signupName").value,
+                last_name: document.getElementById("signupSurname").value,
+                address: document.getElementById("signupAddress").value,
+                phone: document.getElementById("signupPhone").value,
+                role: document.getElementById("signupRole").value,
+                bank_details: document.getElementById("signupBank").value
+            };
+
+            const { error } = await signUp(email, password, metadata);
+            if (error) alert("Signup failed: " + error.message);
+            else {
+                alert("Account created! Please check your email to verify.");
+                signupBackdrop.style.display = "none";
+            }
+        });
+
+        // Post Ad Logic
+        const postAdSubmit = document.getElementById("postAdSubmit");
+        const imageFileInput = document.getElementById("postImageFiles");
+        const cameraInput = document.getElementById("postCameraInput");
+        const imagePreviewContainer = document.getElementById("imagePreviewContainer");
+        const postCategory = document.getElementById("postCategory");
+        const dynamicFieldsContainer = document.getElementById("dynamicFieldsContainer");
+        let selectedFiles = [];
+
+        // --- Drag and Drop Logic ---
+        const dropZone = document.getElementById('dropZone');
+        
+        if (dropZone) {
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                dropZone.addEventListener(eventName, preventDefaults, false);
+            });
+
+            function preventDefaults(e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+
+            ['dragenter', 'dragover'].forEach(eventName => {
+                dropZone.addEventListener(eventName, highlight, false);
+            });
+
+            ['dragleave', 'drop'].forEach(eventName => {
+                dropZone.addEventListener(eventName, unhighlight, false);
+            });
+
+            function highlight(e) {
+                dropZone.classList.add('drag-over');
+            }
+
+            function unhighlight(e) {
+                dropZone.classList.remove('drag-over');
+            }
+
+            dropZone.addEventListener('drop', handleDrop, false);
+
+            function handleDrop(e) {
+                const dt = e.dataTransfer;
+                const files = dt.files;
+                handleFiles(Array.from(files));
+            }
+            
+            // Trigger file input when clicking drop zone (but not buttons)
+            dropZone.addEventListener('click', (e) => {
+                // If user clicked directly on the drop zone or its text content (not on a button/label)
+                if (!e.target.closest('.upload-btn')) {
+                    document.getElementById('postImageFiles').click();
+                }
+            });
+        }
+
+        // --- Dynamic Fields Logic ---
+        const carData = {
+            "Alfa Romeo": {
+                "Sedan": ["1900", "2000", "Alfetta", "Giulietta (classic)", "Giulia (classic)", "75", "90", "155", "156", "159", "164", "166"],
+                "Hatchback": ["33", "Sprint", "Arna", "145", "146", "147", "Mito", "Giulietta (modern)"],
+                "Coupe": ["4C", "8C Competizione", "8C Spider", "GTV", "GT", "Brera", "SZ / RZ", "Montreal", "Spider"],
+                "SUV": ["Stelvio", "Tonale"],
+                "Wagon": ["Sportwagon (156 SW, 159 SW)"],
+                "Other": []
+            }
+        };
+
+        postCategory.addEventListener("change", () => {
+            const category = postCategory.value;
+            dynamicFieldsContainer.innerHTML = ""; // Clear existing fields
+
+            if (category) {
+                const templateId = `tpl-${category}`;
+                const template = document.getElementById(templateId);
+                if (template) {
+                    const clone = template.content.cloneNode(true);
+                    dynamicFieldsContainer.appendChild(clone);
+
+                    // --- Special Logic for Cars ---
+                    if (category === "Cars") {
+                        const makeSelect = dynamicFieldsContainer.querySelector('[data-label="Make"]');
+                        const modelSelect = dynamicFieldsContainer.querySelector('[data-label="Model"]');
+                        const bodySelect = dynamicFieldsContainer.querySelector('[data-label="Body Type"]');
+
+                        if (makeSelect && modelSelect) {
+                            makeSelect.addEventListener("change", () => {
+                                const make = makeSelect.value;
+                                modelSelect.innerHTML = '<option value="">Select Model</option>';
+                                
+                                if (carData[make]) {
+                                    // Populate all models for this make
+                                    Object.values(carData[make]).flat().forEach(model => {
+                                        const opt = document.createElement("option");
+                                        opt.value = model;
+                                        opt.textContent = model;
+                                        modelSelect.appendChild(opt);
+                                    });
+                                } else {
+                                    // Default fallback for other makes (simplified)
+                                    if (make === "VW") {
+                                        ["Golf 6", "Polo", "Tiguan"].forEach(m => modelSelect.add(new Option(m, m)));
+                                    } else if (make === "Toyota") {
+                                        ["Corolla", "Hilux", "Fortuner"].forEach(m => modelSelect.add(new Option(m, m)));
+                                    }
+                                }
+                            });
+
+                            // Optional: Auto-select Body Type if Model is selected (Reverse lookup)
+                            modelSelect.addEventListener("change", () => {
+                                const make = makeSelect.value;
+                                const model = modelSelect.value;
+                                if (carData[make] && bodySelect) {
+                                    for (const [bodyType, models] of Object.entries(carData[make])) {
+                                        if (models.includes(model)) {
+                                            // Map our internal keys to dropdown values if needed
+                                            // Dropdown has: Hatchback, Sedan, SUV, Bakkie, Coupe, Van
+                                            let targetBody = bodyType; 
+                                            if (bodyType === "Wagon") targetBody = "Station Wagon"; // Adjust if needed
+                                            
+                                            // Try to find matching option
+                                            for (let i = 0; i < bodySelect.options.length; i++) {
+                                                if (bodySelect.options[i].value.includes(bodyType) || bodySelect.options[i].value === targetBody) {
+                                                    bodySelect.selectedIndex = i;
+                                                    break;
+                                                }
+                                            }
+                                            break;
+                                        }
+                                    }
+                                }
+                            });
+                        }
+                    }
+                }
+            }
+        });
+
+        function handleFiles(files) {
+            if (files.length > 0) {
+                selectedFiles = [...selectedFiles, ...files];
+                updateImagePreviews();
+            }
+        }
+
+        if (imageFileInput) {
+            imageFileInput.addEventListener("change", (e) => {
+                handleFiles(Array.from(e.target.files));
+                imageFileInput.value = ""; 
+            });
+        }
+
+        if (cameraInput) {
+            cameraInput.addEventListener("change", (e) => {
+                handleFiles(Array.from(e.target.files));
+                cameraInput.value = ""; 
+            });
+        }
+
+        async function updateImagePreviews() {
+            imagePreviewContainer.innerHTML = "";
+            
+            // Use Promise.all to ensure images are read and displayed in the correct order
+            const readPromises = selectedFiles.map(file => {
+                return new Promise((resolve) => {
+                    const reader = new FileReader();
+                    reader.onload = (e) => resolve(e.target.result);
+                    reader.readAsDataURL(file);
+                });
+            });
+
+            const results = await Promise.all(readPromises);
+
+            results.forEach((src, index) => {
+                const div = document.createElement("div");
+                div.className = "preview-card";
+                
+                const img = document.createElement("img");
+                img.src = src;
+                
+                const removeBtn = document.createElement("button");
+                removeBtn.innerHTML = "&times;";
+                removeBtn.className = "preview-remove";
+                removeBtn.onclick = () => {
+                    selectedFiles.splice(index, 1);
+                    updateImagePreviews();
+                };
+
+                div.appendChild(img);
+                div.appendChild(removeBtn);
+                imagePreviewContainer.appendChild(div);
+            });
+        }
+        
+        // Auto-fill seller info if logged in
+        getSession().then(session => {
+            if (session && session.user) {
+                const email = session.user.email;
+                const meta = session.user.user_metadata;
+                if (meta) {
+                    const fullName = [meta.first_name, meta.last_name].filter(Boolean).join(" ");
+                    if (fullName) document.getElementById("postSellerName").value = fullName;
+                }
+                document.getElementById("postContact").value = email;
+            }
+        });
+
+        postAdSubmit.addEventListener("click", async () => {
+            const category = document.getElementById("postCategory").value.trim();
+            const title = document.getElementById("postTitle").value.trim();
+            let description = document.getElementById("postDescription").value.trim();
+            const price = document.getElementById("postPrice").value.trim();
+            const condition = document.getElementById("postCondition").value;
+            const location = document.getElementById("postLocation").value.trim();
+            const sellerName = document.getElementById("postSellerName").value.trim();
+            const contact = document.getElementById("postContact").value.trim();
+            const imageUrlInput = document.getElementById("postImageUrl").value.trim();
+
+            if (!category || !title || !description || !location) {
+                alert("Please fill in at least category, title, description, and location.");
+                return;
+            }
+
+            // --- Collect Dynamic Fields Data ---
+            const dynamicInputs = dynamicFieldsContainer.querySelectorAll(".dynamic-input");
+            let additionalDetails = "";
+            dynamicInputs.forEach(input => {
+                const label = input.dataset.label;
+                const value = input.value.trim();
+                if (value && value !== "Select " + label && value !== "Select " + label.split(" ")[0]) { // Basic check to avoid "Select Make" etc.
+                     additionalDetails += `${label}: ${value}\n`;
+                }
+            });
+
+            if (additionalDetails) {
+                description += "\n\n--- Additional Details ---\n" + additionalDetails;
+            }
+
+            postAdSubmit.disabled = true;
+            postAdSubmit.textContent = "Posting...";
+
+            let uploadedImageUrls = [];
+            
+            // 1. Upload files if any
+            if (selectedFiles.length > 0) {
+                try {
+                    const uploadPromises = selectedFiles.map(async (file) => {
+                        const fileExt = file.name.split(".").pop();
+                        const fileName = `${Date.now()}-${Math.random().toString(36).slice(2)}.${fileExt}`;
+                        const filePath = `ads/${fileName}`;
+                        
+                        const { data, error } = await supabaseClient
+                            .storage
+                            .from("ad-images")
+                            .upload(filePath, file);
+                        
+                        if (error) throw error;
+
+                        const { data: publicUrlData } = supabaseClient
+                            .storage
+                            .from("ad-images")
+                            .getPublicUrl(filePath);
+                        
+                        return publicUrlData.publicUrl;
+                    });
+
+                    uploadedImageUrls = await Promise.all(uploadPromises);
+
+                } catch (storageError) {
+                    console.error("Error uploading images:", storageError);
+                    postAdSubmit.disabled = false;
+                    postAdSubmit.textContent = "Post Ad";
+                    if (storageError.message && storageError.message.includes("row-level security")) {
+                        alert("Upload failed: Database permissions missing.\n\nPlease run the 'supabase_setup.sql' script in your Supabase Dashboard.");
+                    } else {
+                        alert("Failed to upload images: " + storageError.message);
+                    }
+                    return;
+                }
+            }
+
+            // 2. Handle manual URL input (add to front if present)
+            if (imageUrlInput) {
+                // Validate URL format (basic check)
+                if (imageUrlInput.match(/^https?:\/\//i) || imageUrlInput.match(/^data:image\//i)) {
+                    uploadedImageUrls.unshift(imageUrlInput);
+                } else {
+                    console.warn("Skipping invalid image URL:", imageUrlInput);
+                    // Optional: Alert user? Maybe not to block flow, but good to know.
+                }
+            }
+
+            // Filter out any empty or null URLs to prevent "empty" images
+            uploadedImageUrls = uploadedImageUrls.filter(url => url && url.trim() !== "");
+
+            // 3. Prepare data
+            // Primary image is the first one
+            const primaryImage = uploadedImageUrls.length > 0 ? uploadedImageUrls[0] : null;
+
+            const { data, error } = await supabaseClient
+                .from("ads")
+                .insert({
+                    title,
+                    description,
+                    category,
+                    price: price ? Number(price) : null,
+                    condition,
+                    location,
+                    seller_name: sellerName || null,
+                    contact: contact || null,
+                    image_url: primaryImage, // Keep for backward compatibility
+                    images: uploadedImageUrls // New JSONB column
+                })
+                .select()
+                .single();
+
+            if (error) {
+                console.error("Error inserting ad:", error);
+                postAdSubmit.disabled = false;
+                postAdSubmit.textContent = "Post Ad";
+                if (error.message.includes("row-level security")) {
+                    alert("Post failed: Database permissions missing.\n\nPlease run the 'supabase_setup.sql' script in your Supabase Dashboard.");
+                } else {
+                    alert("Could not save your ad: " + error.message);
+                }
+                return;
+            }
+
+            alert("Your ad has been posted! Redirecting to home...");
+            window.location.href = "index.html";
+        });
+    </script>
+</body>
+</html>
