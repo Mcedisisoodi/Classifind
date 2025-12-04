@@ -3,13 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <title>HoneySweetpot – Local Classifieds</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-    <meta name="mobile-web-app-capable" content="yes" />
-    <meta name="theme-color" content="#004d40" />
-    <meta name="format-detection" content="telephone=no" />
-    <meta name="apple-mobile-web-app-title" content="HoneySweetpot" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="styles.css" />
     <script type="module" src="app.js"></script>
 </head>
@@ -819,8 +813,6 @@
                     <input id="signupName" type="text" name="given-name" autocomplete="given-name" placeholder="First Name" />
                     <label for="signupSurname">Surname</label>
                     <input id="signupSurname" type="text" name="family-name" autocomplete="family-name" placeholder="Last Name" />
-                    <label for="signupUsername">Username</label>
-                    <input id="signupUsername" type="text" name="username" autocomplete="username" placeholder="Choose a username" />
                     <label for="signupAddress">Address</label>
                     <input id="signupAddress" type="text" name="street-address" autocomplete="street-address" placeholder="Your Address" />
                     <label for="signupPhone">Phone Number</label>
@@ -1450,7 +1442,6 @@ const card = e.target.closest(".category-card");
             const metadata = {
                 first_name: document.getElementById("signupName").value,
                 last_name: document.getElementById("signupSurname").value,
-                username: document.getElementById("signupUsername").value,
                 address: document.getElementById("signupAddress").value,
                 phone: document.getElementById("signupPhone").value,
                 role: document.getElementById("signupRole").value,
