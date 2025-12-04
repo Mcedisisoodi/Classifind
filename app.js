@@ -19,12 +19,27 @@ export async function signUp(email, password, metadata) {
     return { data, error };
 }
 
-export async function signIn(email, password) {
-    const { data, error } = await supabaseClient.auth.signInWithPassword({
-        email,
-        password,
-    });
-    return { data, error };
+export async function signUp(email, password, metadata) {
+  const { data, error } = await supabaseClient.auth.signUp({
+    email,
+    password,
+    options: {
+      data: metadata,
+    },
+  });
+
+  // 🔍 Detect "email already exists" case (no identities returned)
+  if (!error && data?.user && Array.isArray(data.user.identities)) {
+    if (data.user.identities.length === 0) {
+      // This means the email is already registered on this project
+      return {
+        data: null,
+        error: { message: "User already registered" },
+      };
+    }
+  }
+
+  return { data, error };
 }
 
 export async function resetPassword(email) {
