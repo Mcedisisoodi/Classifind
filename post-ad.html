@@ -17,7 +17,6 @@
     <header>
         <div class="logo"><a href="index.html" style="text-decoration:none; color:inherit;">Honey<span>Sweetpot</span> <img src="/categories/HoneyPot.webp" alt="HoneySweetpot Logo" style="height: 60px; vertical-align: bottom; margin-left: 5px;"></a></div>
         <div class="header-actions">
-            <a href="index.html" class="btn">Return Home</a>
             <button class="btn" id="loginBtn">Login</button>
             <button class="btn" id="signupBtn">Sign up</button>
             <!-- Post Ad button hidden on this page or disabled -->
@@ -27,6 +26,7 @@
         <div class="post-ad-container">
             <div class="postad-header">
                 <h2>Post an Ad</h2>
+                <a href="index.html" class="btn" style="background-color: #007bff; color: #fff; border: none; padding: 8px 16px; border-radius: 4px; text-decoration: none; font-size: 0.9rem;">Back to Home</a>
             </div>
             <div class="postad-body">
                 <label for="postCategory">Category</label>
@@ -103,7 +103,6 @@
 
                 <div class="form-actions" style="display: flex; gap: 10px; align-items: center; margin-top: 20px;">
                     <button class="postad-submit" id="postAdSubmit" style="flex: 1;">Post Ad</button>
-                    <a href="index.html" class="btn" style="background: #eee; color: #333; text-decoration: none; padding: 12px 20px; border-radius: 6px; font-weight: 600; border: 1px solid #ccc; text-align: center;">Return Home</a>
                 </div>
             </div>
         </div>
@@ -731,6 +730,8 @@
                 <input id="signupName" type="text" placeholder="First Name" />
                 <label for="signupSurname">Surname</label>
                 <input id="signupSurname" type="text" placeholder="Last Name" />
+                <label for="signupUsername">Username</label>
+                <input id="signupUsername" type="text" placeholder="Choose a username" />
                 <label for="signupAddress">Address</label>
                 <input id="signupAddress" type="text" placeholder="Your Address" />
                 <label for="signupPhone">Phone Number</label>
@@ -849,6 +850,7 @@
             const metadata = {
                 first_name: document.getElementById("signupName").value,
                 last_name: document.getElementById("signupSurname").value,
+                username: document.getElementById("signupUsername").value,
                 address: document.getElementById("signupAddress").value,
                 phone: document.getElementById("signupPhone").value,
                 role: document.getElementById("signupRole").value,
