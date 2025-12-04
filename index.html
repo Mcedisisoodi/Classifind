@@ -828,9 +828,9 @@
                     <input id="signupAddress" type="text" name="street-address" autocomplete="street-address" placeholder="Your Address" />
                     <label for="signupPhone">Phone Number</label>
                     <input id="signupPhone" type="tel" name="tel" autocomplete="tel" placeholder="072 123 4567" />
-<label for="signupEmail">Email</label>
-<input id="signupEmail" type="email" name="email" autocomplete="email" placeholder="you@example.com" />
-<p id="signupEmailError" class="field-error" aria-live="polite"></p>                    
+                    <label for="signupEmail">Email</label>
+                    <input id="signupEmail" type="email" name="email" autocomplete="email" placeholder="you@example.com" />
+                    
                     <div class="field-group">
                         <label for="signupPassword">Password</label>
                         <div class="password-wrapper"><input id="signupPassword" type="password" name="new-password" autocomplete="new-password" placeholder="Create a password" /><button type="button" class="toggle-password" aria-label="Toggle password visibility">👁️</button></div>
@@ -1439,57 +1439,34 @@ const card = e.target.closest(".category-card");
             }
         });
 
-document.getElementById("signupForm").addEventListener("submit", async (e) => {
-    e.preventDefault();
-
-    const emailInput = document.getElementById("signupEmail");
-    const emailErrorEl = document.getElementById("signupEmailError");
-    const email = emailInput.value;
-    const password = document.getElementById("signupPassword").value;
-    const confirm = document.getElementById("signupPasswordConfirm").value;
-
-    // Clear previous error
-    if (emailErrorEl) emailErrorEl.textContent = "";
-
-    if (password !== confirm) {
-        alert("Passwords do not match!");
-        return;
-    }
-
-    const metadata = {
-        first_name: document.getElementById("signupName").value,
-        last_name: document.getElementById("signupSurname").value,
-        username: document.getElementById("signupUsername").value,
-        address: document.getElementById("signupAddress").value,
-        phone: document.getElementById("signupPhone").value,
-        // If these elements don't exist yet, guard them or add them in HTML
-        role: document.getElementById("signupRole")?.value,
-        bank_details: document.getElementById("signupBank")?.value
-    };
-
-    const { data, error } = await signUp(email, password, metadata);
-
-    if (error) {
-        const msg = (error.message || "").toLowerCase();
-
-        // Supabase usually returns something like "User already registered"
-        if (msg.includes("already registered") || msg.includes("exists")) {
-            if (emailErrorEl) {
-                emailErrorEl.textContent =
-                    "This email is already registered. Please sign in or reset your password.";
+        document.getElementById("signupForm").addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const email = document.getElementById("signupEmail").value;
+            const password = document.getElementById("signupPassword").value;
+            const confirm = document.getElementById("signupPasswordConfirm").value;
+            
+            if(password !== confirm) {
+                alert("Passwords do not match!");
+                return;
             }
-        } else {
-            // Fallback to generic alert for other errors
-            alert("Signup failed: " + error.message);
-        }
-        return;
-    }
 
-    // Success: clear error & close modal
-    if (emailErrorEl) emailErrorEl.textContent = "";
-    alert("Account created! Please check your email to verify.");
-    signupBackdrop.classList.remove("active");
-});
+            const metadata = {
+                first_name: document.getElementById("signupName").value,
+                last_name: document.getElementById("signupSurname").value,
+                username: document.getElementById("signupUsername").value,
+                address: document.getElementById("signupAddress").value,
+                phone: document.getElementById("signupPhone").value,
+                role: document.getElementById("signupRole").value,
+                bank_details: document.getElementById("signupBank").value
+            };
+
+            const { error } = await signUp(email, password, metadata);
+            if (error) alert("Signup failed: " + error.message);
+            else {
+                alert("Account created! Please check your email to verify.");
+                signupBackdrop.classList.remove("active");
+            }
+        });
 
         populateTownsForProvince("All provinces");
         fetchAdsFromSupabase();
