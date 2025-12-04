@@ -55,42 +55,7 @@
             background-color: #c62828;
             color: #fff;
         }
-        /* Modal Styles */
-        .modal-backdrop {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.5);
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-        }
-        .modal-content {
-            background: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            width: 90%;
-            max-width: 500px;
-            max-height: 90vh;
-            overflow-y: auto;
-        }
-        .form-group {
-            margin-bottom: 15px;
-        }
-        .form-group label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: 500;
-        }
-        .form-group input, .form-group textarea, .form-group select {
-            width: 100%;
-            padding: 8px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
+        /* Modal Styles - Removed as we now redirect to post-ad.html for editing */
     </style>
 </head>
 <body>
@@ -98,7 +63,6 @@
         <div class="logo"><a href="index.html" style="text-decoration:none; color:inherit;">Honey<span>Sweetpot</span> <img src="/categories/HoneyPot.webp" alt="HoneySweetpot Logo" style="height: 60px; vertical-align: bottom; margin-left: 5px;"></a></div>
         <div class="header-actions">
             <a href="index.html" class="btn">Back to Home</a>
-            <button class="btn" id="logoutBtn">Logout</button>
         </div>
     </header>
     <main>
@@ -106,7 +70,10 @@
         
         <div id="adminContent" class="admin-container" style="display:none;">
             <div class="admin-header">
-                <h2>Admin Dashboard</h2>            
+                <h2>Admin Dashboard</h2>
+                <span id="adminEmail" style="color: #666;"></span>
+            </div>
+            
             <div style="overflow-x:auto;">
                 <table class="admin-table">
                     <thead>
@@ -129,76 +96,7 @@
         </div>
     </main>
 
-    <!-- Edit Modal -->
-    <div id="editModal" class="modal-backdrop">
-        <div class="modal-content" style="position: relative;">
-            <button id="closeEditX" style="position: absolute; top: 10px; right: 10px; background: none; border: none; font-size: 1.5rem; cursor: pointer;">&times;</button>
-            <h3>Edit Ad</h3>
-            <form id="editForm">
-                <input type="hidden" id="editId">
-                
-                <div class="form-group">
-                    <label>Title</label>
-                    <input type="text" id="editTitle" required>
-                </div>
-                
-                <div class="form-group">
-                    <label>Price (R)</label>
-                    <input type="number" id="editPrice" required>
-                </div>
-                
-                <div class="form-group">
-                    <label>Category</label>
-                    <select id="editCategory" required>
-                        <option value="Cars">Cars</option>
-                        <option value="Properties">Properties</option>
-                        <option value="Phones">Phones</option>
-                        <option value="Electronics">Electronics</option>
-                        <option value="Furniture">Furniture</option>
-                        <option value="Jobs">Jobs</option>
-                        <option value="Services">Services</option>
-                        <option value="Fashion">Fashion</option>
-                        <option value="Sports">Sports</option>
-                        <option value="Other">Other</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label>Condition</label>
-                    <select id="editCondition">
-                        <option value="New">New</option>
-                        <option value="Used">Used</option>
-                        <option value="Refurbished">Refurbished</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label>Location</label>
-                    <input type="text" id="editLocation" required>
-                </div>
-
-                <div class="form-group">
-                    <label>Description</label>
-                    <textarea id="editDescription" rows="4" required></textarea>
-                </div>
-
-                <div class="form-group">
-                    <label>Current Images</label>
-                    <div id="editImagesContainer" style="display:flex; gap:10px; flex-wrap:wrap;"></div>
-                </div>
-
-                <div class="form-group">
-                    <label>Add Images</label>
-                    <input type="file" id="editImageUpload" multiple accept="image/*">
-                </div>
-
-                <div style="text-align:right; margin-top:20px;">
-                    <button type="button" class="btn" id="cancelEdit" style="background:#ccc; color:#333; margin-right:10px;">Cancel</button>
-                    <button type="submit" class="btn" style="background:#ffca28; color:#333;">Save Changes</button>
-                </div>
-            </form>
-        </div>
-    </div>
+    <!-- Edit Modal Removed -->
 
     <!-- History Modal -->
     <div id="historyModal" class="modal-backdrop">
@@ -221,11 +119,8 @@
         const loadingMsg = document.getElementById("loadingMsg");
         const adminContent = document.getElementById("adminContent");
         const adsTableBody = document.getElementById("adsTableBody");
-        const editModal = document.getElementById("editModal");
-        const editForm = document.getElementById("editForm");
         const historyModal = document.getElementById("historyModal");
         const historyContent = document.getElementById("historyContent");
-        let currentEditImages = [];
 
         // Check Auth
         async function checkAdmin() {
@@ -418,9 +313,6 @@
             if (e.target === historyModal) {
                 historyModal.style.display = "none";
             }
-            if (e.target === editModal) {
-                editModal.style.display = "none";
-            }
         });
 
         // Toggle Hide
@@ -468,155 +360,11 @@
             }
         }
 
-        // Edit Ad
-        async function openEditModal(id) {
-            const { data: ad, error } = await supabaseClient
-                .from('ads')
-                .select('*')
-                .eq('id', id)
-                .single();
-
-            if (error) {
-                alert("Error loading ad details: " + error.message);
-                return;
-            }
-
-            document.getElementById("editId").value = ad.id;
-            document.getElementById("editTitle").value = ad.title;
-            document.getElementById("editPrice").value = ad.price;
-            document.getElementById("editCategory").value = ad.category;
-            document.getElementById("editCondition").value = ad.condition || "Used";
-            document.getElementById("editLocation").value = ad.location;
-            document.getElementById("editDescription").value = ad.description;
-
-            // Handle Images
-            currentEditImages = ad.images || (ad.image_url ? [ad.image_url] : []);
-            renderEditImages();
-
-            editModal.style.display = "flex";
+        // Edit Ad - Redirect to post-ad.html with from=admin
+        function openEditModal(id) {
+            window.location.href = `post-ad.html?id=${id}&from=admin`;
         }
 
-        function renderEditImages() {
-            const container = document.getElementById("editImagesContainer");
-            container.innerHTML = "";
-            currentEditImages.forEach((url, index) => {
-                const div = document.createElement("div");
-                div.style.position = "relative";
-                div.style.width = "80px";
-                div.style.height = "80px";
-                
-                const img = document.createElement("img");
-                img.src = url;
-                img.style.width = "100%";
-                img.style.height = "100%";
-                img.style.objectFit = "cover";
-                img.style.borderRadius = "4px";
-                
-                const btn = document.createElement("button");
-                btn.innerHTML = "&times;";
-                btn.style.position = "absolute";
-                btn.style.top = "-5px";
-                btn.style.right = "-5px";
-                btn.style.background = "red";
-                btn.style.color = "white";
-                btn.style.border = "none";
-                btn.style.borderRadius = "50%";
-                btn.style.width = "20px";
-                btn.style.height = "20px";
-                btn.style.cursor = "pointer";
-                btn.onclick = (e) => {
-                    e.preventDefault();
-                    currentEditImages.splice(index, 1);
-                    renderEditImages();
-                };
-                
-                div.appendChild(img);
-                div.appendChild(btn);
-                container.appendChild(div);
-            });
-        }
-
-        // Save Edit
-        editForm.addEventListener("submit", async (e) => {
-            e.preventDefault();
-            const id = document.getElementById("editId").value;
-            const submitBtn = editForm.querySelector('button[type="submit"]');
-            submitBtn.disabled = true;
-            submitBtn.textContent = "Saving...";
-
-            // Upload new images
-            const fileInput = document.getElementById("editImageUpload");
-            const newFiles = Array.from(fileInput.files);
-            
-            if (newFiles.length > 0) {
-                try {
-                    const uploadPromises = newFiles.map(async (file) => {
-                        const fileExt = file.name.split(".").pop();
-                        const fileName = `${Date.now()}-${Math.random().toString(36).slice(2)}.${fileExt}`;
-                        const filePath = `ads/${fileName}`;
-                        
-                        const { data, error } = await supabaseClient
-                            .storage
-                            .from("ad-images")
-                            .upload(filePath, file);
-                        
-                        if (error) throw error;
-
-                        const { data: publicUrlData } = supabaseClient
-                            .storage
-                            .from("ad-images")
-                            .getPublicUrl(filePath);
-                        
-                        return publicUrlData.publicUrl;
-                    });
-
-                    const newUrls = await Promise.all(uploadPromises);
-                    currentEditImages = [...currentEditImages, ...newUrls];
-                } catch (err) {
-                    console.error("Upload error:", err);
-                    alert("Failed to upload some images: " + err.message);
-                }
-            }
-
-            const updates = {
-                title: document.getElementById("editTitle").value,
-                price: document.getElementById("editPrice").value,
-                category: document.getElementById("editCategory").value,
-                condition: document.getElementById("editCondition").value,
-                location: document.getElementById("editLocation").value,
-                description: document.getElementById("editDescription").value,
-                images: currentEditImages,
-                image_url: currentEditImages.length > 0 ? currentEditImages[0] : null, // Update legacy column
-                updated_at: new Date()
-            };
-
-            const { error } = await supabaseClient
-                .from('ads')
-                .update(updates)
-                .eq('id', id);
-
-            submitBtn.disabled = false;
-            submitBtn.textContent = "Save Changes";
-
-            if (error) {
-                alert("Error updating ad: " + error.message);
-            } else {
-                editModal.style.display = "none";
-                fetchAds();
-            }
-        });
-
-        document.getElementById("cancelEdit").addEventListener("click", () => {
-            editModal.style.display = "none";
-        });
-        document.getElementById("closeEditX").addEventListener("click", () => {
-            editModal.style.display = "none";
-        });
-
-        document.getElementById("logoutBtn").addEventListener("click", async () => {
-            await signOut();
-            window.location.href = "index.html";
-        });
 
         // Init
         checkAdmin();
