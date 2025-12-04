@@ -62,7 +62,6 @@
     <header>
         <div class="logo"><a href="index.html" style="text-decoration:none; color:inherit;">Honey<span>Sweetpot</span> <img src="/categories/HoneyPot.webp" alt="HoneySweetpot Logo" style="height: 60px; vertical-align: bottom; margin-left: 5px;"></a></div>
         <div class="header-actions">
-            <a href="index.html" class="btn">Back to Home</a>
         </div>
     </header>
     <main>
@@ -71,7 +70,7 @@
         <div id="adminContent" class="admin-container" style="display:none;">
             <div class="admin-header">
                 <h2>Admin Dashboard</h2>
-                <span id="adminEmail" style="color: #666;"></span>
+                <a href="index.html" class="btn" style="background-color: #007bff; color: #fff; border: none; padding: 8px 16px; border-radius: 4px; text-decoration: none; font-size: 0.9rem;">Back to Home</a>
             </div>
             
             <div style="overflow-x:auto;">
@@ -134,7 +133,6 @@
                 return;
             }
 
-            document.getElementById("adminEmail").textContent = session.user.email;
             loadingMsg.style.display = "none";
             adminContent.style.display = "block";
             fetchAds();
