@@ -792,7 +792,7 @@
             </div>
             <div class="auth-body">
                 <form id="loginForm" autocomplete="on">
-                   <label for="loginEmail">Email or Phone</label>
+                    <label for="loginEmail">Email or Phone</label>
                     <input id="loginEmail" type="text" name="email" autocomplete="username" placeholder="you@example.com" />
                     <label for="loginPassword">Password</label>
                     <div class="password-wrapper"><input id="loginPassword" type="password" name="password" autocomplete="current-password" placeholder="Enter your password" /><button type="button" class="toggle-password" aria-label="Toggle password visibility">👁️</button></div>
@@ -806,6 +806,7 @@
         </div>
     </div>
 
+    <!-- Sign up modal -->
     <div class="auth-backdrop" id="signupBackdrop">
         <div class="auth-modal">
             <div class="auth-header">
@@ -1383,25 +1384,47 @@ const card = e.target.closest(".category-card");
         const signupRole = document.getElementById("signupRole");
         const bankDetailsSection = document.getElementById("bankDetailsSection");
 
-        if(loginBtn) loginBtn.addEventListener("click", () => loginBackdrop.style.display = "flex");
-        if(signupBtn) signupBtn.addEventListener("click", () => {
-            signupBackdrop.classList.add("active");
-            if(signupRole) signupRole.value = "buyer";
-            if(bankDetailsSection) bankDetailsSection.classList.add("hidden");
-        });
-        if(loginClose) loginClose.addEventListener("click", () => loginBackdrop.style.display = "none");
-        if(signupClose) signupClose.addEventListener("click", () => signupBackdrop.classList.remove("active"));
-        
-        if(goToSignup) goToSignup.addEventListener("click", () => {
-            loginBackdrop.style.display = "none";
-            signupBackdrop.classList.add("active");
-            if(signupRole) signupRole.value = "buyer";
-            if(bankDetailsSection) bankDetailsSection.classList.add("hidden");
-        });
-        if(goToLogin) goToLogin.addEventListener("click", () => {
-            signupBackdrop.classList.remove("active");
-            loginBackdrop.style.display = "flex";
-        });
+if (loginBtn) {
+    loginBtn.addEventListener("click", () => {
+        if (loginBackdrop) loginBackdrop.style.display = "flex";
+    });
+}
+
+if (signupBtn) {
+    signupBtn.addEventListener("click", () => {
+        if (signupBackdrop) signupBackdrop.style.display = "flex"; // ⬅️ key change
+        if (signupRole) signupRole.value = "buyer";
+        if (bankDetailsSection) bankDetailsSection.classList.add("hidden");
+    });
+}
+
+if (loginClose) {
+    loginClose.addEventListener("click", () => {
+        if (loginBackdrop) loginBackdrop.style.display = "none";
+    });
+}
+
+if (signupClose) {
+    signupClose.addEventListener("click", () => {
+        if (signupBackdrop) signupBackdrop.style.display = "none"; // ⬅️ key change
+    });
+}
+
+if (goToSignup) {
+    goToSignup.addEventListener("click", () => {
+        if (loginBackdrop) loginBackdrop.style.display = "none";
+        if (signupBackdrop) signupBackdrop.style.display = "flex"; // ⬅️ key change
+        if (signupRole) signupRole.value = "buyer";
+        if (bankDetailsSection) bankDetailsSection.classList.add("hidden");
+    });
+}
+
+if (goToLogin) {
+    goToLogin.addEventListener("click", () => {
+        if (signupBackdrop) signupBackdrop.style.display = "none"; // ⬅️ key change
+        if (loginBackdrop) loginBackdrop.style.display = "flex";
+    });
+}
 
         if(signupRole) {
             signupRole.addEventListener("change", () => {
@@ -1449,6 +1472,7 @@ const card = e.target.closest(".category-card");
             const metadata = {
                 first_name: document.getElementById("signupName").value,
                 last_name: document.getElementById("signupSurname").value,
+                username: document.getElementById("signupUsername").value,
                 address: document.getElementById("signupAddress").value,
                 phone: document.getElementById("signupPhone").value,
                 role: document.getElementById("signupRole").value,
