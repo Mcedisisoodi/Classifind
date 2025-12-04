@@ -432,6 +432,12 @@ footer h4 {
     justify-content: center;
     z-index: 1001;
 }
+/* Show modals when active */
+.auth-backdrop.active,
+.modal-backdrop.active,
+.postad-backdrop.active {
+    display: flex;
+}
 
 .modal, .auth-modal, .postad-modal {
     background: var(--bg-surface);
