@@ -1451,16 +1451,18 @@ const card = e.target.closest(".category-card");
                 return;
             }
 
-            const metadata = {
-                first_name: document.getElementById("signupName").value,
-                last_name: document.getElementById("signupSurname").value,
-                username: document.getElementById("signupUsername").value,
-                address: document.getElementById("signupAddress").value,
-                phone: document.getElementById("signupPhone").value,
-                role: document.getElementById("signupRole").value,
-                bank_details: document.getElementById("signupBank").value
-            };
+const roleEl = document.getElementById("signupRole");
+const bankEl = document.getElementById("signupBank");
 
+const metadata = {
+    first_name: document.getElementById("signupName").value,
+    last_name: document.getElementById("signupSurname").value,
+    username: document.getElementById("signupUsername").value,
+    address: document.getElementById("signupAddress").value,
+    phone: document.getElementById("signupPhone").value,
+    role: roleEl ? roleEl.value : null,
+    bank_details: bankEl ? bankEl.value : null
+};
             const { error } = await signUp(email, password, metadata);
             if (error) alert("Signup failed: " + error.message);
             else {
