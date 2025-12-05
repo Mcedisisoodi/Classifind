@@ -30,9 +30,9 @@ export async function signIn(email, password) {
 export async function resetPassword(email) {
     // Note: This sends a password reset link to the email.
     // The user must click the link to be redirected back to the site to set a new password.
-    // Ensure 'https://classifind.netlify.app' is in your Supabase Redirect URLs.
+    // Ensure 'https://honeysweetpot.netlify.app' is in your Supabase Redirect URLs.
     const { data, error } = await supabaseClient.auth.resetPasswordForEmail(email, {
-        redirectTo: 'https://classifind.netlify.app',
+        redirectTo: 'https://honeysweetpot.netlify.app',
     });
     return { data, error };
 }
@@ -74,8 +74,8 @@ userGreeting.id = "userGreeting";
 userGreeting.className = "user-greeting";
 userGreeting.style.fontSize = "0.9rem";
 userGreeting.style.color = "#fff";
+userGreeting.style.fontWeight = "700"; // ← Make it bold
 
-// Prefer username from metadata, fall back to email before "@"
 const rawUsername =
     session.user.user_metadata?.username &&
     session.user.user_metadata.username.trim().length > 0
