@@ -70,39 +70,46 @@ header {
     color: #FFDB58; /* Mustard for 'Pot' */
 }
 
-.header-actions { display: flex; 
-align-items: center; 
-gap: 8px; /* Reduced gap for mobile */ 
-} @media (max-width: 600px) { 
-header { 
-flex-direction: column; 
-align-items: stretch; 
-gap: 8px;
- } 
-.logo { 
-justify-content: center; 
-font-size: 1.2rem; 
-text-align: center; 
-} 
-.logo img { 
-height: 32px; 
-} 
-.header-actions { 
-width: 100%; 
-display: grid; 
-grid-template-columns: repeat(3, 1fr); /* Login | Sign up | + Post 
-Ad */ 
-gap: 6px; 
-} 
-.header-actions .btn {
- font-size: 0.8rem; 
-padding: 8px 6px; 
-min-height: 40px; 
-white-space: nowrap; 
-} 
-#postAdBtn { 
-font-weight: 700;
- } 
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+/* Mobile header layout fix */
+@media (max-width: 600px) {
+    header {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 8px;
+    }
+
+    .logo {
+        justify-content: center;
+        font-size: 1.2rem;
+        text-align: center;
+    }
+
+    .logo img {
+        height: 32px;
+    }
+
+    .header-actions {
+        width: 100%;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr); /* Login | Sign up | + Post Ad */
+        gap: 6px;
+    }
+
+    .header-actions .btn {
+        font-size: 0.8rem;
+        padding: 8px 6px;
+        min-height: 40px;
+        white-space: nowrap;
+    }
+
+    #postAdBtn {
+        font-weight: 700;
+    }
 }
 /* Buttons */
 .btn {
