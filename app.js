@@ -68,7 +68,7 @@ userMenu.style.display = "flex";
 userMenu.style.alignItems = "center";
 userMenu.style.gap = "10px";
 
-// 👇 Build "Hi! username" instead of showing the email
+// 👇 Build "Hi username" instead of showing the email
 const userGreeting = document.createElement("span");
 userGreeting.id = "userGreeting";
 userGreeting.className = "user-greeting";
@@ -82,7 +82,7 @@ const rawUsername =
         ? session.user.user_metadata.username.trim()
         : (session.user.email || "").split("@")[0];
 
-userGreeting.textContent = `Hi! ${rawUsername}`;
+userGreeting.textContent = `Hi ${rawUsername}`;
         const logoutBtn = document.createElement("button");
         logoutBtn.className = "btn";
         logoutBtn.textContent = "Logout";
