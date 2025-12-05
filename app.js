@@ -63,16 +63,26 @@ export function updateAuthUI(session) {
         if (signupBtn) signupBtn.style.display = "none";
 
         const userMenu = document.createElement("div");
-        userMenu.id = "userMenu";
-        userMenu.style.display = "flex";
-        userMenu.style.alignItems = "center";
-        userMenu.style.gap = "10px";
+userMenu.id = "userMenu";
+userMenu.style.display = "flex";
+userMenu.style.alignItems = "center";
+userMenu.style.gap = "10px";
 
-        const userEmail = document.createElement("span");
-        userEmail.textContent = session.user.email;
-        userEmail.style.fontSize = "0.9rem";
-        userEmail.style.color = "#fff";
+// 👇 Build "Hi! username" instead of showing the email
+const userGreeting = document.createElement("span");
+userGreeting.id = "userGreeting";
+userGreeting.className = "user-greeting";
+userGreeting.style.fontSize = "0.9rem";
+userGreeting.style.color = "#fff";
 
+// Prefer username from metadata, fall back to email before "@"
+const rawUsername =
+    session.user.user_metadata?.username &&
+    session.user.user_metadata.username.trim().length > 0
+        ? session.user.user_metadata.username.trim()
+        : (session.user.email || "").split("@")[0];
+
+userGreeting.textContent = `Hi! ${rawUsername}`;
         const logoutBtn = document.createElement("button");
         logoutBtn.className = "btn";
         logoutBtn.textContent = "Logout";
@@ -81,7 +91,7 @@ export function updateAuthUI(session) {
             window.location.reload();
         };
 
-        userMenu.appendChild(userEmail);
+        userMenu.appendChild(userGreeting);
 
         // Admin Link Check
         if (session.user.email && session.user.email.toLowerCase() === "compsody@gmail.com") {
