@@ -1282,3 +1282,17 @@ footer h4 {
         display: none;
     }
 }
+.user-greeting {
+    display: none;             /* hidden on very small screens to keep layout neat */
+    margin-right: 8px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--accent-color);
+    white-space: nowrap;
+}
+
+@media (min-width: 601px) {
+    .user-greeting {
+        display: inline-block;
+    }
+}
