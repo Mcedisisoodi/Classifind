@@ -18,18 +18,14 @@
     <script type="module" src="app.js"></script>
 </head>
 <body>
-<header>
-    <div class="logo">
-        Honey<span>Sweetpot</span>
-        <img src="/categories/HoneyPot.webp" alt="HoneySweetpot Logo" style="height: 60px; vertical-align: bottom; margin-left: 5px;">
-    </div>
-    <div class="header-actions">
-        <span id="userGreeting" class="user-greeting"></span>
-        <button class="btn" id="loginBtn">Login</button>
-        <button class="btn" id="signupBtn">Sign up</button>
-        <a href="post-ad.html" class="btn primary" id="postAdBtn" style="text-decoration:none;">+ Post Ad</a>
-    </div>
-</header>
+    <header>
+        <div class="logo">Honey<span>Sweetpot</span> <img src="/categories/HoneyPot.webp" alt="HoneySweetpot Logo" style="height: 60px; vertical-align: bottom; margin-left: 5px;"></div>
+        <div class="header-actions">
+            <button class="btn" id="loginBtn">Login</button>
+            <button class="btn" id="signupBtn">Sign up</button>
+            <a href="post-ad.html" class="btn primary" id="postAdBtn" style="text-decoration:none;">+ Post Ad</a>
+        </div>
+    </header>
     <main>
         <section class="search-section">
             <div class="search-row">
@@ -856,42 +852,7 @@
 
     <script type="module">
         import { supabaseClient, signIn, signUp, resetPassword, getSession } from './app.js';
-async function updateHeaderUser() {
-        const userGreeting = document.getElementById("userGreeting");
-        const loginBtn = document.getElementById("loginBtn");
-        const signupBtn = document.getElementById("signupBtn");
 
-        if (!userGreeting) return;
-
-        const { data, error } = await supabaseClient.auth.getUser();
-        const user = data?.user;
-
-        if (error || !user) {
-            // Not logged in
-            userGreeting.textContent = "";
-            if (loginBtn) loginBtn.style.display = "inline-block";
-            if (signupBtn) signupBtn.style.display = "inline-block";
-            return;
-        }
-
-        // Prefer username from metadata, fallback to email name
-        let username =
-            user.user_metadata?.username &&
-            user.user_metadata.username.trim().length > 0
-                ? user.user_metadata.username.trim()
-                : user.email.split("@")[0];
-
-        userGreeting.textContent = `Hi! ${username}`;
-
-        // Hide Login / Sign up when user is logged in
-        if (loginBtn) loginBtn.style.display = "none";
-        if (signupBtn) signupBtn.style.display = "none";
-    }
-
-    // Keep header in sync with auth state
-    supabaseClient.auth.onAuthStateChange((_event, _session) => {
-        updateHeaderUser();
-    });
         // --- Post Ad Button Logic ---
         const postAdBtn = document.getElementById("postAdBtn");
         if (postAdBtn) {
@@ -1476,7 +1437,6 @@ const card = e.target.closest(".category-card");
             if (error) alert("Login failed: " + error.message);
             else {
                 loginBackdrop.style.display = "none";
-updateHeaderUser();
             }
         });
 
@@ -1508,14 +1468,12 @@ const metadata = {
             else {
                 alert("Account created! Please check your email to verify.");
                 signupBackdrop.classList.remove("active");
-updateHeaderUser();
             }
         });
 
-populateTownsForProvince("All provinces");
+        populateTownsForProvince("All provinces");
         fetchAdsFromSupabase();
         updateCategoryFilters(); // ensure correct extra filters on load
-        updateHeaderUser();      // ⬅️ load greeting on page load
     </script>
     <!-- Choices.js CSS -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css" />
