@@ -53,36 +53,40 @@ export function updateAuthUI(session) {
     const loginBtn = document.getElementById("loginBtn");
     const signupBtn = document.getElementById("signupBtn");
     const headerActions = document.querySelector(".header-actions");
+    const logo = document.querySelector(".logo");
 
     // Remove existing user menu if any
     const existingUserMenu = document.getElementById("userMenu");
     if (existingUserMenu) existingUserMenu.remove();
+
+    // Handle My Account Link in Logo
+    let myAccountLink = document.getElementById("myAccountLinkLogo");
 
     if (session) {
         if (loginBtn) loginBtn.style.display = "none";
         if (signupBtn) signupBtn.style.display = "none";
 
         const userMenu = document.createElement("div");
-userMenu.id = "userMenu";
-userMenu.style.display = "flex";
-userMenu.style.alignItems = "center";
-userMenu.style.gap = "10px";
+        userMenu.id = "userMenu";
+        userMenu.style.display = "flex";
+        userMenu.style.alignItems = "center";
+        userMenu.style.gap = "10px";
 
-// 👇 Build "Hi username" instead of showing the email
-const userGreeting = document.createElement("span");
-userGreeting.id = "userGreeting";
-userGreeting.className = "user-greeting";
-userGreeting.style.fontSize = "0.9rem";
-userGreeting.style.color = "#fff";
-userGreeting.style.fontWeight = "700"; // ← Make it bold
+        // 👇 Build "Hi username" instead of showing the email
+        const userGreeting = document.createElement("span");
+        userGreeting.id = "userGreeting";
+        userGreeting.className = "user-greeting";
+        userGreeting.style.fontSize = "0.9rem";
+        userGreeting.style.color = "#fff";
+        userGreeting.style.fontWeight = "700"; // ← Make it bold
 
-const rawUsername =
-    session.user.user_metadata?.username &&
-    session.user.user_metadata.username.trim().length > 0
-        ? session.user.user_metadata.username.trim()
-        : (session.user.email || "").split("@")[0];
+        const rawUsername =
+            session.user.user_metadata?.username &&
+            session.user.user_metadata.username.trim().length > 0
+                ? session.user.user_metadata.username.trim()
+                : (session.user.email || "").split("@")[0];
 
-userGreeting.textContent = `Hi ${rawUsername}`;
+        userGreeting.textContent = `Hi ${rawUsername}`;
         const logoutBtn = document.createElement("button");
         logoutBtn.className = "btn";
         logoutBtn.textContent = "Logout";
@@ -123,9 +127,62 @@ userGreeting.textContent = `Hi ${rawUsername}`;
         } else {
             headerActions.appendChild(userMenu);
         }
+
+        // --- Inject My Account Link below Logo ---
+        if (logo) {
+            // Ensure logo structure is prepared for vertical stacking
+            if (!logo.classList.contains('modified-for-auth')) {
+                const wrapper = document.createElement('div');
+                wrapper.style.display = 'flex';
+                wrapper.style.alignItems = 'center';
+                wrapper.style.gap = '6px'; // Maintain original gap
+                
+                // Move all current children to wrapper
+                while (logo.firstChild) {
+                    wrapper.appendChild(logo.firstChild);
+                }
+                logo.appendChild(wrapper);
+                logo.classList.add('modified-for-auth');
+                
+                // Change logo to column
+                logo.style.flexDirection = 'column';
+                logo.style.alignItems = 'flex-start';
+            }
+
+            if (!myAccountLink) {
+                myAccountLink = document.createElement('a');
+                myAccountLink.id = 'myAccountLinkLogo';
+                myAccountLink.href = 'my-account.html';
+                myAccountLink.textContent = 'My Account';
+                // Styling
+                myAccountLink.style.fontSize = '0.75rem';
+                myAccountLink.style.color = '#FFDB58'; // Match the 'Pot' color
+                myAccountLink.style.textDecoration = 'none';
+                myAccountLink.style.fontWeight = '600';
+                myAccountLink.style.marginTop = '2px';
+                myAccountLink.style.border = '1px solid #FFDB58';
+                myAccountLink.style.borderRadius = '12px';
+                myAccountLink.style.padding = '2px 8px';
+                
+                myAccountLink.addEventListener('mouseenter', () => {
+                    myAccountLink.style.backgroundColor = 'rgba(255, 219, 88, 0.2)';
+                });
+                myAccountLink.addEventListener('mouseleave', () => {
+                    myAccountLink.style.backgroundColor = 'transparent';
+                });
+
+                logo.appendChild(myAccountLink);
+            }
+        }
+
     } else {
         if (loginBtn) loginBtn.style.display = "inline-block";
         if (signupBtn) signupBtn.style.display = "inline-block";
+
+        // Remove My Account link if exists
+        if (myAccountLink) {
+            myAccountLink.remove();
+        }
     }
 }
 
